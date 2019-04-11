@@ -1,8 +1,6 @@
-//
-// Created by Lisa Dion on 11/6/18.
-//
 
-#include "Button.h"
+
+#include "Object.h"
 #include "graphics.h"
 using namespace std;
 
@@ -93,13 +91,20 @@ void Quad::resize(unsigned int width, unsigned int height) {
 }
 
 void Quad::draw() const {
-    // TODO: Implement
-    // Don't forget to set the color to the fill field
+    glColor3f(fill.red, fill.green, fill.blue);
+    glBegin(GL_QUADS);
+    glVertex2i(getLeftX(), getTopY());
+    glVertex2i(getLeftX(), getBottomY());
+    glVertex2i(getRightX(), getBottomY());
+    glVertex2i(getRightX(), getTopY());
+    glEnd();
 }
 
 /************ Button **************/
 
-Button::Button(Quad box, string label) {
+
+
+Object::Object(Quad box, string label) {
     this->box = box;
     this->label = label;
     originalFill = box.getFill();
@@ -107,7 +112,7 @@ Button::Button(Quad box, string label) {
     pressFill = {box.getRed()-0.5, box.getGreen()-0.5, box.getBlue()-0.5};
 }
 
-void Button::draw() {
+void Object::draw() {
     box.draw();
     glColor3f(0, 0, 0);
     glRasterPos2i(box.getCenterX()-(4*label.length()), box.getCenterY()+7);
@@ -117,27 +122,100 @@ void Button::draw() {
 }
 
 /* Returns true if the coordinate is inside the box */
-bool Button::isOverlapping(int x, int y) const {
+bool Object::isOverlapping(int x, int y) const {
     // TODO: Implement
     return false; // Placeholder for compilation
 }
 
 /* Change color of the box when the user is hovering over it */
-void Button::hover() {
+void Object::hover() {
     box.setColor(hoverFill);
 }
 
 /* Change color of the box when the user is clicking on it */
-void Button::pressDown() {
+void Object::pressDown() {
     box.setColor(pressFill);
 }
 
 /* Change the color back when the user is not clicking/hovering */
-void Button::release() {
+void Object::release() {
     box.setColor(originalFill);
 }
 
-/* Execute whatever the Button is supposed to do */
-void Button::click(function<void()> callback) {
+/* Execute whatever the Object is supposed to do */
+void Object::click(function<void()> callback) {
     callback();
+}
+void Object::moveBox(int x, int y){
+    box.move(x, y);
+}
+
+Quad Object::getBox() {
+    return box;
+}
+void Object::setNew() {
+    box.resize(rand() % 200, rand() % 200);
+}
+
+std::string Object::getLabel() {
+    return label;
+}
+
+void Object::setLabel(std::string message){
+    label = message;
+}
+
+//************************************* Player *************************************
+
+Player::Player(int x):  body(Quad({0, 0, 1}, {100, 600}, 25, 55), ""){
+}
+void Player::drawPlayer() {
+        getBody().draw();
+        glColor3f(0, 0, 0);
+
+}
+
+Quad Player::getBody() {
+    return body.getBox();
+}
+
+void Player::movePlayer(int x, int y) {
+    body.moveBox(x,y);
+}
+
+void Player::jump() {
+    if ((body.getBox().getBottomY()>= 625)){
+        hasJump = true;
+        inAir = false;
+        jumpLeft = 70;
+    }
+    if(inAir == false){
+        body.moveBox(0,-30);
+        inAir = true;
+    }
+    else if( inAir == true and hasJump == true){
+        hasJump = false;
+        body.moveBox(0,-30);
+        jumpLeft+=70;
+    }
+
+}
+
+bool Player::isJumping() {
+
+    if(jumpLeft == 0){
+        return false;
+    }
+    else{
+        jumpLeft-= 10;
+        return true;
+    }
+}
+
+int Player::getJumpLeft() {
+    return jumpLeft;
+}
+
+bool Player::isTouching(Object hazard) {
+    if()
 }

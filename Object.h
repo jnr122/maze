@@ -1,6 +1,4 @@
-//
-// Created by Lisa Dion on 11/6/18.
-//
+
 
 #ifndef GRAPHICS_STARTER_BUTTON_H
 #define GRAPHICS_STARTER_BUTTON_H
@@ -54,16 +52,17 @@ public:
     void draw() const;
 };
 
-class Button { 
+class Object {
 private:
     /* Assume Quad includes color, center, width, height */
     Quad box;
     std::string label;
     color originalFill, hoverFill, pressFill;
-
+    bool touched = false;
 public:
-    Button(Quad box, std::string label);
-    /* Uses OpenGL to draw the box with the label on top */
+
+    Object(Quad box, std::string label);
+    /* Uses OpenGL to draw the obstruction */
     virtual void draw();
 
     /* Returns true if the coordinate is inside the box */
@@ -78,9 +77,47 @@ public:
     /* Change the color back when the user is not clicking/hovering */
     void release();
 
-    /* Execute whatever the Button is supposed to do */
+    /* Execute whatever the Object is supposed to do */
     virtual void click(std::function<void()> callback);
+
+    void moveBox(int x, int y);
+
+    Quad getBox();
+
+    void setNew();
+
+    std::string getLabel();
+
+    void setLabel(std::string message);
 };
 
+class Player{
+private:
+    /* Assume Quad includes color, center, width, height */
+    Object body;
+    color originalFill, hoverFill, pressFill;
+    bool inAir = false;
+    bool hasJump = true;
+    int jumpLeft = 0;
+public:
 
+    Player(int x);
+
+
+    /* Uses OpenGL to draw the Player*/
+    void drawPlayer();
+
+    void movePlayer(int x, int y);
+
+    void jump();
+
+    Quad getBody();
+
+    bool isJumping();
+
+    int getJumpLeft();
+    
+    bool isTouching(Object hazard);
+};
 #endif //GRAPHICS_STARTER_BUTTON_H
+

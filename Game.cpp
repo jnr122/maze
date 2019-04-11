@@ -1,5 +1,5 @@
 #include "graphics.h"
-#include "Button.h"
+#include "Object.h"
 #include <iostream>
 #include <time.h>
 #include <vector>
@@ -7,17 +7,19 @@ using namespace std;
 
 GLdouble width, height;
 int wd;
-Quad rect({1, 0, 0}, {100, 100}, 100, 50);
-Button spawn(rect, "Spawn");
-vector<Quad> confetti;
-
-void spawnConfetti() {
-    confetti.push_back(Quad({rand() % 10 / 10.0, rand() % 10 / 10.0, rand() % 10 / 10.0}, {rand() % (int)width, rand() % (int)height}, 10, 10));
-}
+int H = 750;
+int W = 1000;
+Quad rect({1, 0, 0}, {1500, 600}, 100, 50);
+Object spawn(rect, "");
+Quad ground({0, 1, 0}, {500, 700}, 1000, 150);
+Object floor(ground, "");
+Quad board({1, 1, 1}, {900, 50}, 200, 100);
+Object score(board, "0");
+Player p1(5);
 
 void init() {
-    width = 500;
-    height = 500;
+    width = W;
+    height = H;
     srand(time(0));
 }
 
@@ -47,11 +49,9 @@ void display() {
      * Draw here
      */
     spawn.draw();
-
-    for (Quad &piece : confetti) {
-        piece.draw();
-    }
-    
+    floor.draw();
+    score.draw();
+    p1.drawPlayer();
     glFlush();  // Render now
 }
 
@@ -70,16 +70,20 @@ void kbd(unsigned char key, int x, int y)
 void kbdS(int key, int x, int y) {
     switch(key) {
         case GLUT_KEY_DOWN:
-            
+
             break;
         case GLUT_KEY_LEFT:
-            
+            if (p1.getBody().getLeftX()>0) {
+                p1.movePlayer(-15, 0);
+            }
             break;
         case GLUT_KEY_RIGHT:
-            
+            if (p1.getBody().getRightX()<1000) {
+                p1.movePlayer(15, 0);
+            }
             break;
         case GLUT_KEY_UP:
-            
+            p1.jump();
             break;
     }
     
@@ -110,14 +114,29 @@ void mouse(int button, int state, int x, int y) {
     if (state == GLUT_UP &&
         button == GLUT_LEFT_BUTTON &&
         spawn.isOverlapping(x, y)) {
-        spawn.click(spawnConfetti);
+
     }
     
     glutPostRedisplay();
 }
 
 void timer(int dummy) {
-    
+    if(p1.isJumping()){
+        p1.movePlayer(0, -10);
+    }
+    else if(p1.getBody().getBottomY()<floor.getBox().getTopY()) {
+        p1.movePlayer(0, 10);
+    }
+    else if(p1.getBody().getBottomY()>floor.getBox().getTopY()){
+        p1.movePlayer(0,-1);
+    }
+    score.setLabel(std::to_string(std::stoi(score.getLabel())+1));
+    spawn.moveBox(-12,0);
+    if(spawn.getBox().getRightX()< 0){
+        spawn.setNew();
+        spawn.moveBox(1100,0);
+        score.setLabel(std::to_string(std::stoi(score.getLabel())+100));
+    }
     glutPostRedisplay();
     glutTimerFunc(30, timer, dummy);
 }
