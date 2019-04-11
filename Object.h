@@ -89,16 +89,21 @@ public:
     std::string getLabel();
 
     void setLabel(std::string message);
+
+    bool wasTouched();
+
+    void contact();
 };
 
 class Player{
 private:
     /* Assume Quad includes color, center, width, height */
     Object body;
-    color originalFill, hoverFill, pressFill;
     bool inAir = false;
     bool hasJump = true;
     int jumpLeft = 0;
+    int lives = 3;
+    std::string score;
 public:
 
     Player(int x);
@@ -115,9 +120,15 @@ public:
 
     bool isJumping();
 
-    int getJumpLeft();
-    
+    std::string getScore();
+
     bool isTouching(Object hazard);
+
+    void gotHit();
+
+    bool isAlive();
+
+    void setScore(std::string points);
 };
 #endif //GRAPHICS_STARTER_BUTTON_H
 

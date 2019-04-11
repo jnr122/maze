@@ -1,21 +1,24 @@
 #include "graphics.h"
-#include "Object.h"
-#include <iostream>
 #include <time.h>
 #include <vector>
+#include "Object.h"
+#include <iostream>
 using namespace std;
 
 GLdouble width, height;
 int wd;
 int H = 750;
 int W = 1000;
-Quad rect({1, 0, 0}, {1500, 600}, 100, 50);
-Object spawn(rect, "");
+string finalScore = "";
+Quad danger({1, 0, 0}, {1500, 600}, 100, 50);
+Object Obstruction(danger, "");
 Quad ground({0, 1, 0}, {500, 700}, 1000, 150);
 Object floor(ground, "");
 Quad board({1, 1, 1}, {900, 50}, 200, 100);
 Object score(board, "0");
 Player p1(5);
+Quad screen({1, 1, 1}, {500, 250}, 1000, 1000);
+Object gameOver(screen, "Game Over, Score: ");
 
 void init() {
     width = W;
@@ -34,24 +37,35 @@ void initGL() {
 void display() {
     // tell OpenGL to use the whole window for drawing
     glViewport(0, 0, width, height);
-    
+
     // do an orthographic parallel projection with the coordinate
     // system set to first quadrant, limited by screen/window size
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glOrtho(0.0, width, height, 0.0, -1.f, 1.f);
-    
+
     glClear(GL_COLOR_BUFFER_BIT);   // Clear the color buffer with current clearing color
-    
+
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-    
+
     /*
      * Draw here
      */
-    spawn.draw();
-    floor.draw();
-    score.draw();
-    p1.drawPlayer();
+    if (p1.isAlive()) {
+        Obstruction.draw();
+        floor.draw();
+        score.draw();
+        p1.drawPlayer();
+    }
+    if(!(p1.isAlive()) and finalScore == ""){
+        finalScore = gameOver.getLabel()+ p1.getScore();
+    }
+    if(!(p1.isAlive())){
+
+        gameOver.setLabel(finalScore);
+        gameOver.draw();
+    }
+
     glFlush();  // Render now
 }
 
@@ -83,7 +97,9 @@ void kbdS(int key, int x, int y) {
             }
             break;
         case GLUT_KEY_UP:
-            p1.jump();
+            if(p1.isAlive()) {
+                p1.jump();
+            }
             break;
     }
     
@@ -91,10 +107,10 @@ void kbdS(int key, int x, int y) {
 }
 
 void cursor(int x, int y) {
-    if (spawn.isOverlapping(x, y)) {
-        spawn.hover();
+    if (Obstruction.isOverlapping(x, y)) {
+        Obstruction.hover();
     } else {
-        spawn.release();
+        Obstruction.release();
     }
     
     glutPostRedisplay();
@@ -105,15 +121,15 @@ void cursor(int x, int y) {
 void mouse(int button, int state, int x, int y) {
     if (state == GLUT_DOWN &&
         button == GLUT_LEFT_BUTTON &&
-        spawn.isOverlapping(x, y)) {
-        spawn.pressDown();
+        Obstruction.isOverlapping(x, y)) {
+        Obstruction.pressDown();
     } else {
-        spawn.release();
+        Obstruction.release();
     }
 
     if (state == GLUT_UP &&
         button == GLUT_LEFT_BUTTON &&
-        spawn.isOverlapping(x, y)) {
+        Obstruction.isOverlapping(x, y)) {
 
     }
     
@@ -121,6 +137,7 @@ void mouse(int button, int state, int x, int y) {
 }
 
 void timer(int dummy) {
+    //handles player jumps
     if(p1.isJumping()){
         p1.movePlayer(0, -10);
     }
@@ -130,12 +147,31 @@ void timer(int dummy) {
     else if(p1.getBody().getBottomY()>floor.getBox().getTopY()){
         p1.movePlayer(0,-1);
     }
-    score.setLabel(std::to_string(std::stoi(score.getLabel())+1));
-    spawn.moveBox(-12,0);
-    if(spawn.getBox().getRightX()< 0){
-        spawn.setNew();
-        spawn.moveBox(1100,0);
-        score.setLabel(std::to_string(std::stoi(score.getLabel())+100));
+    //increments point counter
+    if(p1.isAlive()) {
+        score.setLabel(std::to_string(std::stoi(score.getLabel()) + 1));
+        p1.setScore(score.getLabel());
+    }
+    //determines if the player touched an obstacle
+    if(p1.isTouching(Obstruction)){
+        Obstruction.contact();
+        p1.gotHit();
+    }
+    if(Obstruction.wasTouched()){
+        Obstruction.moveBox(-50,0);
+    }
+    else {
+        Obstruction.moveBox(-12, 0);
+    }
+
+    //spawns next obstacle
+    if(Obstruction.getBox().getRightX()< 0){
+        //get bonus points if the obstacle was avoided
+        if(!(Obstruction.wasTouched())) {
+            score.setLabel(std::to_string(std::stoi(score.getLabel()) + 100));
+        }
+        Obstruction.setNew();
+        Obstruction.moveBox(1100,0);
     }
     glutPostRedisplay();
     glutTimerFunc(30, timer, dummy);
@@ -153,7 +189,7 @@ int main(int argc, char** argv) {
     glutInitWindowSize((int)width, (int)height);
     glutInitWindowPosition(100, 200); // Position the window's initial top-left corner
     /* create the window and store the handle to it */
-    wd = glutCreateWindow("Fun with Drawing!" /* title */ );
+    wd = glutCreateWindow("Dodge!!!" /* title */ );
     
     // Register callback handler for window re-paint event
     glutDisplayFunc(display);

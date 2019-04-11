@@ -1,5 +1,6 @@
 
 
+#include <iostream>
 #include "Object.h"
 #include "graphics.h"
 using namespace std;
@@ -155,6 +156,8 @@ Quad Object::getBox() {
 }
 void Object::setNew() {
     box.resize(rand() % 200, rand() % 200);
+    touched = false;
+    box.setColor(1,0,0);
 }
 
 std::string Object::getLabel() {
@@ -165,6 +168,13 @@ void Object::setLabel(std::string message){
     label = message;
 }
 
+bool Object::wasTouched() {
+    return touched;
+}
+void Object::contact() {
+    touched = true;
+    box.setColor(0,0,0);
+}
 //************************************* Player *************************************
 
 Player::Player(int x):  body(Quad({0, 0, 1}, {100, 600}, 25, 55), ""){
@@ -212,10 +222,54 @@ bool Player::isJumping() {
     }
 }
 
-int Player::getJumpLeft() {
-    return jumpLeft;
+string Player::getScore() {
+    return score;
 }
 
+void Player::gotHit() {
+    lives--;
+
+}
+
+
 bool Player::isTouching(Object hazard) {
-    if()
+    if(hazard.wasTouched()){
+        return false;
+    }
+    point pl;
+    pl.x = body.getBox().getLeftX();
+    pl.y = body.getBox().getTopY();
+    point pr;
+    pr.x = body.getBox().getRightX();
+    pr.y = body.getBox().getBottomY();
+    point hl;
+    hl.x = hazard.getBox().getLeftX();
+    hl.y = hazard.getBox().getTopY();
+    point hr;
+    hr.x = hazard.getBox().getRightX();
+    hr.y = hazard.getBox().getBottomY();
+
+
+    // If one rectangle is on left side of other
+    if (pl.x > hr.x || hl.x > pr.x) {
+        return false;
+    }
+    // If one rectangle is above other
+    if (pl.y > hr.y || hl.y > pr.y) {
+        return false;
+    }
+    return true;
+}
+
+bool Player::isAlive(){
+    if(lives >0){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
+void Player::setScore(string points){
+    score = points;
 }
