@@ -125,7 +125,7 @@ void Object::draw() {
 /* Returns true if the coordinate is inside the box */
 bool Object::isOverlapping(int x, int y) const {
     // TODO: Implement
-    return false; // Placeholder for compilation
+    return !( x < box.getLeftX() or x > box.getRightX() or y < box.getTopY() or y > box.getBottomY());
 }
 
 /* Change color of the box when the user is hovering over it */
@@ -268,6 +268,10 @@ bool Player::isAlive(){
     else{
         return false;
     }
+}
+
+void Player::resetLives() {
+    lives = 3;
 }
 
 void Player::setScore(string points){

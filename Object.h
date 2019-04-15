@@ -128,6 +128,8 @@ public:
 
     bool isAlive();
 
+    void resetLives();
+
     void setScore(std::string points);
 };
 #endif //GRAPHICS_STARTER_BUTTON_H

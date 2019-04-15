@@ -3,6 +3,7 @@
 #include <vector>
 #include "Object.h"
 #include <iostream>
+
 using namespace std;
 
 GLdouble width, height;
@@ -20,9 +21,11 @@ Object score(board, "0");
 Player p1(5);
 Quad screen({1, 1, 1}, {500, 250}, 1000, 1000);
 Object gameOver(screen, "Game Over, Score: ");
-
 Quad highScoreBox({1,1,1}, {500, 300}, 100, 20);
 Object highScoreDisplay(highScoreBox, "High score: ");
+
+Quad restart({0.5,.8,.2}, {500, 350}, 100, 30);
+Object restartButton(restart, "Restart");
 
 
 void init() {
@@ -75,6 +78,8 @@ void display() {
 
         highScoreDisplay.setLabel(highScore);
         highScoreDisplay.draw();
+
+        restartButton.draw();
     }
 
     glFlush();  // Render now
@@ -123,7 +128,14 @@ void cursor(int x, int y) {
     } else {
         Obstruction.release();
     }
-    
+
+    if (restartButton.isOverlapping(x, y)) {
+        restartButton.hover();
+    } else {
+        restartButton.release();
+    }
+
+
     glutPostRedisplay();
 }
 
@@ -143,7 +155,20 @@ void mouse(int button, int state, int x, int y) {
         Obstruction.isOverlapping(x, y)) {
 
     }
-    
+
+    if (!p1.isAlive()) {
+        if (state == GLUT_DOWN &&
+            button == GLUT_LEFT_BUTTON &&
+            restartButton.isOverlapping(x, y)) {
+            restartButton.pressDown();
+            p1.resetLives();
+
+
+        } else {
+            restartButton.release();
+        }
+    }
+
     glutPostRedisplay();
 }
 
