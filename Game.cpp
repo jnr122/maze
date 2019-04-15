@@ -10,6 +10,7 @@ int wd;
 int H = 750;
 int W = 1000;
 string finalScore = "";
+string highScore = "0";
 Quad danger({1, 0, 0}, {1500, 600}, 100, 50);
 Object Obstruction(danger, "");
 Quad ground({0, 1, 0}, {500, 700}, 1000, 150);
@@ -19,6 +20,10 @@ Object score(board, "0");
 Player p1(5);
 Quad screen({1, 1, 1}, {500, 250}, 1000, 1000);
 Object gameOver(screen, "Game Over, Score: ");
+
+Quad highScoreBox({1,1,1}, {500, 300}, 100, 20);
+Object highScoreDisplay(highScoreBox, "High score: ");
+
 
 void init() {
     width = W;
@@ -64,6 +69,12 @@ void display() {
 
         gameOver.setLabel(finalScore);
         gameOver.draw();
+        if ((p1.getScore()) > (highScore)) {
+            highScore = highScoreDisplay.getLabel() + p1.getScore();
+        }
+
+        highScoreDisplay.setLabel(highScore);
+        highScoreDisplay.draw();
     }
 
     glFlush();  // Render now
