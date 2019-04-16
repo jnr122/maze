@@ -65,7 +65,6 @@ void display() {
     /*
      * Draw here
      */
-
     if (start) {
         floor.draw();
         startButton.draw();
@@ -73,7 +72,6 @@ void display() {
 
         if (p1.isAlive()) {
             p1.drawPlayer();
-            startButton.draw();
             obstruction.draw();
             floor.draw();
             score.draw();
@@ -197,9 +195,6 @@ void mouse(int button, int state, int x, int y) {
         }
 
     }
-
-    cout << "start outside: " << start << endl;
-
 
     if (!p1.isAlive()) {
         if (state == GLUT_DOWN &&
