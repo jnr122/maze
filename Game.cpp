@@ -7,22 +7,23 @@
 using namespace std;
 
 GLdouble width, height;
+int play = 0;
 int wd;
 int H = 750;
 int W = 1000;
 string finalScore = "";
 string highScore = "0";
 Quad danger({1, 0, 0}, {1500, 600}, 100, 50);
-Object Obstruction(danger, "");
+Object obstruction(danger, "");
 Quad ground({0, 1, 0}, {500, 700}, 1000, 150);
 Object floor(ground, "");
 Quad board({1, 1, 1}, {900, 50}, 200, 100);
 Object score(board, "0");
 Player p1(5);
 Quad screen({1, 1, 1}, {500, 250}, 1000, 1000);
-Object gameOver(screen, "Game Over, Score: ");
+Object gameOver(screen, "");
 Quad highScoreBox({1,1,1}, {500, 300}, 100, 20);
-Object highScoreDisplay(highScoreBox, "High score: ");
+Object highScoreDisplay(highScoreBox, "");
 
 Quad restart({0.5,.8,.2}, {500, 350}, 100, 30);
 Object restartButton(restart, "Restart");
@@ -60,26 +61,30 @@ void display() {
      * Draw here
      */
     if (p1.isAlive()) {
-        Obstruction.draw();
+        obstruction.draw();
         floor.draw();
         score.draw();
         p1.drawPlayer();
     }
     if(!(p1.isAlive()) and finalScore == ""){
-        finalScore = gameOver.getLabel()+ p1.getScore();
+        cout << score.getLabel();
+        finalScore =  score.getLabel();
+        play = 1;
     }
-    if(!(p1.isAlive())){
-
-        gameOver.setLabel(finalScore);
-        gameOver.draw();
-        if ((p1.getScore()) > (highScore)) {
-            highScore = highScoreDisplay.getLabel() + p1.getScore();
+    if(!(p1.isAlive())) {
+        if (play == 1) {
+            gameOver.setLabel("Game Over, Score: " + finalScore);
+            cout << finalScore << highScore;
+            if ((std::stoi(finalScore)) > std::stoi(highScore)) {
+                highScore = finalScore;
+            }
+            highScoreDisplay.setLabel("High score: " + highScore);
+            play = 0;
         }
-
-        highScoreDisplay.setLabel(highScore);
+        gameOver.draw();
         highScoreDisplay.draw();
-
         restartButton.draw();
+
     }
 
     glFlush();  // Render now
@@ -123,10 +128,10 @@ void kbdS(int key, int x, int y) {
 }
 
 void cursor(int x, int y) {
-    if (Obstruction.isOverlapping(x, y)) {
-        Obstruction.hover();
+    if (obstruction.isOverlapping(x, y)) {
+        obstruction.hover();
     } else {
-        Obstruction.release();
+        obstruction.release();
     }
 
     if (restartButton.isOverlapping(x, y)) {
@@ -144,15 +149,15 @@ void cursor(int x, int y) {
 void mouse(int button, int state, int x, int y) {
     if (state == GLUT_DOWN &&
         button == GLUT_LEFT_BUTTON &&
-        Obstruction.isOverlapping(x, y)) {
-        Obstruction.pressDown();
+        obstruction.isOverlapping(x, y)) {
+        obstruction.pressDown();
     } else {
-        Obstruction.release();
+        obstruction.release();
     }
 
     if (state == GLUT_UP &&
         button == GLUT_LEFT_BUTTON &&
-        Obstruction.isOverlapping(x, y)) {
+        obstruction.isOverlapping(x, y)) {
 
     }
 
@@ -162,8 +167,12 @@ void mouse(int button, int state, int x, int y) {
             restartButton.isOverlapping(x, y)) {
             restartButton.pressDown();
             p1.resetLives();
-
-
+            finalScore ="";
+            score.setLabel("0");
+            int rebase = 1100 - obstruction.getBox().getLeftX();
+            int rebasePlayer = 100 - p1.getBody().getLeftX();
+            obstruction.moveBox(rebase, 0);
+            p1.movePlayer(rebasePlayer, 0);
         } else {
             restartButton.release();
         }
@@ -189,25 +198,25 @@ void timer(int dummy) {
         p1.setScore(score.getLabel());
     }
     //determines if the player touched an obstacle
-    if(p1.isTouching(Obstruction)){
-        Obstruction.contact();
+    if(p1.isTouching(obstruction)){
+        obstruction.contact();
         p1.gotHit();
     }
-    if(Obstruction.wasTouched()){
-        Obstruction.moveBox(-50,0);
+    if(obstruction.wasTouched()){
+        obstruction.moveBox(-50,0);
     }
     else {
-        Obstruction.moveBox(-12, 0);
+        obstruction.moveBox(-12, 0);
     }
 
     //spawns next obstacle
-    if(Obstruction.getBox().getRightX()< 0){
+    if(obstruction.getBox().getRightX()< 0){
         //get bonus points if the obstacle was avoided
-        if(!(Obstruction.wasTouched())) {
+        if(!(obstruction.wasTouched())) {
             score.setLabel(std::to_string(std::stoi(score.getLabel()) + 100));
         }
-        Obstruction.setNew();
-        Obstruction.moveBox(1100,0);
+        obstruction.setNew();
+        obstruction.moveBox(1100,0);
     }
     glutPostRedisplay();
     glutTimerFunc(30, timer, dummy);
