@@ -66,12 +66,13 @@ void display() {
         score.draw();
         p1.drawPlayer();
     }
-    if(!(p1.isAlive()) and finalScore == ""){
+    if(!(p1.isAlive()) and finalScore.empty()){
         finalScore =  score.getLabel();
         play = 1;
     }
     if(!(p1.isAlive())) {
         if (play == 1) {
+
             gameOver.setLabel("Game Over, Score: " + finalScore);
             if ((std::stoi(finalScore)) > std::stoi(highScore)) {
                 highScore = finalScore;
@@ -169,6 +170,7 @@ void mouse(int button, int state, int x, int y) {
             score.setLabel("0");
             int rebase = 1100 - obstruction.getBox().getLeftX();
             int rebasePlayer = 100 - p1.getBody().getLeftX();
+            obstruction.setNew();
             obstruction.moveBox(rebase, 0);
             p1.movePlayer(rebasePlayer, 0);
         } else {
