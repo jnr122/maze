@@ -11,6 +11,7 @@ int play = 0;
 int wd;
 int H = 750;
 int W = 1000;
+bool start = true;
 string finalScore = "";
 string highScore = "0";
 Quad danger({1, 0, 0}, {1500, 600}, 100, 50);
@@ -27,6 +28,10 @@ Object highScoreDisplay(highScoreBox, "");
 
 Quad restart({0.5,.8,.2}, {500, 350}, 100, 30);
 Object restartButton(restart, "Restart");
+
+Quad startScreen({1,0,1}, {500, 250}, 50, 30);
+Object startButton(startScreen, "Start");
+
 
 
 void init() {
@@ -60,29 +65,39 @@ void display() {
     /*
      * Draw here
      */
-    if (p1.isAlive()) {
-        obstruction.draw();
-        floor.draw();
-        score.draw();
-        p1.drawPlayer();
-    }
-    if(!(p1.isAlive()) and finalScore.empty()){
-        finalScore =  score.getLabel();
-        play = 1;
-    }
-    if(!(p1.isAlive())) {
-        if (play == 1) {
 
-            gameOver.setLabel("Game Over, Score: " + finalScore);
-            if ((std::stoi(finalScore)) > std::stoi(highScore)) {
-                highScore = finalScore;
-            }
-            highScoreDisplay.setLabel("High score: " + highScore);
-            play = 0;
+    if (start) {
+        floor.draw();
+        startButton.draw();
+    } else {
+
+        if (p1.isAlive()) {
+            p1.drawPlayer();
+            startButton.draw();
+            obstruction.draw();
+            floor.draw();
+            score.draw();
+
         }
-        gameOver.draw();
-        highScoreDisplay.draw();
-        restartButton.draw();
+        if(!(p1.isAlive()) and finalScore.empty()){
+            finalScore =  score.getLabel();
+            play = 1;
+        }
+        if(!(p1.isAlive())) {
+            if (play == 1) {
+
+                gameOver.setLabel("Game Over, Score: " + finalScore);
+                if ((std::stoi(finalScore)) > std::stoi(highScore)) {
+                    highScore = finalScore;
+                }
+                highScoreDisplay.setLabel("High score: " + highScore);
+                play = 0;
+            }
+            gameOver.draw();
+            highScoreDisplay.draw();
+            restartButton.draw();
+
+        }
 
     }
 
@@ -139,6 +154,13 @@ void cursor(int x, int y) {
         restartButton.release();
     }
 
+    if (startButton.isOverlapping(x, y)) {
+        startButton.hover();
+    } else {
+        startButton.release();
+    }
+
+
 
     glutPostRedisplay();
 }
@@ -159,6 +181,25 @@ void mouse(int button, int state, int x, int y) {
         obstruction.isOverlapping(x, y)) {
 
     }
+
+    if (start) {
+        if (state == GLUT_DOWN &&
+            button == GLUT_LEFT_BUTTON &&
+            startButton.isOverlapping(x, y)) {
+            startScreen.move(50, 0);
+            startScreen.setColor(1,1,1);
+            startButton.pressDown();
+            p1.setScore("0");
+            start = false;
+
+        } else {
+            restartButton.release();
+        }
+
+    }
+
+    cout << "start outside: " << start << endl;
+
 
     if (!p1.isAlive()) {
         if (state == GLUT_DOWN &&

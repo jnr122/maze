@@ -130,6 +130,8 @@ public:
 
     void resetLives();
 
+    void resetPosition();
+
     void setScore(std::string points);
 };
 #endif //GRAPHICS_STARTER_BUTTON_H
