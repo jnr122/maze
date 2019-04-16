@@ -67,14 +67,12 @@ void display() {
         p1.drawPlayer();
     }
     if(!(p1.isAlive()) and finalScore == ""){
-        cout << score.getLabel();
         finalScore =  score.getLabel();
         play = 1;
     }
     if(!(p1.isAlive())) {
         if (play == 1) {
             gameOver.setLabel("Game Over, Score: " + finalScore);
-            cout << finalScore << highScore;
             if ((std::stoi(finalScore)) > std::stoi(highScore)) {
                 highScore = finalScore;
             }
