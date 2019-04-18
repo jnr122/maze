@@ -277,3 +277,13 @@ void Player::resetLives() {
 void Player::setScore(string points){
     score = points;
 }
+
+int Player::getLives() {
+    return lives;
+}
+
+void Player::crouch() {
+    getBody().resize(25,25);
+    isCrouched = true;
+}
+

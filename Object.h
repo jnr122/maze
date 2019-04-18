@@ -101,6 +101,7 @@ private:
     Object body;
     bool inAir = false;
     bool hasJump = true;
+    bool isCrouched = false;
     int jumpLeft = 0;
     int lives = 3;
     std::string score;
@@ -131,6 +132,10 @@ public:
     void resetLives();
 
     void setScore(std::string points);
+
+    int getLives();
+
+    void crouch();
 };
 #endif //GRAPHICS_STARTER_BUTTON_H
 
