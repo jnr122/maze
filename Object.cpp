@@ -49,6 +49,14 @@ point Quad::getCenter() const {
     return center;
 }
 
+int Quad::getOldX() {
+    return oldX;
+}
+
+int Quad::getOldY() {
+    return oldY;
+}
+
 double Quad::getRed() const {
     return fill.red;
 }
@@ -80,7 +88,10 @@ void Quad::setColor(double red, double green, double blue) {
 void Quad::setColor(color fill) {
     this->fill = fill;
 }
-
+void Quad::setOld(int x, int y) {
+    oldX = x;
+    oldY = y;
+}
 void Quad::move(int deltaX, int deltaY) {
     center.x += deltaX;
     center.y += deltaY;
@@ -155,9 +166,35 @@ Quad Object::getBox() {
     return box;
 }
 void Object::setNew() {
-    box.resize(rand() % 200, rand() % 200);
+    int type = rand() % 5;
     touched = false;
-    box.setColor(1,0,0);
+    box.setColor(1, 0, 0);
+    box.move(box.getOldX(),box.getOldY());
+    box.setOld(0,0);
+    switch (type) {
+        case 0:
+            box.move(0,20);
+            box.setOld(0,-20);
+            box.resize(200, 20);
+            break;
+        case 1:
+            box.resize(20, 150);
+            break;
+        case 2:
+            box.resize(100, 100);
+            break;
+        case 3:
+            box.move(0,-20);
+            box.setOld(0,20);
+            box.resize(20, 20);
+            break;
+        case 4:
+            box.move(0,-250);
+            box.setOld(0,250);
+            box.resize(100, 500);
+            break;
+
+    }
 }
 
 std::string Object::getLabel() {
@@ -175,12 +212,16 @@ void Object::contact() {
     touched = true;
     box.setColor(0,0,0);
 }
+
+void Object::resize(unsigned int w, unsigned int h) {
+    box.resize(w,h);
+}
 //************************************* Player *************************************
 
 Player::Player(int x):  body(Quad({0, 0, 1}, {100, 600}, 25, 55), ""){
 }
 void Player::drawPlayer() {
-    getBody().draw();
+    body.draw();
     glColor3f(0, 0, 0);
 
 }
@@ -281,4 +322,20 @@ void Player::resetPosition() {
 
 void Player::setScore(string points){
     score = points;
+}
+
+int Player::getLives() {
+    return lives;
+}
+
+void Player::crouch() {
+    body.resize(50,25);
+    crouched = true;
+}
+void Player::standUp() {
+    body.resize(25,50);
+    crouched = false;
+}
+bool Player::isCrouched() {
+    return crouched;
 }

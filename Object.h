@@ -21,7 +21,8 @@ private:
     point center;
     unsigned int width;
     unsigned int height;
-
+    int oldX = 0;
+    int oldY = 0;
 public:
     Quad();
     Quad(color fill, point center, unsigned int width, unsigned int height);
@@ -33,7 +34,8 @@ public:
     int getTopY() const;
     int getBottomY() const;
     point getCenter() const;
-
+    int getOldX();
+    int getOldY();
     double getRed() const;
     double getGreen() const;
     double getBlue() const;
@@ -44,6 +46,7 @@ public:
 
     void setColor(double red, double green, double blue);
     void setColor(color fill);
+    void setOld(int x, int y);
     void move(int deltaX, int deltaY);
     void resize(unsigned int width, unsigned int height);
 
@@ -91,6 +94,8 @@ public:
     bool wasTouched();
 
     void contact();
+
+    void resize(unsigned int w, unsigned int h);
 };
 
 class Player{
@@ -99,6 +104,7 @@ private:
     Object body;
     bool inAir = false;
     bool hasJump = true;
+    bool crouched = false;
     int jumpLeft = 0;
     int lives = 3;
     std::string score;
@@ -131,5 +137,13 @@ public:
     void resetPosition();
 
     void setScore(std::string points);
+
+    int getLives();
+
+    void crouch();
+
+    void standUp();
+
+    bool isCrouched();
 };
 #endif //GRAPHICS_STARTER_BUTTON_H

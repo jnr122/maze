@@ -31,8 +31,20 @@ Object restartButton(restart, "Restart");
 
 Quad startScreen({1,0,1}, {500, 250}, 50, 30);
 Object startButton(startScreen, "Start");
+void setScreen(){
+    HWND desktop = GetDesktopWindow();
+    RECT screenSize;
 
+    GetWindowRect(desktop, &screenSize);
+    W = screenSize.right;
+    H = screenSize.bottom;
+}
+void adjust(){
+    cout << W;
 
+    score.moveBox(W-100, 100);
+
+}
 
 void init() {
     width = W;
@@ -96,6 +108,12 @@ void display() {
             restartButton.draw();
 
         }
+        //**** lives *****
+        for(int i = 0; i < p1.getLives(); i++){
+            Quad life({1, 0, 0}, {50+50*i, 50}, 50, 50);
+            Object liveCounter(life, "");
+            liveCounter.draw();
+        }
 
     }
 
@@ -117,7 +135,7 @@ void kbd(unsigned char key, int x, int y)
 void kbdS(int key, int x, int y) {
     switch(key) {
         case GLUT_KEY_DOWN:
-
+            p1.crouch();
             break;
         case GLUT_KEY_LEFT:
             if (p1.getBody().getLeftX()>0) {
@@ -133,6 +151,7 @@ void kbdS(int key, int x, int y) {
             if(p1.isAlive()) {
                 p1.jump();
             }
+            p1.standUp();
             break;
     }
 
@@ -222,6 +241,17 @@ void timer(int dummy) {
     if(p1.isJumping()){
         p1.movePlayer(0, -10);
     }
+    else if(p1.getBody().getBottomY()<floor.getBox().getTopY() and p1.isCrouched()){
+        if(p1.getBody().getBottomY()<floor.getBox().getTopY() and p1.isCrouched()){
+            p1.movePlayer(0, 10);
+        }
+        if(p1.getBody().getBottomY()<floor.getBox().getTopY() and p1.isCrouched()){
+            p1.movePlayer(0, 10);
+        }
+        if(p1.getBody().getBottomY()<floor.getBox().getTopY() and p1.isCrouched()){
+            p1.movePlayer(0, 10);
+        }
+    }
     else if(p1.getBody().getBottomY()<floor.getBox().getTopY()) {
         p1.movePlayer(0, 10);
     }
@@ -242,14 +272,14 @@ void timer(int dummy) {
         obstruction.moveBox(-50,0);
     }
     else {
-        obstruction.moveBox(-12, 0);
+        obstruction.moveBox(-12 - (std::stoi(score.getLabel())/1000), 0);
     }
 
     //spawns next obstacle
     if(obstruction.getBox().getRightX()< 0){
         //get bonus points if the obstacle was avoided
         if(!(obstruction.wasTouched())) {
-            score.setLabel(std::to_string(std::stoi(score.getLabel()) + 100));
+            score.setLabel(std::to_string(std::stoi(score.getLabel()) + 100*(1+(std::stoi(score.getLabel())/1000))));
         }
         obstruction.setNew();
         obstruction.moveBox(1100,0);
@@ -260,9 +290,9 @@ void timer(int dummy) {
 
 /* Main function: GLUT runs as a console application starting at main()  */
 int main(int argc, char** argv) {
-
+    //setScreen();
     init();
-
+    //adjust();
     glutInit(&argc, argv);          // Initialize GLUT
 
     glutInitDisplayMode(GLUT_RGBA);
