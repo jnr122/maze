@@ -101,7 +101,10 @@ void Quad::resize(unsigned int width, unsigned int height) {
     this->width = width;
     this->height = height;
 }
-
+void Quad::moveCenter(int newX, int newY) {
+    center.x = newX;
+    center.y = newY;
+}
 void Quad::draw() const {
     glColor3f(fill.red, fill.green, fill.blue);
     glBegin(GL_QUADS);
@@ -162,15 +165,19 @@ void Object::moveBox(int x, int y){
     box.move(x, y);
 }
 
+void Object::moveCenter(int newX, int newY) {
+    box.moveCenter(newX, newY);
+}
 Quad Object::getBox() {
     return box;
 }
 void Object::setNew() {
-    int type = rand() % 5;
+    int type = rand() % 8;
     touched = false;
     box.setColor(1, 0, 0);
     box.move(box.getOldX(),box.getOldY());
     box.setOld(0,0);
+    cout << type;
     switch (type) {
         case 0:
             box.move(0,20);
@@ -184,14 +191,29 @@ void Object::setNew() {
             box.resize(100, 100);
             break;
         case 3:
-            box.move(0,-20);
-            box.setOld(0,20);
+            box.move(0,-10);
+            box.setOld(0,10);
             box.resize(20, 20);
             break;
         case 4:
             box.move(0,-250);
             box.setOld(0,250);
             box.resize(100, 500);
+            break;
+        case 5:
+            box.move(0,10);
+            box.setOld(0,-10);
+            box.resize(20, 20);
+            break;
+        case 6:
+            box.move(0,-250);
+            box.setOld(0,250);
+            box.resize(100, 500);
+            break;
+        case 7:
+            box.move(0,-77);
+            box.setOld(0,77);
+            box.resize(20, 100);
             break;
 
     }
@@ -303,6 +325,14 @@ bool Player::isTouching(Object hazard) {
 }
 
 bool Player::isAlive(){
+    if(stoi(score) > 30000 and extraLives ==2){
+        lives++;
+        extraLives--;
+    }
+    if(stoi(score) > 77777 and extraLives ==1){
+        lives++;
+        extraLives--;
+    }
     if(lives >0){
         return true;
     }
@@ -313,6 +343,8 @@ bool Player::isAlive(){
 
 void Player::resetLives() {
     lives = 3;
+    extraLives = 2;
+    score = "0";
 }
 
 void Player::resetPosition() {

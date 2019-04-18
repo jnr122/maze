@@ -16,7 +16,7 @@ string finalScore = "";
 string highScore = "0";
 Quad danger({1, 0, 0}, {1500, 600}, 100, 50);
 Object obstruction(danger, "");
-Quad ground({0, 1, 0}, {500, 700}, 1000, 150);
+Quad ground({0, 1, 0}, {500, 700}, 2000, 150);
 Object floor(ground, "");
 Quad board({1, 1, 1}, {900, 50}, 200, 100);
 Object score(board, "0");
@@ -31,20 +31,6 @@ Object restartButton(restart, "Restart");
 
 Quad startScreen({1,0,1}, {500, 250}, 50, 30);
 Object startButton(startScreen, "Start");
-void setScreen(){
-    HWND desktop = GetDesktopWindow();
-    RECT screenSize;
-
-    GetWindowRect(desktop, &screenSize);
-    W = screenSize.right;
-    H = screenSize.bottom;
-}
-void adjust(){
-    cout << W;
-
-    score.moveBox(W-100, 100);
-
-}
 
 void init() {
     width = W;
@@ -62,13 +48,13 @@ void initGL() {
  whenever the window needs to be re-painted. */
 void display() {
     // tell OpenGL to use the whole window for drawing
-    glViewport(0, 0, width, height);
+    glViewport(0, 0, W, H);
 
     // do an orthographic parallel projection with the coordinate
     // system set to first quadrant, limited by screen/window size
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(0.0, width, height, 0.0, -1.f, 1.f);
+    glOrtho(0.0, W, H, 0.0, -1.f, 1.f);
 
     glClear(GL_COLOR_BUFFER_BIT);   // Clear the color buffer with current clearing color
 
@@ -79,6 +65,7 @@ void display() {
      */
     if (start) {
         floor.draw();
+        p1.drawPlayer();
         startButton.draw();
     } else {
 
@@ -272,17 +259,19 @@ void timer(int dummy) {
         obstruction.moveBox(-50,0);
     }
     else {
-        obstruction.moveBox(-12 - (std::stoi(score.getLabel())/1000), 0);
+        if(!(start)) {
+            obstruction.moveBox(-12 - (std::stoi(score.getLabel())/1000), 0);
+        }
     }
 
     //spawns next obstacle
     if(obstruction.getBox().getRightX()< 0){
         //get bonus points if the obstacle was avoided
         if(!(obstruction.wasTouched())) {
-            score.setLabel(std::to_string(std::stoi(score.getLabel()) + 100*(1+(std::stoi(score.getLabel())/1000))));
+            score.setLabel(std::to_string(std::stoi(score.getLabel()) + 50*(1+(std::stoi(score.getLabel())/1000))));
         }
         obstruction.setNew();
-        obstruction.moveBox(1100,0);
+        obstruction.moveBox(W+100,0);
     }
     glutPostRedisplay();
     glutTimerFunc(30, timer, dummy);
@@ -290,15 +279,14 @@ void timer(int dummy) {
 
 /* Main function: GLUT runs as a console application starting at main()  */
 int main(int argc, char** argv) {
-    //setScreen();
+
     init();
-    //adjust();
     glutInit(&argc, argv);          // Initialize GLUT
 
     glutInitDisplayMode(GLUT_RGBA);
 
-    glutInitWindowSize((int)width, (int)height);
-    glutInitWindowPosition(100, 200); // Position the window's initial top-left corner
+    glutInitWindowSize((int)W, (int)H);
+    glutInitWindowPosition(200, 0); // Position the window's initial top-left corner
     /* create the window and store the handle to it */
     wd = glutCreateWindow("Dodge!!!" /* title */ );
 

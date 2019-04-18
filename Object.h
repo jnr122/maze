@@ -49,7 +49,7 @@ public:
     void setOld(int x, int y);
     void move(int deltaX, int deltaY);
     void resize(unsigned int width, unsigned int height);
-
+    void moveCenter(int newX, int NewY);
     void draw() const;
 };
 
@@ -83,6 +83,8 @@ public:
 
     void moveBox(int x, int y);
 
+    void moveCenter(int newX, int newY);
+
     Quad getBox();
 
     void setNew();
@@ -107,7 +109,8 @@ private:
     bool crouched = false;
     int jumpLeft = 0;
     int lives = 3;
-    std::string score;
+    int extraLives = 2;
+    std::string score = "0";
 public:
 
     Player(int x);
