@@ -131,6 +131,8 @@ public:
 
     void resetLives();
 
+    void resetPosition();
+
     void setScore(std::string points);
 
     int getLives();

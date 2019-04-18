@@ -13,7 +13,6 @@ int H = 750;
 int W = 1000;
 string finalScore = "";
 string highScore = "0";
-
 Quad danger({1, 0, 0}, {1500, 600}, 100, 50);
 Object obstruction(danger, "");
 Quad ground({0, 1, 0}, {500, 700}, 1000, 150);
@@ -61,7 +60,6 @@ void display() {
     /*
      * Draw here
      */
-
     if (p1.isAlive()) {
         obstruction.draw();
         floor.draw();
@@ -87,12 +85,6 @@ void display() {
         restartButton.draw();
 
     }
-    //**** lives *****
-    for(int i = 0; i < p1.getLives(); i++){
-        Quad life({1, 0, 0}, {50+50*i, 50}, 50, 50);
-        Object liveCounter(life, "");
-        liveCounter.draw();
-    }
 
     glFlush();  // Render now
 }
@@ -105,17 +97,14 @@ void kbd(unsigned char key, int x, int y)
         glutDestroyWindow(wd);
         exit(0);
     }
-
     
     glutPostRedisplay();
 }
 
-
 void kbdS(int key, int x, int y) {
-
     switch(key) {
         case GLUT_KEY_DOWN:
-            p1.crouch();
+
             break;
         case GLUT_KEY_LEFT:
             if (p1.getBody().getLeftX()>0) {
@@ -197,9 +186,6 @@ void timer(int dummy) {
     if(p1.isJumping()){
         p1.movePlayer(0, -10);
     }
-    else if(p1.getBody().getBottomY()<floor.getBox().getTopY() and p1.isCrouched()){
-
-    }
     else if(p1.getBody().getBottomY()<floor.getBox().getTopY()) {
         p1.movePlayer(0, 10);
     }
@@ -220,14 +206,14 @@ void timer(int dummy) {
         obstruction.moveBox(-50,0);
     }
     else {
-        obstruction.moveBox(-12 - (std::stoi(score.getLabel())/1000), 0);
+        obstruction.moveBox(-12, 0);
     }
 
     //spawns next obstacle
     if(obstruction.getBox().getRightX()< 0){
         //get bonus points if the obstacle was avoided
         if(!(obstruction.wasTouched())) {
-            score.setLabel(std::to_string(std::stoi(score.getLabel()) + 100*(1+(std::stoi(score.getLabel())/1000))));
+            score.setLabel(std::to_string(std::stoi(score.getLabel()) + 100));
         }
         obstruction.setNew();
         obstruction.moveBox(1100,0);
@@ -240,7 +226,7 @@ void timer(int dummy) {
 int main(int argc, char** argv) {
     
     init();
-
+    
     glutInit(&argc, argv);          // Initialize GLUT
     
     glutInitDisplayMode(GLUT_RGBA);
@@ -255,7 +241,7 @@ int main(int argc, char** argv) {
     
     // Our own OpenGL initialization
     initGL();
-    //glutFullScreen();
+    
     // register keyboard press event processing function
     // works for numbers, letters, spacebar, etc.
     glutKeyboardFunc(kbd);

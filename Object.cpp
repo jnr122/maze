@@ -274,6 +274,11 @@ void Player::resetLives() {
     lives = 3;
 }
 
+void Player::resetPosition() {
+    body.getBox().move(60, 0);
+    cout << "reset";
+}
+
 void Player::setScore(string points){
     score = points;
 }
