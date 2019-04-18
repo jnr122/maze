@@ -180,8 +180,8 @@ void Object::contact() {
 Player::Player(int x):  body(Quad({0, 0, 1}, {100, 600}, 25, 55), ""){
 }
 void Player::drawPlayer() {
-        getBody().draw();
-        glColor3f(0, 0, 0);
+    getBody().draw();
+    glColor3f(0, 0, 0);
 
 }
 
@@ -282,13 +282,3 @@ void Player::resetPosition() {
 void Player::setScore(string points){
     score = points;
 }
-
-int Player::getLives() {
-    return lives;
-}
-
-void Player::crouch() {
-    getBody().resize(25,25);
-    isCrouched = true;
-}
-

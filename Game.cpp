@@ -11,6 +11,7 @@ int play = 0;
 int wd;
 int H = 750;
 int W = 1000;
+bool start = true;
 string finalScore = "";
 string highScore = "0";
 Quad danger({1, 0, 0}, {1500, 600}, 100, 50);
@@ -27,6 +28,10 @@ Object highScoreDisplay(highScoreBox, "");
 
 Quad restart({0.5,.8,.2}, {500, 350}, 100, 30);
 Object restartButton(restart, "Restart");
+
+Quad startScreen({1,0,1}, {500, 250}, 50, 30);
+Object startButton(startScreen, "Start");
+
 
 
 void init() {
@@ -60,29 +65,37 @@ void display() {
     /*
      * Draw here
      */
-    if (p1.isAlive()) {
-        obstruction.draw();
+    if (start) {
         floor.draw();
-        score.draw();
-        p1.drawPlayer();
-    }
-    if(!(p1.isAlive()) and finalScore.empty()){
-        finalScore =  score.getLabel();
-        play = 1;
-    }
-    if(!(p1.isAlive())) {
-        if (play == 1) {
+        startButton.draw();
+    } else {
 
-            gameOver.setLabel("Game Over, Score: " + finalScore);
-            if ((std::stoi(finalScore)) > std::stoi(highScore)) {
-                highScore = finalScore;
-            }
-            highScoreDisplay.setLabel("High score: " + highScore);
-            play = 0;
+        if (p1.isAlive()) {
+            p1.drawPlayer();
+            obstruction.draw();
+            floor.draw();
+            score.draw();
+
         }
-        gameOver.draw();
-        highScoreDisplay.draw();
-        restartButton.draw();
+        if(!(p1.isAlive()) and finalScore.empty()){
+            finalScore =  score.getLabel();
+            play = 1;
+        }
+        if(!(p1.isAlive())) {
+            if (play == 1) {
+
+                gameOver.setLabel("Game Over, Score: " + finalScore);
+                if ((std::stoi(finalScore)) > std::stoi(highScore)) {
+                    highScore = finalScore;
+                }
+                highScoreDisplay.setLabel("High score: " + highScore);
+                play = 0;
+            }
+            gameOver.draw();
+            highScoreDisplay.draw();
+            restartButton.draw();
+
+        }
 
     }
 
@@ -97,7 +110,7 @@ void kbd(unsigned char key, int x, int y)
         glutDestroyWindow(wd);
         exit(0);
     }
-    
+
     glutPostRedisplay();
 }
 
@@ -122,7 +135,7 @@ void kbdS(int key, int x, int y) {
             }
             break;
     }
-    
+
     glutPostRedisplay();
 }
 
@@ -138,6 +151,13 @@ void cursor(int x, int y) {
     } else {
         restartButton.release();
     }
+
+    if (startButton.isOverlapping(x, y)) {
+        startButton.hover();
+    } else {
+        startButton.release();
+    }
+
 
 
     glutPostRedisplay();
@@ -157,6 +177,22 @@ void mouse(int button, int state, int x, int y) {
     if (state == GLUT_UP &&
         button == GLUT_LEFT_BUTTON &&
         obstruction.isOverlapping(x, y)) {
+
+    }
+
+    if (start) {
+        if (state == GLUT_DOWN &&
+            button == GLUT_LEFT_BUTTON &&
+            startButton.isOverlapping(x, y)) {
+            startScreen.move(50, 0);
+            startScreen.setColor(1,1,1);
+            startButton.pressDown();
+            p1.setScore("0");
+            start = false;
+
+        } else {
+            restartButton.release();
+        }
 
     }
 
@@ -224,40 +260,40 @@ void timer(int dummy) {
 
 /* Main function: GLUT runs as a console application starting at main()  */
 int main(int argc, char** argv) {
-    
+
     init();
-    
+
     glutInit(&argc, argv);          // Initialize GLUT
-    
+
     glutInitDisplayMode(GLUT_RGBA);
-    
+
     glutInitWindowSize((int)width, (int)height);
     glutInitWindowPosition(100, 200); // Position the window's initial top-left corner
     /* create the window and store the handle to it */
     wd = glutCreateWindow("Dodge!!!" /* title */ );
-    
+
     // Register callback handler for window re-paint event
     glutDisplayFunc(display);
-    
+
     // Our own OpenGL initialization
     initGL();
-    
+
     // register keyboard press event processing function
     // works for numbers, letters, spacebar, etc.
     glutKeyboardFunc(kbd);
-    
+
     // register special event: function keys, arrows, etc.
     glutSpecialFunc(kbdS);
-    
+
     // handles mouse movement
     glutPassiveMotionFunc(cursor);
-    
+
     // handles mouse click
     glutMouseFunc(mouse);
-    
+
     // handles timer
     glutTimerFunc(0, timer, 0);
-    
+
     // Enter the event-processing loop
     glutMainLoop();
     return 0;
