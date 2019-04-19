@@ -1,6 +1,7 @@
 #include "graphics.h"
 #include "Circle.h"
 #include "shapes.h"
+#include "Shapes2.h"
 #include "Rect.h"
 #include <time.h>
 #include <vector>

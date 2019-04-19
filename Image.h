@@ -6,7 +6,7 @@
 #define GAMEENGINE_IMAGE_H
 
 
-#include "Shapes.h"
+#include "Shapes2.h"
 #include <stdlib.h>
 #ifdef _WIN32
 #include <windows.h>
@@ -127,7 +127,7 @@ struct Pixel {
 };
 
 
-class Image: public Shapes {
+class Image: public Shape {
 protected:
     Vector2D start;
     Vector2D dimensions;
