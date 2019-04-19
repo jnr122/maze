@@ -177,7 +177,7 @@ void Object::setNew() {
     box.setColor(1, 0, 0);
     box.move(box.getOldX(),box.getOldY());
     box.setOld(0,0);
-    cout << type;
+    //cout << type;
     switch (type) {
         case 0:
             box.move(0,20);
