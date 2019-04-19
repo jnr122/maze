@@ -1,10 +1,12 @@
 #include "graphics.h"
 #include "Circle.h"
 #include "shapes.h"
+#include "Shapes2.h"
 #include "Rect.h"
 #include <time.h>
 #include <vector>
 #include "Object.h"
+#include "Image.h"
 #include <iostream>
 
 using namespace std;
@@ -34,6 +36,8 @@ Object restartButton(restart, "Restart");
 
 Quad startScreen({1,0,1}, {500, 250}, 50, 30);
 Object startButton(startScreen, "Start");
+
+Image i("cardOneOneBig.bmp");
 
 void init() {
     width = W;
@@ -90,6 +94,7 @@ void display() {
         floor.draw();
         p1.drawPlayer();
         startButton.draw();
+        i.draw();
     } else {
 
         if (p1.isAlive()) {

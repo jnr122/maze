@@ -3,7 +3,6 @@
 //
 
 #include "shapes.h"
-
 // struct constructors
 Point::Point(int x, int y) : x(x), y(y){
 
