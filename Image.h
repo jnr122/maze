@@ -1,6 +1,4 @@
-//
-// Created by Ethan Nerney on 2018-12-09.
-//
+
 
 #ifndef GAMEENGINE_IMAGE_H
 #define GAMEENGINE_IMAGE_H
