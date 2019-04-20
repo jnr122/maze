@@ -12,7 +12,7 @@ Image::Image(std::string filename): Shape(900,100), dimensions(0.,0.), start(0,0
     //readPNG(filename, pixels);
 }
 
-void Image::draw_it() const {
+void Image::draw() const {
     glBegin (GL_POINTS);
     for (int h = start.y; h < start.y + dimensions.y; h++) {
         for (int w = start.x; w < start.x + dimensions.x; w++) {

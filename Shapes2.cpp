@@ -43,11 +43,11 @@ Shape::~Shape() {
     // does nothing
 }
 
-double Shape::getArea() const {
+double Shape::get_area() const {
     return calculateArea();
 }
 
-double Shape::getPerimeter() const {
+double Shape::get_perimeter() const {
     return calculatePerimeter();
 }
 
