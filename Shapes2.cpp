@@ -44,11 +44,11 @@ Shape::~Shape() {
 }
 
 double Shape::get_area() const {
-    return calculateArea();
+    return get_area();
 }
 
 double Shape::get_perimeter() const {
-    return calculatePerimeter();
+    return get_perimeter();
 }
 
 color Shape::getFill() const {
