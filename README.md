@@ -1,20 +1,22 @@
-# Graphics-with-Shapes
+Members: Ben Temkin, Ben Albin, Jonah Rubin
 
-Note to Windows users: remember to copy freeglut.dll from the cmake-build-debug folder of Graphics-Starter to the cmake-build-debug folder here.
+The game was inspired by the google chrome dinosaur run game where you have to avoid obstacles as they move towards you
+on the ground and in the air (and Ben A. thought it reminded him of a certain character hence the star screen background).
+In our version you play as a blue block and are trying to dodge the red blocks for as long as you can. You get points
+as long as you stay alive and for every block you dodge, however the more points you get the faster the red blocks come
+at you, and the more points you'll get for dodging a block. You start with three lives (shown by the red bar in the top left)
+and lose one ever time you are hit, however there is the chance to get two extra lives: one at 30,000 points and the
+next at 77,777 points.
 
-1. Read through Button.h and Button.cpp. 
-2. Implement the two methods in Button.cpp that have TODO comments.
-3. Read through graphics_starter.cpp. Notice the global Quad and Button objects at the top of the file, and notice where they are used throughout the file.
-4. Run the program. It should have a button labeled "Spawn" that produces confetti.
-5. Use an enum to get three screens:
-    * A start screen that displays a message. It should not be a button, it should be a string you print. Look at the Button draw method for an example of how to do this. Pressing the ```s``` key should move you to the second screen.
-    * The second screen will be the given confetti-spawning program.
-    * Once 100 confetti have been spawned, go to an end screen that prints a message of your choice.
-6. Make the button move with the arrow keys. You will need to add at least one method to the Button class to accomplish this.
+Controls:
+mouse: used to click start and restart buttons.
 
-## Extra time? Extra credit!
-Create a vector of Quads to make a running background:
-* Each Quad should be a different height but have the same bottom edge. They should not overlap.
-* All Quads should move smoothly to the left at the same rate. Hint: use a timer for this.
-* Once a Quad goes completely off the left side of the screen, move it just to the right of the screen (so that it can pass across the screen again).
-* Make multiple rows of these, where each row has a different color, height range, and rate of movement. The ones closer to you (drawn on top) should be shortest and move fastest.
+up-arrow-key: tap to jump if on the ground, double jumps ONCE if player is in the air. Stand up if crouched (this happens
+no matter what even if you are out of jumps).
+
+left-arrow-key: tap to inch left, hold to move slowly on the ground, spam to move rapidly in the air or on the ground
+
+right-arrow-key: tap to inch right, hold to move slowly on the ground, spam to move rapidly in the air or on the ground
+
+down-arrow-key: tap to enter crouch (you don't need to hold it), while crouched you can fit under certain obstacles on
+the ground, also you fall three times as fast when crouching in the air(necessary for higher speeds).
