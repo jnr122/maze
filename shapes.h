@@ -32,7 +32,7 @@ protected:
 public:
     // constructor
     Shapes(Point center, Color col);
-    
+
 
     virtual ~Shapes();
 
