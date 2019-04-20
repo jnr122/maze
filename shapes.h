@@ -33,6 +33,7 @@ public:
     // constructor
     Shapes(Point center, Color col);
 
+
     virtual ~Shapes();
 
     // move the center point

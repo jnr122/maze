@@ -37,7 +37,7 @@ Object restartButton(restart, "Restart");
 Quad startScreen({1,0,1}, {500, 250}, 50, 30);
 Object startButton(startScreen, "Start");
 
-Image i("cardOneOneBig.bmp");
+Image i("sonic.bmp");
 
 void init() {
     width = W;
@@ -93,8 +93,8 @@ void display() {
     if (start) {
         floor.draw();
         p1.drawPlayer();
-        startButton.draw();
         i.draw();
+        startButton.draw();
     } else {
 
         if (p1.isAlive()) {
