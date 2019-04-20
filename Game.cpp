@@ -93,8 +93,8 @@ void display() {
     if (start) {
         floor.draw();
         p1.drawPlayer();
-        startButton.draw();
         i.draw();
+        startButton.draw();
     } else {
 
         if (p1.isAlive()) {
