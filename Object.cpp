@@ -257,6 +257,10 @@ void Player::movePlayer(int x, int y) {
 }
 
 void Player::jump() {
+    if(moving){
+        body.moveBox(30, 0);
+        moving = false;
+    }
     if ((body.getBox().getBottomY()>= 625)){
         hasJump = true;
         inAir = false;
@@ -361,6 +365,7 @@ int Player::getLives() {
 }
 
 void Player::crouch() {
+    moving = false;
     body.resize(50,25);
     crouched = true;
 }
@@ -369,5 +374,9 @@ void Player::standUp() {
     crouched = false;
 }
 bool Player::isCrouched() {
+    ;
     return crouched;
+}
+void Player::moved(){
+        moving = true;
 }

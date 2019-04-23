@@ -111,11 +111,12 @@ private:
     int lives = 3;
     int extraLives = 2;
     std::string score = "0";
+    bool moving = false;
 public:
 
     Player(int x);
 
-
+    void moved();
     /* Uses OpenGL to draw the Player*/
     void drawPlayer();
 

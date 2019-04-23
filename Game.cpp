@@ -93,7 +93,7 @@ void display() {
     if (start) {
         floor.draw();
         p1.drawPlayer();
-        i.draw();
+        //i.draw();
         startButton.draw();
     } else {
 
@@ -155,11 +155,13 @@ void kbdS(int key, int x, int y) {
         case GLUT_KEY_LEFT:
             if (p1.getBody().getLeftX()>0) {
                 p1.movePlayer(-15, 0);
+                p1.moved();
             }
             break;
         case GLUT_KEY_RIGHT:
             if (p1.getBody().getRightX()<1000) {
                 p1.movePlayer(15, 0);
+                p1.moved();
             }
             break;
         case GLUT_KEY_UP:
@@ -174,6 +176,7 @@ void kbdS(int key, int x, int y) {
 }
 
 void cursor(int x, int y) {
+
     if (obstruction.isOverlapping(x, y)) {
         obstruction.hover();
     } else {
@@ -209,9 +212,7 @@ void mouse(int button, int state, int x, int y) {
     }
 
     if (state == GLUT_UP &&
-        button == GLUT_LEFT_BUTTON &&
-        obstruction.isOverlapping(x, y)) {
-
+        button == GLUT_LEFT_BUTTON ) {
     }
 
     if (start) {
