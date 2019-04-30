@@ -8,6 +8,7 @@
 #include "Object.h"
 #include "Image.h"
 #include <iostream>
+#include "Enemy.h"
 
 using namespace std;
 
@@ -36,6 +37,9 @@ Object restartButton(restart, "Restart");
 
 Quad startScreen({1,0,1}, {500, 250}, 50, 30);
 Object startButton(startScreen, "Start");
+
+Quad enemyQ({.7,.3,.4}, {350, 610}, 50, 30);
+Enemy enemy(enemyQ, "", horizontal);
 
 Image i("sonic.bmp");
 
@@ -94,6 +98,8 @@ void display() {
         floor.draw();
         p1.drawPlayer();
         //i.draw();
+        enemy.draw();
+        enemy.moveBox();
         startButton.draw();
         obstruction.draw();
     } else {
