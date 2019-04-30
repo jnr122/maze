@@ -330,9 +330,7 @@ bool Player::isTouching(Object hazard) {
 
     Quad p1 = body.getBox();
     Quad obj = hazard.getBox();
-    if(obj.getTopY() == p1.getBottomY()){
-        hasJump = true;
-    }
+
     if(p1.getBottomY() > obj.getTopY() and obj.getTopY()-p1.getBottomY() >= -4){
         movePlayer(0,obj.getTopY()-p1.getBottomY());
         contact = true;
@@ -348,6 +346,9 @@ bool Player::isTouching(Object hazard) {
     if(p1.getLeftX()<obj.getRightX() and obj.getRightX()-p1.getLeftX() <= 9){
         contact = true;
         movePlayer(obj.getRightX()-p1.getLeftX(),0);
+    }
+    if(obj.getTopY() == p1.getBottomY()){
+        hasJump = true;
     }
     return true;
 }
@@ -405,7 +406,8 @@ void Player::moved(){
         moving = true;
 }
 void Player::setPlayerMovement(int x, int y) {
-    if(moveY==0) {
+    if(moveY==0 and acceleration > 0) {
+        cout <<"accel: " <<acceleration;
         moveY += y*acceleration;
         if(moveX<12) {
             moveX += x;
@@ -417,6 +419,7 @@ void Player::playerMovement() {
 
     if(moveX == 1 or moveX == -1){
         moveX = 0;
+        moveY = 0;
     }
     if(moveX>=6 or moveX <=-6){
         acceleration = 6;
@@ -437,7 +440,7 @@ void Player::playerMovement() {
         if(acceleration > 1){
             if(moveX > 0) {
                 movePlayer(3+acceleration, 0);
-            }else{
+            }else if(moveX < 0){
                 movePlayer(-3-acceleration, 0);
             }
         }
@@ -447,7 +450,6 @@ void Player::playerMovement() {
         }
     }else if(moveY < 0){
         moveY++;
-
         if(contact){
             moveX = 0;
             acceleration = 0;
@@ -455,12 +457,13 @@ void Player::playerMovement() {
         if(acceleration > 1){
             if(moveX > 0) {
                 movePlayer(3+acceleration, 0);
-            }else{
+            }else if(moveX < 0){
                 movePlayer(-3-acceleration, 0);
             }
         }
         if(moveY == 0){
             moveX = moveX/2;
+            //acceleration = 0;
         }
     }
     else if(moveX > 0){

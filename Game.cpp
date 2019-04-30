@@ -19,7 +19,7 @@ int W = 1100;
 bool start = true;
 string finalScore = "";
 string highScore = "0";
-Quad danger({1, 0, 0}, {500, 525}, 100, 50);
+Quad danger({1, 0, 0}, {500, 550}, 100, 50);
 Object obstruction(danger, "");
 Quad ground({0, 1, 0}, {500, 700}, 2000, 150);
 Object floor(ground, "");
@@ -100,7 +100,7 @@ void display() {
 
         if (p1.isAlive()) {
             p1.drawPlayer();
-            obstruction.draw();
+            //obstruction.draw();
             floor.draw();
             score.draw();
 
@@ -156,14 +156,14 @@ void kbdS(int key, int x, int y) {
         case GLUT_KEY_LEFT:
             if (p1.getBody().getLeftX()>0) {
                 p1.setPlayerMovement(-2,0);
-                p1.moved();
+                //p1.moved();
             }
             break;
         case GLUT_KEY_RIGHT:
             if (p1.getBody().getRightX()<1000) {
                 p1.setPlayerMovement(2,0);
                 //p1.movePlayer(15, 0);
-                p1.moved();
+                //p1.moved();
             }
             break;
         case GLUT_KEY_UP:
@@ -231,24 +231,8 @@ void mouse(int button, int state, int x, int y) {
             restartButton.release();
         }
 
-    }
 
-    if (!p1.isAlive()) {
-        if (state == GLUT_DOWN &&
-            button == GLUT_LEFT_BUTTON &&
-            restartButton.isOverlapping(x, y)) {
-            restartButton.pressDown();
-            p1.resetLives();
-            finalScore ="";
-            score.setLabel("0");
-            int rebase = 1100 - obstruction.getBox().getLeftX();
-            int rebasePlayer = 100 - p1.getBody().getLeftX();
-            obstruction.setNew();
-            obstruction.moveBox(rebase, 0);
-            p1.movePlayer(rebasePlayer, 0);
-        } else {
-            restartButton.release();
-        }
+
     }
 
     glutPostRedisplay();
@@ -257,14 +241,10 @@ void mouse(int button, int state, int x, int y) {
 void timer(int dummy) {
 
     p1.playerMovement();
-
     p1.movePlayer(0, 3);
-    cout<<p1.isTouching(floor);
-    cout <<p1.isTouching(obstruction)<<endl;
+    p1.isTouching(floor);
+    //p1.isTouching(obstruction);
     //handles player jumps
-
-
-
     glutPostRedisplay();
     glutTimerFunc(30, timer, dummy);
 }
