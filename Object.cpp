@@ -241,6 +241,7 @@ void Object::resize(unsigned int w, unsigned int h) {
 //************************************* Player *************************************
 
 Player::Player(int x):  body(Quad({0, 0, 1}, {100, 600}, 25, 55), ""){
+
 }
 void Player::drawPlayer() {
     body.draw();

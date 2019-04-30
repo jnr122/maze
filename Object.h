@@ -54,7 +54,7 @@ public:
 };
 
 class Object {
-private:
+protected:
     /* Assume Quad includes color, center, width, height */
     Quad box;
     std::string label;

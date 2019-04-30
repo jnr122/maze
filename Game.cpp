@@ -9,6 +9,8 @@
 #include "Image.h"
 #include <iostream>
 
+#include "Enemy.h"
+
 using namespace std;
 
 GLdouble width, height;
@@ -38,6 +40,13 @@ Quad startScreen({1,0,1}, {500, 250}, 50, 30);
 Object startButton(startScreen, "Start");
 
 Image i("sonic.bmp");
+
+Quad enemyQuad({.5, 0.3, 0.2}, {500, 600}, 100, 50);
+Enemy enemy(enemyQuad, "", horizontal);
+
+Quad enemy2Quad({.8, 0.1, 0.6}, {300, 600}, 100, 50);
+Enemy enemy2(enemy2Quad, "", vertical);
+
 
 void init() {
     width = W;
@@ -92,9 +101,13 @@ void display() {
 
     if (start) {
         floor.draw();
-        p1.drawPlayer();
+//        p1.drawPlayer();
         //i.draw();
-        startButton.draw();
+//        startButton.draw();
+        enemy.draw();
+        enemy.moveBox();
+        enemy2.draw();
+        enemy2.moveBox();
     } else {
 
         if (p1.isAlive()) {
@@ -102,6 +115,7 @@ void display() {
             obstruction.draw();
             floor.draw();
             score.draw();
+
 
         }
         if(!(p1.isAlive()) and finalScore.empty()){
