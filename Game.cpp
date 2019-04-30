@@ -15,11 +15,11 @@ GLdouble width, height;
 int play = 0;
 int wd;
 int H = 750;
-int W = 1000;
+int W = 1100;
 bool start = true;
 string finalScore = "";
 string highScore = "0";
-Quad danger({1, 0, 0}, {1500, 600}, 100, 50);
+Quad danger({1, 0, 0}, {500, 525}, 100, 50);
 Object obstruction(danger, "");
 Quad ground({0, 1, 0}, {500, 700}, 2000, 150);
 Object floor(ground, "");
@@ -95,6 +95,7 @@ void display() {
         p1.drawPlayer();
         //i.draw();
         startButton.draw();
+        obstruction.draw();
     } else {
 
         if (p1.isAlive()) {
@@ -150,25 +151,26 @@ void kbd(unsigned char key, int x, int y)
 void kbdS(int key, int x, int y) {
     switch(key) {
         case GLUT_KEY_DOWN:
-            p1.crouch();
+
             break;
         case GLUT_KEY_LEFT:
             if (p1.getBody().getLeftX()>0) {
-                p1.movePlayer(-15, 0);
+                p1.setPlayerMovement(-2,0);
                 p1.moved();
             }
             break;
         case GLUT_KEY_RIGHT:
             if (p1.getBody().getRightX()<1000) {
-                p1.movePlayer(15, 0);
+                p1.setPlayerMovement(2,0);
+                //p1.movePlayer(15, 0);
                 p1.moved();
             }
             break;
         case GLUT_KEY_UP:
             if(p1.isAlive()) {
-                p1.jump();
+                p1.setPlayerMovement(0,6);
             }
-            p1.standUp();
+            //p1.standUp();
             break;
     }
 
@@ -253,55 +255,18 @@ void mouse(int button, int state, int x, int y) {
 }
 
 void timer(int dummy) {
-    //handles player jumps
-    if(p1.isJumping()){
-        p1.movePlayer(0, -10);
-    }
-    else if(p1.getBody().getBottomY()<floor.getBox().getTopY() and p1.isCrouched()){
-        if(p1.getBody().getBottomY()<floor.getBox().getTopY() and p1.isCrouched()){
-            p1.movePlayer(0, 10);
-        }
-        if(p1.getBody().getBottomY()<floor.getBox().getTopY() and p1.isCrouched()){
-            p1.movePlayer(0, 10);
-        }
-        if(p1.getBody().getBottomY()<floor.getBox().getTopY() and p1.isCrouched()){
-            p1.movePlayer(0, 10);
-        }
-    }
-    else if(p1.getBody().getBottomY()<floor.getBox().getTopY()) {
-        p1.movePlayer(0, 10);
-    }
-    else if(p1.getBody().getBottomY()>floor.getBox().getTopY()){
-        p1.movePlayer(0,-1);
-    }
-    //increments point counter
-    if(p1.isAlive()) {
-        score.setLabel(std::to_string(std::stoi(score.getLabel()) + 1));
-        p1.setScore(score.getLabel());
-    }
-    //determines if the player touched an obstacle
-    if(p1.isTouching(obstruction)){
-        obstruction.contact();
-        p1.gotHit();
-    }
-    if(obstruction.wasTouched()){
-        obstruction.moveBox(-50,0);
-    }
-    else {
-        if(!(start)) {
-            obstruction.moveBox(-12 - (std::stoi(score.getLabel())/1000), 0);
-        }
-    }
 
-    //spawns next obstacle
-    if(obstruction.getBox().getRightX()< 0){
-        //get bonus points if the obstacle was avoided
-        if(!(obstruction.wasTouched())) {
-            score.setLabel(std::to_string(std::stoi(score.getLabel()) + 50*(1+(std::stoi(score.getLabel())/1000))));
-        }
-        obstruction.setNew();
-        obstruction.moveBox(W+100,0);
+    p1.playerMovement();
+    if(p1.getVertical()<=0) {
+        cout << 7;
+        p1.movePlayer(0, 3);
     }
+    cout<<p1.isTouching(floor);
+    cout <<p1.isTouching(obstruction)<<endl;
+    //handles player jumps
+
+
+
     glutPostRedisplay();
     glutTimerFunc(30, timer, dummy);
 }
