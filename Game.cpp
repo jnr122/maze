@@ -257,10 +257,8 @@ void mouse(int button, int state, int x, int y) {
 void timer(int dummy) {
 
     p1.playerMovement();
-    if(p1.getVertical()<=0) {
-        cout << 7;
-        p1.movePlayer(0, 3);
-    }
+
+    p1.movePlayer(0, 3);
     cout<<p1.isTouching(floor);
     cout <<p1.isTouching(obstruction)<<endl;
     //handles player jumps

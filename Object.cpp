@@ -432,7 +432,7 @@ void Player::playerMovement() {
         acceleration = 1;
     }
     if(moveY>0 and hasJump){
-        movePlayer(0,-3);
+        movePlayer(0,-6);
         moveY--;
         if(acceleration > 1){
             if(moveX > 0) {
