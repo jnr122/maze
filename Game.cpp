@@ -98,17 +98,22 @@ void display() {
         floor.draw();
         p1.drawPlayer();
         //i.draw();
-        enemy.draw();
-        enemy.moveBox();
         startButton.draw();
         obstruction.draw();
     } else {
 
         if (p1.isAlive()) {
+
             p1.drawPlayer();
             obstruction.draw();
             floor.draw();
             score.draw();
+
+            enemy.draw();
+            enemy.moveBox();
+//            if (p1.isTouching(enemy)) {
+//                // handle enemy collision
+//            }
 
         }
         if(!(p1.isAlive()) and finalScore.empty()){
@@ -266,7 +271,7 @@ void timer(int dummy) {
 
     p1.movePlayer(0, 3);
     cout<<p1.isTouching(floor);
-    cout <<p1.isTouching(obstruction)<<endl;
+    cout<<p1.isTouching(obstruction)<<endl;
     //handles player jumps
 
 
