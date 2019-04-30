@@ -177,7 +177,7 @@ void Object::setNew() {
     box.setColor(1, 0, 0);
     box.move(box.getOldX(),box.getOldY());
     box.setOld(0,0);
-    //cout << type;
+
     switch (type) {
         case 0:
             box.move(0,20);
@@ -240,8 +240,7 @@ void Object::resize(unsigned int w, unsigned int h) {
 }
 //************************************* Player *************************************
 
-Player::Player(int x):  body(Quad({0, 0, 1}, {100, 600}, 25, 55), ""){
-
+Player::Player(int x):  body(Quad({0, 0, 1}, {100, 550}, 25, 55), ""){
 }
 void Player::drawPlayer() {
     body.draw();
@@ -320,11 +319,35 @@ bool Player::isTouching(Object hazard) {
 
     // If one rectangle is on left side of other
     if (pl.x > hr.x || hl.x > pr.x) {
+        contact = false;
         return false;
     }
     // If one rectangle is above other
     if (pl.y > hr.y || hl.y > pr.y) {
+        contact = false;
         return false;
+    }
+
+    Quad p1 = body.getBox();
+    Quad obj = hazard.getBox();
+    if(obj.getTopY() == p1.getBottomY()){
+        hasJump = true;
+    }
+    if(p1.getBottomY() > obj.getTopY() and obj.getTopY()-p1.getBottomY() >= -4){
+        movePlayer(0,obj.getTopY()-p1.getBottomY());
+        contact = true;
+    }
+    if(p1.getTopY() < obj.getBottomY() and obj.getBottomY()-p1.getTopY() <= 4){
+        movePlayer(0,obj.getBottomY()-p1.getTopY());
+        contact = true;
+    }
+    if(p1.getRightX()>obj.getLeftX() and obj.getLeftX()-p1.getRightX() >= -9){
+        contact = true;
+        movePlayer(obj.getLeftX()-p1.getRightX(),0);
+    }
+    if(p1.getLeftX()<obj.getRightX() and obj.getRightX()-p1.getLeftX() <= 9){
+        contact = true;
+        movePlayer(obj.getRightX()-p1.getLeftX(),0);
     }
     return true;
 }
@@ -353,8 +376,8 @@ void Player::resetLives() {
 }
 
 void Player::resetPosition() {
-    body.getBox().move(60, 0);
-    cout << "reset";
+    body.getBox().move(500, 0);
+
 }
 
 void Player::setScore(string points){
@@ -380,4 +403,75 @@ bool Player::isCrouched() {
 }
 void Player::moved(){
         moving = true;
+}
+void Player::setPlayerMovement(int x, int y) {
+    if(moveY==0) {
+        moveY += y*acceleration;
+        if(moveX<12) {
+            moveX += x;
+        }
+    }
+}
+void Player::playerMovement() {
+    cout << "x: " << moveX << "y: " << moveY << endl;
+
+    if(moveX == 1 or moveX == -1){
+        moveX = 0;
+    }
+    if(moveX>=6 or moveX <=-6){
+        acceleration = 6;
+    }else if(moveX>=5 or moveX <=-5){
+        acceleration = 5;
+    }else if(moveX>=4 or moveX <=-4){
+        acceleration = 4;
+    }else if(moveX>=3 or moveX <=-3){
+        acceleration = 3;
+    }else if(moveX>=2 or moveX <=-2){
+        acceleration = 2;
+    }else if(moveX == 0 and moveY == 0){
+        acceleration = 1;
+    }
+    if(moveY>0 and hasJump){
+        movePlayer(0,-3);
+        moveY--;
+        if(acceleration > 1){
+            if(moveX > 0) {
+                movePlayer(3+acceleration, 0);
+            }else{
+                movePlayer(-3-acceleration, 0);
+            }
+        }
+        if(moveY == 0){
+            moveY = (-6*acceleration)-1;
+            hasJump = false;
+        }
+    }else if(moveY < 0){
+        moveY++;
+
+        if(contact){
+            moveX = 0;
+            acceleration = 0;
+        }
+        if(acceleration > 1){
+            if(moveX > 0) {
+                movePlayer(3+acceleration, 0);
+            }else{
+                movePlayer(-3-acceleration, 0);
+            }
+        }
+        if(moveY == 0){
+            moveX = moveX/2;
+        }
+    }
+    else if(moveX > 0){
+        moveX-=2;
+        movePlayer(3+acceleration,0);
+    }else if(moveX < 0){
+        moveX+=2;
+        movePlayer(-3-acceleration,0);
+    }
+}
+
+int Player::getVertical() {
+    return moveY;
 }

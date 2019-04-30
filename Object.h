@@ -112,6 +112,10 @@ private:
     int extraLives = 2;
     std::string score = "0";
     bool moving = false;
+    bool contact = false;
+    int moveX = 0;
+    int moveY= 0;
+    int acceleration = 1;
 public:
 
     Player(int x);
@@ -130,7 +134,7 @@ public:
 
     std::string getScore();
 
-    bool isTouching(Object hazard);
+    bool isTouching(Object object);
 
     void gotHit();
 
@@ -149,5 +153,11 @@ public:
     void standUp();
 
     bool isCrouched();
+
+    void playerMovement();
+
+    void setPlayerMovement(int x, int y);
+
+    int getVertical();
 };
 #endif //GRAPHICS_STARTER_BUTTON_H
