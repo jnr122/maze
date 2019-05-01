@@ -22,6 +22,10 @@ string finalScore = "";
 string highScore = "0";
 Quad danger({1, 0, 0}, {700, 575}, 100, 50);
 Object obstruction(danger, "");
+Quad danger2({1, 0, 0}, {500, 490}, 100, 50);
+Object obstruction2(danger2, "");
+Quad danger3({1, 0, 0}, {700, 425}, 100, 50);
+Object obstruction3(danger3, "");
 Quad ground({0, 1, 0}, {500, 700}, 2000, 150);
 Object floor(ground, "");
 Quad board({1, 1, 1}, {900, 50}, 200, 100);
@@ -41,7 +45,7 @@ Object startButton(startScreen, "Start");
 Quad enemyQ({.7,.3,.4}, {350, 610}, 50, 30);
 Enemy enemy(enemyQ, "", horizontal);
 
-Image i("sonic.bmp");
+
 
 void init() {
     width = W;
@@ -101,6 +105,8 @@ void display() {
         enemy.draw();
         startButton.draw();
         obstruction.draw();
+        obstruction2.draw();
+        obstruction3.draw();
     } else {
 
         if (p1.isAlive()) {
@@ -245,10 +251,13 @@ void mouse(int button, int state, int x, int y) {
 void timer(int dummy) {
 
     p1.playerMovement();
-    p1.movePlayer(0, 3);
     p1.reset();
-    cout<< p1.isTouching(obstruction)<<endl;
-    cout<<p1.isTouching(floor);
+    p1.movePlayer(0, 3);
+    p1.isTouching(floor);
+    p1.isTouching(obstruction);
+    p1.isTouching(obstruction2);
+    p1.isTouching(obstruction3);
+
     enemy.moveBox();
     //handles player jumps
     glutPostRedisplay();

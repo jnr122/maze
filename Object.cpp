@@ -240,7 +240,7 @@ void Object::resize(unsigned int w, unsigned int h) {
 }
 //************************************* Player *************************************
 
-Player::Player(int x):  body(Quad({0, 0, 1}, {100, 550}, 25, 55), ""){
+Player::Player(int x):  body(Quad({0, 0, 1}, {100, 550}, 30, 30), ""){
 }
 void Player::drawPlayer() {
     body.draw();
@@ -284,7 +284,6 @@ bool Player::isTouching(Object hazard) {
 
     if(hl.y == pr.y-3 and pr.x > hl.x and pl.x < hr.x){
         contact = true;
-        cout <<7;
         hasJump = true;
     }
     // If one rectangle is on left side of other
@@ -292,11 +291,17 @@ bool Player::isTouching(Object hazard) {
         return false;
     }
     // If one rectangle is above other
-    if (pl.y >= hr.y || hl.y >= pr.y) {
+    if (pl.y >= hr.y || hl.y >= pr.y  ) {
+        return false;
+    }else if(pr.y-3 <= hl.y){
+        if(pr.y > hl.y and hl.y-pr.y >= -4){
+            movePlayer(0,hl.y-pr.y);
+        }
+        if(pl.y < hr.y and hr.y-pl.y <= 4){
+            movePlayer(0,hr.y-pl.y);
+        }
         return false;
     }
-
-
 
     if(pr.y > hl.y and hl.y-pr.y >= -4){
         movePlayer(0,hl.y-pr.y);
@@ -355,7 +360,7 @@ int Player::getLives() {
 
 void Player::setPlayerMovement(int x, int y) {
     if(moveY==0 and acceleration > 0) {
-        cout <<"accel: " <<acceleration;
+        //cout <<"accel: " <<acceleration;
         moveY += y*30;
     }
     if(moveX<12 and contact) {
@@ -365,8 +370,7 @@ void Player::setPlayerMovement(int x, int y) {
     }
 }
 void Player::playerMovement() {
-    cout << "x: " << moveX << "y: " << moveY << endl;
-
+    //cout << "x: " << moveX << "y: " << moveY << endl;
     if(moveX == 1 or moveX == -1){
         moveX = 0;
         moveY = 0;
