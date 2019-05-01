@@ -18,6 +18,8 @@ public:
 
     void draw() const;
 
+    void addObject(Object *object);
+
 };
 
 

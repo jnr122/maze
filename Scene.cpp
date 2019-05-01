@@ -13,3 +13,7 @@ void Scene::draw() const {
         obj->draw();
     }
 }
+
+void Scene::addObject(Object *object){
+    objects.push_back(object);
+}
