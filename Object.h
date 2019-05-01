@@ -104,14 +104,11 @@ class Player{
 private:
     /* Assume Quad includes color, center, width, height */
     Object body;
-    bool inAir = false;
     bool hasJump = true;
     bool crouched = false;
-    int jumpLeft = 0;
     int lives = 3;
     int extraLives = 2;
     std::string score = "0";
-    bool moving = false;
     bool contact = false;
     int moveX = 0;
     int moveY= 0;
@@ -125,14 +122,10 @@ public:
     void drawPlayer();
 
     void movePlayer(int x, int y);
-
-    void jump();
+    void reset();
 
     Quad getBody();
 
-    bool isJumping();
-
-    std::string getScore();
 
     bool isTouching(Object object);
 
@@ -148,11 +141,6 @@ public:
 
     int getLives();
 
-    void crouch();
-
-    void standUp();
-
-    bool isCrouched();
 
     void playerMovement();
 

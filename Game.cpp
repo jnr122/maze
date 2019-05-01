@@ -20,7 +20,7 @@ int W = 1100;
 bool start = true;
 string finalScore = "";
 string highScore = "0";
-Quad danger({1, 0, 0}, {500, 550}, 100, 50);
+Quad danger({1, 0, 0}, {700, 575}, 100, 50);
 Object obstruction(danger, "");
 Quad ground({0, 1, 0}, {500, 700}, 2000, 150);
 Object floor(ground, "");
@@ -99,7 +99,6 @@ void display() {
         p1.drawPlayer();
         //i.draw();
         enemy.draw();
-        enemy.moveBox();
         startButton.draw();
         obstruction.draw();
     } else {
@@ -174,7 +173,7 @@ void kbdS(int key, int x, int y) {
             break;
         case GLUT_KEY_UP:
             if(p1.isAlive()) {
-                p1.setPlayerMovement(0,6);
+                p1.setPlayerMovement(0,1);
             }
             //p1.standUp();
             break;
@@ -230,7 +229,6 @@ void mouse(int button, int state, int x, int y) {
             startScreen.move(50, 0);
             startScreen.setColor(1,1,1);
             startButton.pressDown();
-            p1.setScore("0");
             start = false;
 
         } else {
@@ -248,8 +246,10 @@ void timer(int dummy) {
 
     p1.playerMovement();
     p1.movePlayer(0, 3);
-    p1.isTouching(floor);
-    //p1.isTouching(obstruction);
+    p1.reset();
+    cout<< p1.isTouching(obstruction)<<endl;
+    cout<<p1.isTouching(floor);
+    enemy.moveBox();
     //handles player jumps
     glutPostRedisplay();
     glutTimerFunc(30, timer, dummy);

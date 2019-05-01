@@ -256,42 +256,8 @@ void Player::movePlayer(int x, int y) {
     body.moveBox(x,y);
 }
 
-void Player::jump() {
-    if(moving){
-        body.moveBox(30, 0);
-        moving = false;
-    }
-    if ((body.getBox().getBottomY()>= 625)){
-        hasJump = true;
-        inAir = false;
-        jumpLeft = 70;
-    }
-    if(inAir == false){
-        body.moveBox(0,-30);
-        inAir = true;
-    }
-    else if( inAir == true and hasJump == true){
-        hasJump = false;
-        body.moveBox(0,-30);
-        jumpLeft+=70;
-    }
 
-}
 
-bool Player::isJumping() {
-
-    if(jumpLeft == 0){
-        return false;
-    }
-    else{
-        jumpLeft-= 10;
-        return true;
-    }
-}
-
-string Player::getScore() {
-    return score;
-}
 
 void Player::gotHit() {
     lives--;
@@ -305,10 +271,10 @@ bool Player::isTouching(Object hazard) {
     }
     point pl;
     pl.x = body.getBox().getLeftX();
-    pl.y = body.getBox().getTopY();
+    pl.y = (body.getBox().getTopY());
     point pr;
     pr.x = body.getBox().getRightX();
-    pr.y = body.getBox().getBottomY();
+    pr.y = (body.getBox().getBottomY());
     point hl;
     hl.x = hazard.getBox().getLeftX();
     hl.y = hazard.getBox().getTopY();
@@ -316,40 +282,36 @@ bool Player::isTouching(Object hazard) {
     hr.x = hazard.getBox().getRightX();
     hr.y = hazard.getBox().getBottomY();
 
-
+    if(hl.y == pr.y-3 and pr.x > hl.x and pl.x < hr.x){
+        contact = true;
+        cout <<7;
+        hasJump = true;
+    }
     // If one rectangle is on left side of other
-    if (pl.x > hr.x || hl.x > pr.x) {
-        contact = false;
+    if (pl.x >= hr.x || hl.x >= pr.x) {
         return false;
     }
     // If one rectangle is above other
-    if (pl.y > hr.y || hl.y > pr.y) {
-        contact = false;
+    if (pl.y >= hr.y || hl.y >= pr.y) {
         return false;
     }
 
-    Quad p1 = body.getBox();
-    Quad obj = hazard.getBox();
 
-    if(p1.getBottomY() > obj.getTopY() and obj.getTopY()-p1.getBottomY() >= -4){
-        movePlayer(0,obj.getTopY()-p1.getBottomY());
-        contact = true;
+
+    if(pr.y > hl.y and hl.y-pr.y >= -4){
+        movePlayer(0,hl.y-pr.y);
     }
-    if(p1.getTopY() < obj.getBottomY() and obj.getBottomY()-p1.getTopY() <= 4){
-        movePlayer(0,obj.getBottomY()-p1.getTopY());
-        contact = true;
+    if(pl.y < hr.y and hr.y-pl.y <= 4){
+        movePlayer(0,hr.y-pl.y);
     }
-    if(p1.getRightX()>obj.getLeftX() and obj.getLeftX()-p1.getRightX() >= -9){
-        contact = true;
-        movePlayer(obj.getLeftX()-p1.getRightX(),0);
+    if(pr.x>hl.x and hl.x-pr.x >= -7){
+        movePlayer(hl.x-pr.x,0);
     }
-    if(p1.getLeftX()<obj.getRightX() and obj.getRightX()-p1.getLeftX() <= 9){
-        contact = true;
-        movePlayer(obj.getRightX()-p1.getLeftX(),0);
+    if(pl.x<hr.x and hr.x-pl.x <= 7){
+        movePlayer(hr.x-pl.x,0);
     }
-    if(obj.getTopY() == p1.getBottomY()){
-        hasJump = true;
-    }
+
+
     return true;
 }
 
@@ -381,37 +343,25 @@ void Player::resetPosition() {
 
 }
 
-void Player::setScore(string points){
-    score = points;
+void Player::reset(){
+    contact=false;
 }
 
 int Player::getLives() {
     return lives;
 }
 
-void Player::crouch() {
-    moving = false;
-    body.resize(50,25);
-    crouched = true;
-}
-void Player::standUp() {
-    body.resize(25,50);
-    crouched = false;
-}
-bool Player::isCrouched() {
-    ;
-    return crouched;
-}
-void Player::moved(){
-        moving = true;
-}
+
+
 void Player::setPlayerMovement(int x, int y) {
     if(moveY==0 and acceleration > 0) {
         cout <<"accel: " <<acceleration;
-        moveY += y*acceleration;
-        if(moveX<12) {
-            moveX += x;
-        }
+        moveY += y*30;
+    }
+    if(moveX<12 and contact) {
+        moveX += x;
+    }else if(moveX<12){
+        moveX = x;
     }
 }
 void Player::playerMovement() {
@@ -421,13 +371,7 @@ void Player::playerMovement() {
         moveX = 0;
         moveY = 0;
     }
-    if(moveX>=6 or moveX <=-6){
-        acceleration = 6;
-    }else if(moveX>=5 or moveX <=-5){
-        acceleration = 5;
-    }else if(moveX>=4 or moveX <=-4){
-        acceleration = 4;
-    }else if(moveX>=3 or moveX <=-3){
+    if(moveX>=3 or moveX <=-3){
         acceleration = 3;
     }else if(moveX>=2 or moveX <=-2){
         acceleration = 2;
@@ -445,33 +389,21 @@ void Player::playerMovement() {
             }
         }
         if(moveY == 0){
-            moveY = (-6*acceleration)-1;
             hasJump = false;
         }
-    }else if(moveY < 0){
-        moveY++;
-        if(contact){
-            moveX = 0;
-            acceleration = 0;
-        }
-        if(acceleration > 1){
-            if(moveX > 0) {
-                movePlayer(3+acceleration, 0);
-            }else if(moveX < 0){
-                movePlayer(-3-acceleration, 0);
-            }
-        }
-        if(moveY == 0){
-            moveX = moveX/2;
-            //acceleration = 0;
-        }
+    }else if(moveY>0 and moveX ==0 and !hasJump){
+        moveY=0;
     }
     else if(moveX > 0){
-        moveX-=2;
-        movePlayer(3+acceleration,0);
+        if(contact){
+            moveX-=2;
+        }
+        movePlayer(4+acceleration,0);
     }else if(moveX < 0){
-        moveX+=2;
-        movePlayer(-3-acceleration,0);
+        if(contact) {
+            moveX += 2;
+        }
+        movePlayer(-4-acceleration,0);
     }
 }
 
