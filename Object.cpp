@@ -8,7 +8,7 @@ using namespace std;
 /********** Quad *************/
 
 Quad::Quad() {
-    fill = {0, 0, 0};
+    fill = {0, 0, 1};
     center = {0, 0};
     width = 50;
     height = 50;
@@ -129,7 +129,7 @@ Object::Object(Quad box, string label) {
 
 void Object::draw() {
     box.draw();
-    glColor3f(0, 0, 0);
+    glColor3f(0, 0, 1);
     glRasterPos2i(box.getCenterX()-(4*label.length()), box.getCenterY()+7);
     for (char &letter : label) {
         glutBitmapCharacter(GLUT_BITMAP_8_BY_13, letter);
@@ -240,10 +240,19 @@ void Object::resize(unsigned int w, unsigned int h) {
 }
 //************************************* Player *************************************
 
-Player::Player(int x):  body(Quad({0, 0, 1}, {100, 550}, 30, 30), ""){
+Player::Player(int x):  body(Quad({0, 0, 0}, {100, 550}, 25, 27), ""),
+                        head(Quad({0, 0, 0}, {101, 537}, 30, 10), "o"),
+                        legs(Quad({0, 0, 0}, {101, 555}, 30, 10), "||"),
+                        chest(Quad({0, 0, 0}, {101, 547}, 30, 5), "/0\\")
+{
 }
 void Player::drawPlayer() {
     body.draw();
+    legs.draw();
+    chest.draw();
+    head.draw();
+
+
     glColor3f(0, 0, 0);
 
 }
@@ -254,6 +263,9 @@ Quad Player::getBody() {
 
 void Player::movePlayer(int x, int y) {
     body.moveBox(x,y);
+    head.moveBox(x,y);
+    legs.moveBox(x,y);
+    chest.moveBox(x,y);
 }
 
 

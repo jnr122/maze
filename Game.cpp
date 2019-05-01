@@ -107,6 +107,12 @@ void display() {
         obstruction.draw();
         obstruction2.draw();
         obstruction3.draw();
+        //**** lives *****
+        for(int i = 0; i < p1.getLives(); i++){
+            Quad life({1, 0, 0}, {50+50*i, 50}, 50, 50);
+            Object liveCounter(life, "");
+            liveCounter.draw();
+        }
     } else {
 
         if (p1.isAlive()) {
@@ -135,12 +141,7 @@ void display() {
             restartButton.draw();
 
         }
-        //**** lives *****
-        for(int i = 0; i < p1.getLives(); i++){
-            Quad life({1, 0, 0}, {50+50*i, 50}, 50, 50);
-            Object liveCounter(life, "");
-            liveCounter.draw();
-        }
+
 
     }
 
@@ -190,11 +191,6 @@ void kbdS(int key, int x, int y) {
 
 void cursor(int x, int y) {
 
-    if (obstruction.isOverlapping(x, y)) {
-        obstruction.hover();
-    } else {
-        obstruction.release();
-    }
 
     if (restartButton.isOverlapping(x, y)) {
         restartButton.hover();
@@ -216,17 +212,6 @@ void cursor(int x, int y) {
 // button will be GLUT_LEFT_BUTTON or GLUT_RIGHT_BUTTON
 // state will be GLUT_UP or GLUT_DOWN
 void mouse(int button, int state, int x, int y) {
-    if (state == GLUT_DOWN &&
-        button == GLUT_LEFT_BUTTON &&
-        obstruction.isOverlapping(x, y)) {
-        obstruction.pressDown();
-    } else {
-        obstruction.release();
-    }
-
-    if (state == GLUT_UP &&
-        button == GLUT_LEFT_BUTTON ) {
-    }
 
     if (start) {
         if (state == GLUT_DOWN &&

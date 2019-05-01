@@ -103,9 +103,11 @@ public:
 class Player{
 private:
     /* Assume Quad includes color, center, width, height */
+    Object head;
     Object body;
+    Object legs;
+    Object chest;
     bool hasJump = true;
-    bool crouched = false;
     int lives = 3;
     int extraLives = 2;
     std::string score = "0";
