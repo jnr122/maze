@@ -372,17 +372,17 @@ int Player::getLives() {
 
 void Player::setPlayerMovement(int x, int y) {
     if(moveY==0 and acceleration > 0) {
-        //cout <<"accel: " <<acceleration;
+        cout <<"accel: " <<acceleration;
         moveY += y*30;
     }
-    if(moveX<12 and contact) {
+    if(moveX<12 and moveX>-12 and contact) {
         moveX += x;
-    }else if(moveX<12){
+    }else if(moveX<12 and moveX>-12){
         moveX = x;
     }
 }
 void Player::playerMovement() {
-    //cout << "x: " << moveX << "y: " << moveY << endl;
+    cout << "x: " << moveX << "y: " << moveY << endl;
     if(moveX == 1 or moveX == -1){
         moveX = 0;
         moveY = 0;
