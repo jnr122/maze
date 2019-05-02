@@ -9,6 +9,7 @@
 #include "Image.h"
 #include <iostream>
 #include "Enemy.h"
+#include "Scene.h"
 
 using namespace std;
 
@@ -22,21 +23,26 @@ int W = 1100;
 bool start = true;
 string finalScore = "";
 string highScore = "0";
-Quad danger({1, 0, 0}, {700, 575}, 100, 50);
-Object obstruction(danger, "");
-Quad danger2({1, 0, 0}, {500, 490}, 100, 50);
-Object obstruction2(danger2, "");
-Quad danger3({1, 0, 0}, {700, 425}, 100, 50);
-Object obstruction3(danger3, "");
-Quad ground({0, 1, 0}, {500, 700}, 2000, 150);
-Object floor(ground, "");
-Quad board({1, 1, 1}, {900, 50}, 200, 100);
-Object score(board, "0");
+
+//
+//
+//Quad danger({1, 0, 0}, {700, 575}, 50, 50);
+//Object obstruction(danger, "");
+//Quad danger2({1, 0, 0}, {500, 490}, 100, 50);
+//Object obstruction2(danger2, "");
+//Quad danger3({1, 0, 0}, {700, 425}, 100, 50);
+//Object obstruction3(danger3, "");
+//Quad ground({0, 1, 0}, {500, 700}, 2000, 150);
+//Object floor(ground, "");
+//Quad board({1, 1, 1}, {900, 50}, 200, 100);
+//Object score(board, "0");
 Player p1(5);
-Quad screen({1, 1, 1}, {500, 250}, 1000, 1000);
-Object gameOver(screen, "");
-Quad highScoreBox({1,1,1}, {500, 300}, 100, 20);
-Object highScoreDisplay(highScoreBox, "");
+//Quad screen({1, 1, 1}, {500, 250}, 1000, 1000);
+//Object gameOver(screen, "");
+//Quad highScoreBox({1,1,1}, {500, 300}, 100, 20);
+//Object highScoreDisplay(highScoreBox, "");
+
+Scene sc("testscene.txt");
 
 Quad restart({0.5,.8,.2}, {500, 350}, 100, 30);
 Object restartButton(restart, "Restart");
@@ -101,14 +107,15 @@ void display() {
 
 
     if (start) {
-        floor.draw();
         p1.drawPlayer();
-        //i.draw();
-        enemy.draw();
-        startButton.draw();
-        obstruction.draw();
-        obstruction2.draw();
-        obstruction3.draw();
+        sc.draw();
+//        floor.draw();
+//        //i.draw();
+//        enemy.draw();
+//        startButton.draw();
+//        obstruction.draw();
+//        obstruction2.draw();
+//        obstruction3.draw();
         //**** lives *****
         for(int i = 0; i < p1.getLives(); i++){
             Quad life({1, 0, 0}, {10+10*i, 15}, 10, 15);
@@ -120,26 +127,26 @@ void display() {
         if (p1.isAlive()) {
             p1.drawPlayer();
             //obstruction.draw();
-            floor.draw();
-            score.draw();
+//            floor.draw();
+//            score.draw();
 
         }
         if(!(p1.isAlive()) and finalScore.empty()){
-            finalScore =  score.getLabel();
+//            finalScore =  score.getLabel();
             play = 1;
         }
         if(!(p1.isAlive())) {
             if (play == 1) {
 
-                gameOver.setLabel("Game Over, Score: " + finalScore);
+//                gameOver.setLabel("Game Over, Score: " + finalScore);
                 if ((std::stoi(finalScore)) > std::stoi(highScore)) {
                     highScore = finalScore;
                 }
-                highScoreDisplay.setLabel("High score: " + highScore);
+//                highScoreDisplay.setLabel("High score: " + highScore);
                 play = 0;
             }
-            gameOver.draw();
-            highScoreDisplay.draw();
+//            gameOver.draw();
+//            highScoreDisplay.draw();
             restartButton.draw();
 
         }
@@ -246,10 +253,15 @@ void timer(int dummy) {
     p1.playerMovement();
     p1.reset();
     p1.movePlayer(0, 3);
-    p1.isTouching(floor);
-    p1.isTouching(obstruction);
-    p1.isTouching(obstruction2);
-    p1.isTouching(obstruction3);
+
+    for (int i = 0; i < sc.getObjects().size(); i++) {
+            p1.isTouching(*sc.getObjects()[i]);
+    }
+
+//    p1.isTouching(floor);
+//    p1.isTouching(obstruction);
+//    p1.isTouching(obstruction2);
+//    p1.isTouching(obstruction3);
     p1.isTouching(enemy);
     enemy.moveBox();
     //handles player jumps

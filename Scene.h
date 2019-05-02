@@ -6,23 +6,26 @@
 #define JR_BA_BT_GRAPHICS_SCENE_H
 
 #include "Object.h"
+#include <memory>
 #include <vector>
 #include <iostream>
 #include <fstream>
-#incldue <string>
+#include <ostream>
 
+using namespace std;
 
 class Scene {
 private:
-    std::vector<Object*> objects;
+    std::vector<shared_ptr<Object>> objects;
 public:
-    Scene(String filename);
+    Scene(string filename);
 
-    Scene(std::vector<Object*> objects);
+    Scene(std::vector<shared_ptr<Object>> objects);
 
     void draw() const;
 
-    void addObject(Object *object);
+    const vector<shared_ptr<Object>> &getObjects() const;
+//    void addObject(Object *object);
 
 };
 

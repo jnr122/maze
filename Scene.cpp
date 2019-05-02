@@ -7,39 +7,49 @@
 using std::string;
 using std::vector;
 
-Scene::Scene(std::vector<Object*> objects) {
-    this->objects = objects;
+Scene::Scene(std::vector<shared_ptr<Object>> objects) {
+//    this->objects = objects;
 }
 
-Scene::Scene(String filename) {
+Scene::Scene(string fileName) {
     int y = 0;
+    string line;
+    auto objects = vector<shared_ptr<Object>>();
 
-    this->objects = vector<Object*>;
-
-    ofstream file;
+    ifstream file;
     file.open(fileName);
 
-    while (getline(file, line)) {
+    while (file) {
+        getline(file, line);
         for(int x = 0; x < line.length(); ++x) {
-            switch(line[x])
+            switch(line[x]) {
                 case '0':
                     break;
                 case '1':
-                    Quad b({1, 1, 1}, {(x * 50 + 25),(y * 50 + 25) }, 50, 50);
-                    Object block(b, "")
-                    this->objects.push_back(block)
+                    Quad b({0, .5, 0}, {(x * 50 + 25), (y * 50 + 25)}, 50, 50);
+                    auto block = make_shared<Object>(b, "");
+                    objects.push_back(block);
                     break;
+            }
         }
         ++y;
     }
+    this->objects = objects;
 }
 
 void Scene::draw() const {
-    for(Object *obj : objects){
-        obj->draw();
+    for (int i = 0; i < objects.size(); i++) {
+        objects[i]->draw();
     }
+//    for(shared_ptr<Object> & obj : objects){
+//        obj->draw();
+//    }
 }
 
-void Scene::addObject(Object *object){
-    objects.push_back(object);
+const vector<shared_ptr<Object>> &Scene::getObjects() const {
+    return objects;
 }
+
+//void Scene::addObject(Object *object){
+//    objects.push_back(object);
+//}
