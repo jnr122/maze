@@ -30,6 +30,7 @@ Scene::Scene(String filename) {
                     this->objects.push_back(block)
                     break;
         }
+        ++y;
     }
 }
 
