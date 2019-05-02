@@ -13,6 +13,8 @@
 using namespace std;
 
 GLdouble width, height;
+
+int screen = 0;
 int play = 0;
 int wd;
 int H = 750;
@@ -142,9 +144,10 @@ void display() {
 
         }
 
-
     }
-
+    if(p1.getBody().getRightX() == width){
+        screen++;
+    }
     glFlush();  // Render now
 }
 
