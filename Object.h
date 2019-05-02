@@ -60,6 +60,7 @@ protected:
     std::string label;
     color originalFill, hoverFill, pressFill;
     bool touched = false;
+    std::string type;
 public:
 
     Object(Quad box, std::string label);
@@ -98,6 +99,8 @@ public:
     void contact();
 
     void resize(unsigned int w, unsigned int h);
+
+    std::string getType();
 };
 
 class Player{
@@ -108,7 +111,7 @@ private:
     Object legs;
     Object chest;
     bool hasJump = true;
-    int lives = 3;
+    int lives = 50;
     int extraLives = 2;
     std::string score = "0";
     bool contact = false;

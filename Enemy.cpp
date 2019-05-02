@@ -14,6 +14,7 @@ using namespace std;
 Enemy::Enemy(Quad box, string label, movement direction) : Object(box, label), direction(direction) {
     movingLeft = false;
     distance = 0;
+    type = "E";
 }
 
 void Enemy::draw() {
