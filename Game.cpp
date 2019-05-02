@@ -189,6 +189,11 @@ void kbdS(int key, int x, int y) {
     glutPostRedisplay();
 }
 
+//void keyUp(unsigned char key, int x, int y) {
+
+//}
+
+
 void cursor(int x, int y) {
 
 

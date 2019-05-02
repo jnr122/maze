@@ -7,12 +7,16 @@
 
 #include "Object.h"
 #include <vector>
+#include <iostream>
+#include <fstream>
+#incldue <string>
 
 
 class Scene {
 private:
     std::vector<Object*> objects;
 public:
+    Scene(String filename);
 
     Scene(std::vector<Object*> objects);
 
