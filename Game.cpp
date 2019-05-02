@@ -109,7 +109,7 @@ void display() {
         obstruction3.draw();
         //**** lives *****
         for(int i = 0; i < p1.getLives(); i++){
-            Quad life({1, 0, 0}, {50+50*i, 50}, 50, 50);
+            Quad life({1, 0, 0}, {10+10*i, 15}, 10, 15);
             Object liveCounter(life, "");
             liveCounter.draw();
         }
@@ -242,7 +242,7 @@ void timer(int dummy) {
     p1.isTouching(obstruction);
     p1.isTouching(obstruction2);
     p1.isTouching(obstruction3);
-
+    p1.isTouching(enemy);
     enemy.moveBox();
     //handles player jumps
     glutPostRedisplay();

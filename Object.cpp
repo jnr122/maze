@@ -238,6 +238,10 @@ void Object::contact() {
 void Object::resize(unsigned int w, unsigned int h) {
     box.resize(w,h);
 }
+
+std::string Object::getType() {
+    return type;
+}
 //************************************* Player *************************************
 
 Player::Player(int x):  body(Quad({0, 0, 0}, {100, 550}, 25, 27), ""),
@@ -293,7 +297,17 @@ bool Player::isTouching(Object hazard) {
     point hr;
     hr.x = hazard.getBox().getRightX();
     hr.y = hazard.getBox().getBottomY();
-
+    if(hazard.getType() == "E"){
+        if (pl.x > hr.x || hl.x > pr.x) {
+            return false;
+        }
+        // If one rectangle is above other
+        if (pl.y > hr.y || hl.y > pr.y  ) {
+            return false;
+        }
+        gotHit();
+        return true;
+    }
     if(hl.y == pr.y-3 and pr.x > hl.x and pl.x < hr.x){
         contact = true;
         hasJump = true;
@@ -314,7 +328,6 @@ bool Player::isTouching(Object hazard) {
         }
         return false;
     }
-
     if(pr.y > hl.y and hl.y-pr.y >= -4){
         movePlayer(0,hl.y-pr.y);
     }
