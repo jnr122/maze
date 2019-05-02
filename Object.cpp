@@ -129,7 +129,7 @@ Object::Object(Quad box, string label) {
 
 void Object::draw() {
     box.draw();
-    glColor3f(0, 0, 1);
+    glColor3f(1, 1, 1);
     glRasterPos2i(box.getCenterX()-(4*label.length()), box.getCenterY()+7);
     for (char &letter : label) {
         glutBitmapCharacter(GLUT_BITMAP_8_BY_13, letter);
