@@ -6,6 +6,7 @@
 #define JR_BA_BT_GRAPHICS_SCENE_H
 
 #include "Object.h"
+#include "Enemy.h"
 #include <memory>
 #include <vector>
 #include <iostream>

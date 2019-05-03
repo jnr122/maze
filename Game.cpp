@@ -87,24 +87,6 @@ void display() {
      * Draw here
      */
 
-    vector<Shapes *> vec;
-
-    vec.push_back(new Circle(Point(700, 200), Color(238,238,0), 25));
-    vec.push_back(new  Rect(Point(700, 160), Color(238,238,0), 4, 10));
-    vec.push_back(new Rect(Point(700, 240), Color(238,238,0), 4, 10));
-    vec.push_back(new Rect(Point(740, 200), Color(238,238,0), 10, 4));
-    vec.push_back(new Rect(Point(660, 200), Color(238,238,0), 10, 4));
-
-
-
-    for (int i = 0; i < vec.size(); i++) {
-        vec[i]->draw();
-
-        delete vec[i];
-        vec[i] = nullptr;
-
-    }
-
 
     if (start) {
         p1.drawPlayer();

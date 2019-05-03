@@ -25,11 +25,18 @@ Scene::Scene(string fileName) {
             switch(line[x]) {
                 case '0':
                     break;
-                case '1':
+                case '1': {
                     Quad b({0, .5, 0}, {(x * 45 + 25), (y * 45 + 25)}, 45, 45);
                     auto block = make_shared<Object>(b, "");
                     objects.push_back(block);
                     break;
+                }
+                case '2': {
+                    Quad eH({.5, 0, 0}, {(x * 45 + 25), (y * 45 + 25)}, 45, 45);
+                    auto enemyHorizontal = make_shared<Enemy>(eH, "", horizontal);
+                    objects.push_back(enemyHorizontal);
+                    break;
+                }
             }
         }
         ++y;
