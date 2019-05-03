@@ -23,7 +23,7 @@ public:
     /* Execute whatever the Object is supposed to do */
     virtual void click(std::function<void()> callback);
 
-    void moveBox();
+    virtual void moveBox(int x, int y) override;
 };
 
 #endif //JR_BA_BT_GRAPHICS_ENEMY_H

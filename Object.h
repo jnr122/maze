@@ -83,7 +83,7 @@ public:
     /* Execute whatever the Object is supposed to do */
     virtual void click(std::function<void()> callback);
 
-    void moveBox(int x, int y);
+    virtual void moveBox(int x, int y);
 
     void moveCenter(int newX, int newY);
 
