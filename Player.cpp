@@ -8,7 +8,6 @@
 
 
 
-
 Player::Player(int x):  body(Quad({0, 0, 0}, {100, 550}, 25, 27), ""),
                         head(Quad({0, 0, 0}, {101, 537}, 30, 10), "o"),
                         legs(Quad({0, 0, 0}, {101, 555}, 30, 10), "||"),
@@ -43,6 +42,7 @@ void Player::setCenter() {
     head.moveBox(-5,head.getBox().getCenterY());
     legs.moveBox(-5,legs.getBox().getCenterY());
     chest.moveBox(-5,chest.getBox().getCenterY());
+    std::cout << "here";
 
 }
 
