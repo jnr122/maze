@@ -88,6 +88,11 @@ void Quad::setColor(double red, double green, double blue) {
 void Quad::setColor(color fill) {
     this->fill = fill;
 }
+
+void Quad::setCenter(point center) {
+    this->center = center;
+}
+
 void Quad::setOld(int x, int y) {
     oldX = x;
     oldY = y;
@@ -272,7 +277,15 @@ void Player::movePlayer(int x, int y) {
     chest.moveBox(x,y);
 }
 
+void Player::setCenter() {
 
+    body.moveBox(-5,body.getBox().getCenterY());
+    head.moveBox(-5,head.getBox().getCenterY());
+    legs.moveBox(-5,legs.getBox().getCenterY());
+    chest.moveBox(-5,chest.getBox().getCenterY());
+    cout << "here";
+
+}
 
 
 void Player::gotHit() {

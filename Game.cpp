@@ -174,7 +174,9 @@ void kbdS(int key, int x, int y) {
                 //p1.movePlayer(15, 0);
                 //p1.moved();
             } else if (sceneIndex < numScenes - 1) {
+                p1.setCenter();
                 ++sceneIndex;
+
             }
             break;
         case GLUT_KEY_UP:

@@ -46,6 +46,7 @@ public:
 
     void setColor(double red, double green, double blue);
     void setColor(color fill);
+    void setCenter(point center);
     void setOld(int x, int y);
     void move(int deltaX, int deltaY);
     void resize(unsigned int width, unsigned int height);
@@ -127,6 +128,8 @@ public:
     void drawPlayer();
 
     void movePlayer(int x, int y);
+    void setCenter();
+
     void reset();
 
     Quad getBody();
