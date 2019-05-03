@@ -321,7 +321,7 @@ bool Player::isTouching(Object hazard) {
         gotHit();
         return true;
     }
-    if(hl.y == pr.y-3 and pr.x > hl.x and pl.x < hr.x){
+    if((hl.y == pr.y-3 ) and pr.x > hl.x and pl.x < hr.x){
         contact = true;
         hasJump = true;
     }
@@ -332,7 +332,7 @@ bool Player::isTouching(Object hazard) {
     // If one rectangle is above other
     if (pl.y >= hr.y || hl.y >= pr.y  ) {
         return false;
-    }else if(pr.y-3 <= hl.y){
+    }else if(pr.y-3 <= hl.y or pl.y+3 >= hr.y){
         if(pr.y > hl.y and hl.y-pr.y >= -4){
             movePlayer(0,hl.y-pr.y);
         }
