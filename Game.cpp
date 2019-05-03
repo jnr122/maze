@@ -42,7 +42,7 @@ Player p1(5);
 //Quad highScoreBox({1,1,1}, {500, 300}, 100, 20);
 //Object highScoreDisplay(highScoreBox, "");
 
-Scene sc("testscene.txt");
+Scene sc("../levels/testscene.txt");
 
 Quad restart({0.5,.8,.2}, {500, 350}, 100, 30);
 Object restartButton(restart, "Restart");
