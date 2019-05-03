@@ -10,8 +10,8 @@ using namespace std;
 Quad::Quad() {
     fill = {0, 0, 1};
     center = {0, 0};
-    width = 50;
-    height = 50;
+    width = 45;
+    height = 45;
 }
 
 Quad::Quad(color fill, point center, unsigned int width, unsigned int height) {

@@ -18,8 +18,10 @@ GLdouble width, height;
 int screen = 0;
 int play = 0;
 int wd;
-int H = 750;
-int W = 1100;
+
+// block sizes of 45
+int H = 765;
+int W = 1125;
 bool start = true;
 string finalScore = "";
 string highScore = "0";
@@ -42,7 +44,7 @@ Player p1(5);
 //Quad highScoreBox({1,1,1}, {500, 300}, 100, 20);
 //Object highScoreDisplay(highScoreBox, "");
 
-Scene sc("testscene.txt");
+Scene sc("../levels/testscene.txt");
 
 Quad restart({0.5,.8,.2}, {500, 350}, 100, 30);
 Object restartButton(restart, "Restart");
@@ -86,24 +88,6 @@ void display() {
     /*
      * Draw here
      */
-
-    vector<Shapes *> vec;
-
-    vec.push_back(new Circle(Point(700, 200), Color(238,238,0), 25));
-    vec.push_back(new  Rect(Point(700, 160), Color(238,238,0), 4, 10));
-    vec.push_back(new Rect(Point(700, 240), Color(238,238,0), 4, 10));
-    vec.push_back(new Rect(Point(740, 200), Color(238,238,0), 10, 4));
-    vec.push_back(new Rect(Point(660, 200), Color(238,238,0), 10, 4));
-
-
-
-    for (int i = 0; i < vec.size(); i++) {
-        vec[i]->draw();
-
-        delete vec[i];
-        vec[i] = nullptr;
-
-    }
 
 
     if (start) {
@@ -182,7 +166,7 @@ void kbdS(int key, int x, int y) {
             }
             break;
         case GLUT_KEY_RIGHT:
-            if (p1.getBody().getRightX()<1000) {
+            if (p1.getBody().getRightX()<1125) {
                 p1.setPlayerMovement(2,0);
                 //p1.movePlayer(15, 0);
                 //p1.moved();

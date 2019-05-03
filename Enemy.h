@@ -12,7 +12,7 @@ enum movement {horizontal, vertical};
 class Enemy : public Object {
 protected:
     bool movingLeft;
-    int distance;
+    int distance, range, speed;
     movement direction;
 public:
 
