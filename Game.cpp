@@ -269,7 +269,6 @@ void timer(int dummy) {
         scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->moveBox(0,0);
         p1.isTouching(*scenes[sceneIndexY][sceneIndexX]->getObjects()[i]);
 
-//        cout << scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->wasTouched() <<endl;
     }
 
 //    p1.isTouching(floor);

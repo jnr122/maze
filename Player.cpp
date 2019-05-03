@@ -90,12 +90,12 @@ bool Player::isTouching(Object hazard) {
         if (pl.y > hr.y || hl.y > pr.y  ) {
             return false;
         }
-        Object * hazardPtr = &hazard;
-
-        Coin* c = static_cast<Coin*>(hazardPtr);
-
-        c->setCollected();
-        //.wasTouched();
+//        Object * hazardPtr = &hazard;
+//
+//        Coin* c = static_cast<Coin*>(hazardPtr);
+//        std::cout << "here";
+//        c->setCollected();
+        hazard.contact();
     }
 
 

@@ -26,7 +26,7 @@ Coin::Coin(Point center, Color col, double radius) : Object(Quad({col.r, col.g, 
 
 void Coin::draw() {
     // check if this is working
-    if (!collected) {
+    if (!touched) {
         float x1, y1, x2, y2;
         float angle;
         x1 = center.x, y1 = center.y;
