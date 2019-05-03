@@ -26,6 +26,12 @@ bool start = true;
 string finalScore = "";
 string highScore = "0";
 
+std::vector<shared_ptr<Scene>> scenes;
+int sceneIndex = 0;
+int numScenes = 2;
+
+
+
 //
 //
 //Quad danger({1, 0, 0}, {700, 575}, 50, 50);
@@ -43,8 +49,6 @@ Player p1(5);
 //Object gameOver(screen, "");
 //Quad highScoreBox({1,1,1}, {500, 300}, 100, 20);
 //Object highScoreDisplay(highScoreBox, "");
-
-Scene sc("../levels/testscene.txt");
 
 Quad restart({0.5,.8,.2}, {500, 350}, 100, 30);
 Object restartButton(restart, "Restart");
@@ -92,7 +96,7 @@ void display() {
 
     if (start) {
         p1.drawPlayer();
-        sc.draw();
+        scenes[sceneIndex]->draw();
 //        floor.draw();
 //        //i.draw();
 //        enemy.draw();
@@ -163,13 +167,17 @@ void kbdS(int key, int x, int y) {
             if (p1.getBody().getLeftX()>0) {
                 p1.setPlayerMovement(-2,0);
                 //p1.moved();
+            } else if (sceneIndex > 0) {
+                --sceneIndex;
             }
             break;
         case GLUT_KEY_RIGHT:
-            if (p1.getBody().getRightX()<1125) {
+            if (p1.getBody().getRightX()<200) {
                 p1.setPlayerMovement(2,0);
                 //p1.movePlayer(15, 0);
                 //p1.moved();
+            } else if (sceneIndex < numScenes - 1) {
+                ++sceneIndex;
             }
             break;
         case GLUT_KEY_UP:
@@ -238,8 +246,8 @@ void timer(int dummy) {
     p1.reset();
     p1.movePlayer(0, 3);
 
-    for (int i = 0; i < sc.getObjects().size(); i++) {
-            p1.isTouching(*sc.getObjects()[i]);
+    for (int i = 0; i < scenes[sceneIndex]->getObjects().size(); i++) {
+            p1.isTouching(*scenes[sceneIndex]->getObjects()[i]);
     }
 
 //    p1.isTouching(floor);
@@ -255,6 +263,11 @@ void timer(int dummy) {
 
 /* Main function: GLUT runs as a console application starting at main()  */
 int main(int argc, char** argv) {
+
+    for (int i = 0; i < numScenes; i++) {
+        auto scene = make_shared<Scene>("../levels/" + to_string(i) + ".txt");
+        scenes.push_back(scene);
+    }
 
     init();
     glutInit(&argc, argv);          // Initialize GLUT

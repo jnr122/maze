@@ -21,6 +21,7 @@ Scene::Scene(string fileName) {
 
     while (file) {
         getline(file, line);
+
         for(int x = 0; x < line.length(); ++x) {
             switch(line[x]) {
                 case '0':
