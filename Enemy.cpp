@@ -15,8 +15,6 @@ Enemy::Enemy(Quad box, string label, movement direction) : Object(box, label), d
     movingLeft = false;
     distance = 0;
     type = "E";
-    range = 180;
-    speed = 3;
 }
 
 void Enemy::draw() {
@@ -26,40 +24,38 @@ void Enemy::draw() {
     for (char &letter : label) {
         glutBitmapCharacter(GLUT_BITMAP_8_BY_13, letter);
     }
-
-    moveBox();
 }
 
 /* Execute whatever the Enemy is supposed to do */
 void Enemy::click(function<void()> callback) {
     callback();
 }
-void Enemy::moveBox(){
+void Enemy::moveBox(int x, int y){
     if (direction == horizontal) {
-        if (!movingLeft && distance < range) {
-            box.move(speed, 0);
-            distance += speed;
+        if (!movingLeft && distance < 300) {
+            box.move(5, 0);
+            distance += 5;
         } else {
             movingLeft = true;
         }
 
         if (movingLeft && distance > 0) {
-            box.move(-speed, 0);
-            distance -= speed;
+            box.move(-5, 0);
+            distance -= 5;
         } else {
             movingLeft = false;
         }
     } else {
-        if (!movingLeft && distance < range) {
-            box.move(0, -speed);
-            distance += speed;
+        if (!movingLeft && distance < 300) {
+            box.move(0, -5);
+            distance += 5;
         } else {
             movingLeft = true;
         }
 
         if (movingLeft && distance > 0) {
-            box.move(0, speed);
-            distance -= speed;
+            box.move(0, 5);
+            distance -= 5;
         } else {
             movingLeft = false;
         }

@@ -168,6 +168,7 @@ void kbdS(int key, int x, int y) {
                 p1.setPlayerMovement(-2,0);
                 //p1.moved();
             } else if (sceneIndex > 0) {
+                p1.movePlayer(1125-p1.getBody().getRightX(),0);
                 --sceneIndex;
             }
             break;
@@ -177,7 +178,10 @@ void kbdS(int key, int x, int y) {
                 //p1.movePlayer(15, 0);
                 //p1.moved();
             } else if (sceneIndex < numScenes - 1) {
+                p1.movePlayer(-p1.getBody().getLeftX(),0);
+                //p1.setCenter();
                 ++sceneIndex;
+
             }
             break;
         case GLUT_KEY_UP:
@@ -247,15 +251,16 @@ void timer(int dummy) {
     p1.movePlayer(0, 3);
 
     for (int i = 0; i < scenes[sceneIndex]->getObjects().size(); i++) {
-            p1.isTouching(*scenes[sceneIndex]->getObjects()[i]);
+        scenes[sceneIndex]->getObjects()[i]->moveBox(0,0);
+        p1.isTouching(*scenes[sceneIndex]->getObjects()[i]);
     }
 
 //    p1.isTouching(floor);
 //    p1.isTouching(obstruction);
 //    p1.isTouching(obstruction2);
 //    p1.isTouching(obstruction3);
-    p1.isTouching(enemy);
-    enemy.moveBox();
+//    p1.isTouching(enemy);
+//    enemy.moveBox();
     //handles player jumps
     glutPostRedisplay();
     glutTimerFunc(30, timer, dummy);
