@@ -64,7 +64,7 @@ Scene::Scene(string fileName) {
                 }
                 case '6': {
                     //Point center, Color col, double radius
-                    auto coin = make_shared<Circle>(Point((x * 45 + 25), (y * 45 + 25)), Color(1, .8, 0), 10);
+                    auto coin = make_shared<Coin>(Point((x * 45 + 25), (y * 45 + 25)), Color(1, .8, 0), 10);
                     objects.push_back(coin);
 
                 }

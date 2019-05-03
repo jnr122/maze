@@ -4,6 +4,7 @@
 
 #include "Player.h"
 #include "graphics.h"
+#include "Coin.h"
 #include <iostream>
 
 
@@ -80,6 +81,24 @@ bool Player::isTouching(Object hazard) {
         gotHit();
         return true;
     }
+
+    if(hazard.getType() == "C"){
+        if (pl.x > hr.x || hl.x > pr.x) {
+            return false;
+        }
+        // If one rectangle is above other
+        if (pl.y > hr.y || hl.y > pr.y  ) {
+            return false;
+        }
+        Object * hazardPtr = &hazard;
+
+        Coin* c = static_cast<Coin*>(hazardPtr);
+
+        c->setCollected();
+        //.wasTouched();
+    }
+
+
     if(hl.y == pr.y-3 and pr.x > hl.x and pl.x < hr.x){
         contact = true;
         hasJump = true;

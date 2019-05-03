@@ -18,13 +18,14 @@ Color::Color(double r, double g, double b) : r(r), g(g), b(b) {
 }
 
 // constructor
-Circle::Circle(Point center, Color col, double radius) : Object(Quad({col.r, col.g, col.b}, {center.x, center.y}, 1, 1),
+Coin::Coin(Point center, Color col, double radius) : Object(Quad({col.r, col.g, col.b}, {center.x, center.y}, 1, 1),
                                                                 ""), center(center), col(col), radius(radius),
                                                          collected(false) {
-
+    type = "C";
 }
 
-void Circle::draw() {
+void Coin::draw() {
+    // check if this is working
     if (!collected) {
         float x1, y1, x2, y2;
         float angle;
@@ -45,32 +46,29 @@ void Circle::draw() {
 
 }
 
-bool Circle::isCollected() const {
+
+bool Coin::isCollected() const {
     return collected;
 }
 
-void Circle::setCollected(bool collected) {
-    Circle::collected = collected;
+void Coin::setCollected() {
+    Coin::collected = true;
 }
 
-bool Circle::wasTouched() {
-    return false;
-}
-
-double Circle::getRadius() const {
+double Coin::getRadius() const {
     return radius;
 }
 
-void Circle::setRadius(double radius) {
-    Circle::radius = radius;
+void Coin::setRadius(double radius) {
+    Coin::radius = radius;
 }
 
-const Point &Circle::getCenter() const {
+const Point &Coin::getCenter() const {
     return center;
 }
 
-void Circle::setCenter(const Point &center) {
-    Circle::center = center;
+void Coin::setCenter(const Point &center) {
+    Coin::center = center;
 }
 
 

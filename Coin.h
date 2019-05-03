@@ -20,7 +20,7 @@ struct Color {
     double r, g, b;
 };
 
-class Circle : public Object {
+class Coin : public Object {
 private:
     double radius;
     Point center;
@@ -29,11 +29,10 @@ private:
 
 public:
 
-    Circle(Point center, Color col, double radius);
+    Coin(Point center, Color col, double radius);
 
     virtual void draw() override;
 
-    bool wasTouched();
 
     double getRadius() const;
 
@@ -45,7 +44,7 @@ public:
 
     bool isCollected() const;
 
-    void setCollected(bool collected);
+    void setCollected();
 
 };
 
