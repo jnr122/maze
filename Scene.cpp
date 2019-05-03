@@ -26,7 +26,7 @@ Scene::Scene(string fileName) {
                 case '0':
                     break;
                 case '1':
-                    Quad b({0, .5, 0}, {(x * 50 + 25), (y * 50 + 25)}, 50, 50);
+                    Quad b({0, .5, 0}, {(x * 45 + 25), (y * 45 + 25)}, 45, 45);
                     auto block = make_shared<Object>(b, "");
                     objects.push_back(block);
                     break;

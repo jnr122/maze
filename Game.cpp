@@ -16,8 +16,10 @@ using namespace std;
 GLdouble width, height;
 int play = 0;
 int wd;
-int H = 750;
-int W = 1100;
+
+// block sizes of 45
+int H = 765;
+int W = 1125;
 bool start = true;
 string finalScore = "";
 string highScore = "0";
@@ -179,7 +181,7 @@ void kbdS(int key, int x, int y) {
             }
             break;
         case GLUT_KEY_RIGHT:
-            if (p1.getBody().getRightX()<1000) {
+            if (p1.getBody().getRightX()<1125) {
                 p1.setPlayerMovement(2,0);
                 //p1.movePlayer(15, 0);
                 //p1.moved();
