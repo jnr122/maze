@@ -34,8 +34,32 @@ Scene::Scene(string fileName) {
                 }
                 case '2': {
                     Quad eH({.5, 0, 0}, {(x * 45 + 25), (y * 45 + 25)}, 45, 45);
-                    auto enemyHorizontal = make_shared<Enemy>(eH, "", horizontal);
+                    auto enemyHorizontal = make_shared<Enemy>(eH, "", horizontalR);
                     objects.push_back(enemyHorizontal);
+                    break;
+                }
+                case '3': {
+                    Quad eH({.5, 0, 0}, {(x * 45 + 25), (y * 45 + 25)}, 45, 45);
+                    auto enemyHorizontal = make_shared<Enemy>(eH, "", horizontalL);
+                    objects.push_back(enemyHorizontal);
+                    break;
+                }
+                case '4': {
+                    Quad eH({.5, 0, 0}, {(x * 45 + 25), (y * 45 + 25)}, 45, 45);
+                    auto enemyHorizontal = make_shared<Enemy>(eH, "", horizontalR);
+                    objects.push_back(enemyHorizontal);
+                    Quad b({0, .5, 0}, {(x * 45 + 25), (y * 45 + 25)}, 45, 45);
+                    auto block = make_shared<Object>(b, "");
+                    objects.push_back(block);
+                    break;
+                }
+                case '5': {
+                    Quad eH({.5, 0, 0}, {(x * 45 + 25), (y * 45 + 25)}, 45, 45);
+                    auto enemyHorizontal = make_shared<Enemy>(eH, "", horizontalL);
+                    objects.push_back(enemyHorizontal);
+                    Quad b({0, .5, 0}, {(x * 45 + 25), (y * 45 + 25)}, 45, 45);
+                    auto block = make_shared<Object>(b, "");
+                    objects.push_back(block);
                     break;
                 }
             }

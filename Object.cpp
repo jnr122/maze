@@ -397,7 +397,7 @@ int Player::getLives() {
 
 
 void Player::setPlayerMovement(int x, int y) {
-    cout << body.getBox().getCenterX() << " :: " << body.getBox().getCenterY()<< endl;
+    //cout << body.getBox().getCenterX() << " :: " << body.getBox().getCenterY()<< endl;
     if(moveY==0 and acceleration > 0) {
 //        cout <<"accel: " <<acceleration;
         moveY += y*30;

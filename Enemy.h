@@ -6,7 +6,7 @@
 #ifndef JR_BA_BT_GRAPHICS_ENEMY_H
 #define JR_BA_BT_GRAPHICS_ENEMY_H
 
-enum movement {horizontal, vertical};
+enum movement {horizontalR,horizontalL, vertical};
 
 
 class Enemy : public Object {

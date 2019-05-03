@@ -24,9 +24,13 @@ bool start = true;
 string finalScore = "";
 string highScore = "0";
 
-std::vector<shared_ptr<Scene>> scenes;
-int sceneIndex = 0;
-int numScenes = 2;
+std::vector<std::vector<shared_ptr<Scene>>> scenes;
+//[Y][X], Y = row, X = column (consider renaming)
+int sceneIndexY = 0;
+int sceneIndexX = 0;
+
+int numScenesY = 2; //YX.txt, max(Y)-1
+int numScenesX = 3; //YX.txt, max(X)-1
 
 
 
@@ -55,7 +59,7 @@ Quad startScreen({1,0,1}, {500, 250}, 50, 30);
 Object startButton(startScreen, "Start");
 
 Quad enemyQ({.7,.3,.4}, {350, 610}, 50, 30);
-Enemy enemy(enemyQ, "", horizontal);
+Enemy enemy(enemyQ, "", horizontalR);
 
 
 
@@ -94,7 +98,7 @@ void display() {
 
     if (start) {
         p1.drawPlayer();
-        scenes[sceneIndex]->draw();
+        scenes[sceneIndexY][sceneIndexX]->draw();
 //        floor.draw();
 //        //i.draw();
 //        enemy.draw();
@@ -164,21 +168,20 @@ void kbdS(int key, int x, int y) {
             if (p1.getBody().getLeftX()>0) {
                 p1.setPlayerMovement(-2,0);
                 //p1.moved();
-            } else if (sceneIndex > 0) {
+            } else if (sceneIndexX > 0) {
                 p1.movePlayer(1125-p1.getBody().getRightX(),0);
-                --sceneIndex;
+                --sceneIndexX;
             }
             break;
         case GLUT_KEY_RIGHT:
-            if (p1.getBody().getRightX()<200) {
+            if (p1.getBody().getRightX()<1125) {
                 p1.setPlayerMovement(2,0);
                 //p1.movePlayer(15, 0);
                 //p1.moved();
-            } else if (sceneIndex < numScenes - 1) {
+            } else if (sceneIndexX < numScenesX - 1) {
                 p1.movePlayer(-p1.getBody().getLeftX(),0);
                 //p1.setCenter();
-                ++sceneIndex;
-
+                ++sceneIndexX;
             }
             break;
         case GLUT_KEY_UP:
@@ -242,14 +245,30 @@ void mouse(int button, int state, int x, int y) {
 }
 
 void timer(int dummy) {
+    if(p1.getBody().getBottomY() >765){
+        sceneIndexY++;
+        p1.movePlayer(0,-p1.getBody().getTopY());
+    }
 
+    if(p1.getBody().getTopY() <0){
+        sceneIndexY--;
+        p1.movePlayer(0,765-p1.getBody().getBottomY());
+    }
+    if (p1.getBody().getRightX()>1125 and sceneIndexX < numScenesX - 1) {
+        p1.movePlayer(-p1.getBody().getLeftX(),0);
+        //p1.setCenter();
+        ++sceneIndexX;
+    }
+    if (p1.getBody().getLeftX()<0 and sceneIndexX > 0) {
+        p1.movePlayer(1125-p1.getBody().getRightX(),0);
+        --sceneIndexX;
+    }
     p1.playerMovement();
     p1.reset();
     p1.movePlayer(0, 3);
-
-    for (int i = 0; i < scenes[sceneIndex]->getObjects().size(); i++) {
-        scenes[sceneIndex]->getObjects()[i]->moveBox(0,0);
-        p1.isTouching(*scenes[sceneIndex]->getObjects()[i]);
+    for (int i = 0; i < scenes[sceneIndexY][sceneIndexX]->getObjects().size(); i++) {
+        scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->moveBox(0,0);
+        p1.isTouching(*scenes[sceneIndexY][sceneIndexX]->getObjects()[i]);
     }
 
 //    p1.isTouching(floor);
@@ -266,9 +285,15 @@ void timer(int dummy) {
 /* Main function: GLUT runs as a console application starting at main()  */
 int main(int argc, char** argv) {
 
-    for (int i = 0; i < numScenes; i++) {
-        auto scene = make_shared<Scene>("../levels/" + to_string(i) + ".txt");
-        scenes.push_back(scene);
+    for(int y= 0; y < numScenesY; y++) {
+        std::vector<shared_ptr<Scene>> temp;
+        for (int x = 0; x < numScenesX; x++) {
+            //cout <<  to_string(y) + to_string(x) << endl;
+                auto scene = make_shared<Scene>("../levels/" + to_string(y) + to_string(x) + ".txt");
+                temp.push_back(scene);
+            //cout << "yeet";
+        }
+        scenes.push_back(temp);
     }
 
     init();

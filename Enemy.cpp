@@ -31,7 +31,7 @@ void Enemy::click(function<void()> callback) {
     callback();
 }
 void Enemy::moveBox(int x, int y){
-    if (direction == horizontal) {
+    if (direction == horizontalR) {
         if (!movingLeft && distance < 300) {
             box.move(5, 0);
             distance += 5;
@@ -45,7 +45,7 @@ void Enemy::moveBox(int x, int y){
         } else {
             movingLeft = false;
         }
-    } else {
+    } else if(direction == vertical){
         if (!movingLeft && distance < 300) {
             box.move(0, -5);
             distance += 5;
@@ -58,6 +58,21 @@ void Enemy::moveBox(int x, int y){
             distance -= 5;
         } else {
             movingLeft = false;
+        }
+    }
+    else if (direction == horizontalL) {
+        if (movingLeft && distance < 300) {
+            box.move(-5, 0);
+            distance += 5;
+        } else {
+            movingLeft = false;
+        }
+
+        if (!movingLeft && distance > 0) {
+            box.move(5, 0);
+            distance -= 5;
+        } else {
+            movingLeft = true;
         }
     }
 }
