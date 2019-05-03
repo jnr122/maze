@@ -62,6 +62,12 @@ Scene::Scene(string fileName) {
                     objects.push_back(block);
                     break;
                 }
+                case '6': {
+                    //Point center, Color col, double radius
+                    auto coin = make_shared<Circle>(Point((x * 45 + 25), (y * 45 + 25)), Color(1, .8, 0), 10);
+                    objects.push_back(coin);
+
+                }
             }
         }
         ++y;
@@ -73,15 +79,9 @@ void Scene::draw() const {
     for (int i = 0; i < objects.size(); i++) {
         objects[i]->draw();
     }
-//    for(shared_ptr<Object> & obj : objects){
-//        obj->draw();
-//    }
+
 }
 
 const vector<shared_ptr<Object>> &Scene::getObjects() const {
     return objects;
 }
-
-//void Scene::addObject(Object *object){
-//    objects.push_back(object);
-//}

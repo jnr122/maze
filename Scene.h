@@ -7,6 +7,7 @@
 
 #include "Object.h"
 #include "Enemy.h"
+#include "Coin.h"
 #include <memory>
 #include <vector>
 #include <iostream>
@@ -26,7 +27,6 @@ public:
     void draw() const;
 
     const vector<shared_ptr<Object>> &getObjects() const;
-//    void addObject(Object *object);
 
 };
 

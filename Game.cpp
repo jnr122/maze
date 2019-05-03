@@ -1,7 +1,6 @@
 #include "graphics.h"
-#include "Circle.h"
-#include "shapes.h"
-#include "Shapes2.h"
+#include "Coin.h"
+#include "Player.h"
 #include "Rect.h"
 #include <time.h>
 #include <vector>
@@ -269,6 +268,8 @@ void timer(int dummy) {
     for (int i = 0; i < scenes[sceneIndexY][sceneIndexX]->getObjects().size(); i++) {
         scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->moveBox(0,0);
         p1.isTouching(*scenes[sceneIndexY][sceneIndexX]->getObjects()[i]);
+
+//        cout << scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->wasTouched() <<endl;
     }
 
 //    p1.isTouching(floor);
