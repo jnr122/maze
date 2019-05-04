@@ -29,7 +29,7 @@ void Coin::draw() {
     if (!touched) {
         float x1, y1, x2, y2;
         float angle;
-        x1 = center.x, y1 = center.y;
+        x1 = center.x, y1 = center.y-hover;
 
         glColor3f(col.r, col.g, col.b);
 
@@ -68,5 +68,24 @@ void Coin::setCenter(const Point &center) {
     Coin::center = center;
 }
 
+void Coin::moveBox(int x, int y) {
+    scale = (scale+1) % 3;
+    if(!touched and scale == 0) {
+        if (hover == 0) {
+            up = false;
+            hover--;
+        }
+        else if(up == false and hover > -5){
+            hover--;
+        }
+        else if(hover<0 and up == true){
+            hover++;
+        }
+        else if(hover == -5){
+            hover++;
+            up = true;
+        }
+    }
+}
 
 

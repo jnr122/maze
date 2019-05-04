@@ -24,7 +24,9 @@ private:
     double radius;
     Point center;
     Color col;
-
+    int hover = 0;
+    bool up = true;
+    int scale = 0;
 public:
 
     Coin(Point center, Color col, double radius);
@@ -42,7 +44,7 @@ public:
 
     bool isCollected() const;
 
-
+    virtual void moveBox(int x, int y);
 
 };
 
