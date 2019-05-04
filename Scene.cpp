@@ -74,7 +74,69 @@ Scene::Scene(string fileName) {
     }
     this->objects = objects;
 }
+Scene::Scene(string filename, int mx, int my, int bx, int by) {
+    mx = mx-48;
+    my = my -48;
+    int y = 0;
+    string line;
+    auto objects = vector<shared_ptr<Object>>();
+    ifstream file;
+    file.open(filename);
 
+    while (file) {
+        getline(file, line);
+        for(int x = 0; x < line.length(); ++x) {
+            switch(line[x]) {
+                case '0':
+                    break;
+                case '1': {
+                    Quad b({0, .5, 0}, {(x * 4 + bx+2+(100*mx)), (y * 4 + by+2+(68*my))}, 4, 4);
+                    auto block = make_shared<Object>(b, "");
+                    objects.push_back(block);
+                    break;
+                }
+                case '2': {
+                    //Quad eH({.5, 0, 0}, {(x * 4 + bx+2+(100*mx)), (y * 4 + by+2+(68*my))}, 4, 4);
+                    //auto enemyHorizontal = make_shared<Enemy>(eH, "", horizontalR);
+                    //objects.push_back(enemyHorizontal);
+                    break;
+                }
+                case '3': {
+                    //Quad eH({.5, 0, 0}, {(x * 4 + bx+2+(100*mx)), (y * 4 + by+2+(68*my))}, 4, 4);
+                    //auto enemyHorizontal = make_shared<Enemy>(eH, "", horizontalL);
+                    //objects.push_back(enemyHorizontal);
+                    break;
+                }
+                case '4': {
+                    //Quad eH({.5, 0, 0}, {(x * 4 + bx+2+(100*mx)), (y * 4 + by+2+(68*my))}, 4, 4);
+                    //auto enemyHorizontal = make_shared<Enemy>(eH, "", horizontalR);
+                    //objects.push_back(enemyHorizontal);
+                    Quad b({0, .5, 0}, {(x * 4 + bx+2+(100*mx)), (y * 4 + by+2+(68*my))}, 4, 4);
+                    auto block = make_shared<Object>(b, "");
+                    objects.push_back(block);
+                    break;
+                }
+                case '5': {
+                    //Quad eH({.5, 0, 0}, {(x * 4 + bx+2+(100*mx)), (y * 4 + by+2+(68*my))}, 4, 4);
+                    //auto enemyHorizontal = make_shared<Enemy>(eH, "", horizontalL);
+                    //objects.push_back(enemyHorizontal);
+                    Quad b({0, .5, 0}, {(x * 4 + bx+2+(100*mx)), (y * 4 + by+2+(68*my))}, 4, 4);
+                    auto block = make_shared<Object>(b, "");
+                    objects.push_back(block);
+                    break;
+                }
+                case '6': {
+                    //Point center, Color col, double radius
+                    //auto coin = make_shared<Coin>(Point((x * 4 + bx+2+(100*mx)), (y * 4 + by+2+(68*my))), Color(1, .8, 0), 1);
+                    //objects.push_back(coin);
+
+                }
+            }
+        }
+        ++y;
+    }
+    this->objects = objects;
+}
 void Scene::draw() const {
     for (int i = 0; i < objects.size(); i++) {
         objects[i]->draw();

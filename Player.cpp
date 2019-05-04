@@ -43,7 +43,7 @@ void Player::setCenter() {
     head.moveBox(-5,head.getBox().getCenterY());
     legs.moveBox(-5,legs.getBox().getCenterY());
     chest.moveBox(-5,chest.getBox().getCenterY());
-    std::cout << "here";
+    //std::cout << "here";
 
 }
 

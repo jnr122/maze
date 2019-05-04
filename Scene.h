@@ -21,7 +21,7 @@ private:
     std::vector<shared_ptr<Object>> objects;
 public:
     Scene(string filename);
-
+    Scene(string filename, int mx, int my, int bx, int by);
     Scene(std::vector<shared_ptr<Object>> objects);
 
     void draw() const;

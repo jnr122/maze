@@ -31,8 +31,9 @@ int sceneIndexX = 0;
 int numScenesY = 2; //YX.txt, max(Y)-1
 int numScenesX = 3; //YX.txt, max(X)-1
 
+vector<string> visited;
 
-
+bool map = false;
 //
 //
 //Quad danger({1, 0, 0}, {700, 575}, 50, 50);
@@ -60,7 +61,14 @@ Object startButton(startScreen, "Start");
 Quad enemyQ({.7,.3,.4}, {350, 610}, 50, 30);
 Enemy enemy(enemyQ, "", horizontalR);
 
-
+void visit(string area){
+    for(int i = 0; i< visited.size(); i++){
+        if(visited[i] == area){
+            return;
+        }
+    }
+    visited.push_back(area);
+}
 
 void init() {
     width = W;
@@ -146,7 +154,19 @@ void display() {
 
 
     }
+    if(map){
+        Quad boardBack({1, 1, 1}, {550, 400}, (numScenesX*100)+20, (numScenesY*68)+20);
+        Object mapDisplayBack(boardBack, "");
+        mapDisplayBack.draw();
+        Quad board({0, 0, 0}, {550, 400}, numScenesX*100, numScenesY*68);
+        Object mapDisplay(board, "");
+        mapDisplay.draw();
+        for(int i = 0; i < visited.size(); i++){
+            Scene mapScene("../levels/" + visited[i] + ".txt",visited[i][1],visited[i][0], 550-numScenesX*50, 400-numScenesY*34);
+            mapScene.draw();
+        }
 
+    }
     glFlush();  // Render now
 }
 
@@ -158,7 +178,9 @@ void kbd(unsigned char key, int x, int y)
         glutDestroyWindow(wd);
         exit(0);
     }
-
+    if (key == 109){
+        map = !map;
+    }
     glutPostRedisplay();
 }
 
@@ -241,11 +263,11 @@ void mouse(int button, int state, int x, int y) {
 }
 
 void timer(int dummy) {
+    visit(to_string(sceneIndexY) + to_string(sceneIndexX));
     if(p1.getBody().getBottomY() >765){
         sceneIndexY++;
         p1.movePlayer(0,-p1.getBody().getTopY());
     }
-
     if(p1.getBody().getTopY() <0){
         sceneIndexY--;
         p1.movePlayer(0,765-p1.getBody().getBottomY());
