@@ -23,6 +23,7 @@ private:
     int moveX = 0;
     int moveY= 0;
     int acceleration = 1;
+    int coins = 0;
 public:
 
     Player(int x);
@@ -59,6 +60,8 @@ public:
     void setPlayerMovement(int x, int y);
 
     int getVertical();
+
+    int getCoins();
 };
 
 

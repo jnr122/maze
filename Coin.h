@@ -10,7 +10,6 @@
 struct Point {
     // range constructor
     Point(int x, int y);
-
     int x, y;
 };
 
@@ -25,7 +24,6 @@ private:
     double radius;
     Point center;
     Color col;
-    bool collected;
 
 public:
 
@@ -44,7 +42,7 @@ public:
 
     bool isCollected() const;
 
-    void setCollected();
+
 
 };
 

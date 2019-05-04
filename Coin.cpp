@@ -18,9 +18,9 @@ Color::Color(double r, double g, double b) : r(r), g(g), b(b) {
 }
 
 // constructor
-Coin::Coin(Point center, Color col, double radius) : Object(Quad({col.r, col.g, col.b}, {center.x, center.y}, 1, 1),
-                                                                ""), center(center), col(col), radius(radius),
-                                                         collected(false) {
+Coin::Coin(Point center, Color col, double radius) : Object(Quad({col.r, col.g, col.b}, {center.x, center.y}, 10, 10),
+                                                                ""), center(center), col(col), radius(radius)
+                                                          {
     type = "C";
 }
 
@@ -48,12 +48,9 @@ void Coin::draw() {
 
 
 bool Coin::isCollected() const {
-    return collected;
+    return touched;
 }
 
-void Coin::setCollected() {
-    Coin::collected = true;
-}
 
 double Coin::getRadius() const {
     return radius;

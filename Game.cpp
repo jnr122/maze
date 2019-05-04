@@ -111,6 +111,10 @@ void display() {
             Object liveCounter(life, "");
             liveCounter.draw();
         }
+        for(int i = 0; i < p1.getCoins(); i++){
+            Coin counter(Point(10+15*i, 30),Color(1, .8, 0),5);
+            counter.draw();
+        }
     } else {
 
         if (p1.isAlive()) {
@@ -267,8 +271,11 @@ void timer(int dummy) {
     p1.movePlayer(0, 3);
     for (int i = 0; i < scenes[sceneIndexY][sceneIndexX]->getObjects().size(); i++) {
         scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->moveBox(0,0);
-        p1.isTouching(*scenes[sceneIndexY][sceneIndexX]->getObjects()[i]);
-
+        if(p1.isTouching(*scenes[sceneIndexY][sceneIndexX]->getObjects()[i])){
+            if(scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->getType() == "C"){
+                scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->contact();
+            }
+        }
     }
 
 //    p1.isTouching(floor);

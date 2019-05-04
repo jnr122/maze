@@ -90,12 +90,9 @@ bool Player::isTouching(Object hazard) {
         if (pl.y > hr.y || hl.y > pr.y  ) {
             return false;
         }
-//        Object * hazardPtr = &hazard;
-//
-//        Coin* c = static_cast<Coin*>(hazardPtr);
-//        std::cout << "here";
-//        c->setCollected();
-        hazard.contact();
+        coins++;
+        std::cout << coins;
+        return true;
     }
 
 
@@ -230,4 +227,8 @@ void Player::playerMovement() {
 
 int Player::getVertical() {
     return moveY;
+}
+
+int Player::getCoins() {
+    return coins;
 }
