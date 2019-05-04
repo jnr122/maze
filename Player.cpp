@@ -123,11 +123,9 @@ bool Player::isTouching(Object hazard) {
     }
     if(pr.x>hl.x and hl.x-pr.x >= -7){
         movePlayer(hl.x-pr.x,0);
-        std::cout << moveX << std::endl;
     }
     if(pl.x<hr.x and hr.x-pl.x <= 7){
         movePlayer(hr.x-pl.x,0);
-        std::cout << moveX << std::endl;
     }
 
 

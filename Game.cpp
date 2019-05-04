@@ -171,9 +171,6 @@ void kbdS(int key, int x, int y) {
             if (p1.getBody().getLeftX()>0) {
                 p1.setPlayerMovement(-2,0);
                 //p1.moved();
-            } else if (sceneIndexX > 0) {
-                p1.movePlayer(1125-p1.getBody().getRightX(),0);
-                --sceneIndexX;
             }
             break;
         case GLUT_KEY_RIGHT:
@@ -181,10 +178,6 @@ void kbdS(int key, int x, int y) {
                 p1.setPlayerMovement(2,0);
                 //p1.movePlayer(15, 0);
                 //p1.moved();
-            } else if (sceneIndexX < numScenesX - 1) {
-                p1.movePlayer(-p1.getBody().getLeftX(),0);
-                //p1.setCenter();
-                ++sceneIndexX;
             }
             break;
         case GLUT_KEY_UP:
