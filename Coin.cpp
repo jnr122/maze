@@ -69,7 +69,7 @@ void Coin::setCenter(const Point &center) {
 }
 
 void Coin::moveBox(int x, int y) {
-    scale = (scale+1) % 3;
+    scale = (scale+1) % 4;
     if(!touched and scale == 0) {
         if (hover == 0) {
             up = false;
