@@ -24,6 +24,7 @@ private:
     int moveY= 0;
     int acceleration = 1;
     int coins = 0;
+    bool wallContact = false;
 public:
 
     Player(int x);
