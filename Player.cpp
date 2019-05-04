@@ -91,7 +91,6 @@ bool Player::isTouching(Object hazard) {
             return false;
         }
         coins++;
-        std::cout << coins;
         return true;
     }
 
