@@ -27,8 +27,8 @@ std::vector<std::vector<shared_ptr<Scene>>> scenes;
 int sceneIndexY = 0;
 int sceneIndexX = 0;
 
-int numScenesY = 2; //YX.txt, max(Y)-1
-int numScenesX = 3; //YX.txt, max(X)-1
+int numScenesY = 5; //YX.txt, max(Y)-1
+int numScenesX = 5; //YX.txt, max(X)-1
 
 vector<string> visited;
 
