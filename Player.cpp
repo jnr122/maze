@@ -259,4 +259,5 @@ int Player::getCoins() {
 void Player::fastFall() {
     moveY = 0;
     moveX = 0;
+    hasJump = false;
 }
