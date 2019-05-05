@@ -1,11 +1,9 @@
 #include "graphics.h"
 #include "Coin.h"
 #include "Player.h"
-#include "Rect.h"
 #include <time.h>
 #include <vector>
 #include "Object.h"
-#include "Image.h"
 #include <iostream>
 #include "Enemy.h"
 #include "Scene.h"
