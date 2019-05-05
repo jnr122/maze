@@ -93,6 +93,17 @@ bool Player::isTouching(Object hazard) {
         coins++;
         return true;
     }
+    if(hazard.getType() == "H"){
+        if (pl.x > hr.x || hl.x > pr.x) {
+            return false;
+        }
+        // If one rectangle is above other
+        if (pl.y > hr.y || hl.y > pr.y  ) {
+            return false;
+        }
+        lives += 25;
+        return true;
+    }
 
 
     if(hl.y == pr.y-3 and pr.x > hl.x and pl.x < hr.x){

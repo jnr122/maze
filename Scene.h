@@ -8,6 +8,7 @@
 #include "Object.h"
 #include "Enemy.h"
 #include "Coin.h"
+#include "Heal.h"
 #include <memory>
 #include <vector>
 #include <iostream>

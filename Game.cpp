@@ -9,6 +9,7 @@
 #include <iostream>
 #include "Enemy.h"
 #include "Scene.h"
+#include "Heal.h"
 
 using namespace std;
 
@@ -97,6 +98,7 @@ void display() {
     glClear(GL_COLOR_BUFFER_BIT);   // Clear the color buffer with current clearing color
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
 
     /*
      * Draw here
@@ -190,13 +192,13 @@ void kbdS(int key, int x, int y) {
 
             break;
         case GLUT_KEY_LEFT:
-            if (p1.getBody().getLeftX()>0) {
+            if (p1.getBody().getLeftX()>=0) {
                 p1.setPlayerMovement(-2,0);
                 //p1.moved();
             }
             break;
         case GLUT_KEY_RIGHT:
-            if (p1.getBody().getRightX()<1125) {
+            if (p1.getBody().getRightX()<=1125) {
                 p1.setPlayerMovement(2,0);
                 //p1.movePlayer(15, 0);
                 //p1.moved();
@@ -268,7 +270,7 @@ void timer(int dummy) {
         sceneIndexY++;
         p1.movePlayer(0,-p1.getBody().getTopY());
     }
-    if(p1.getBody().getTopY() <0){
+    if(p1.getBody().getTopY()<0){
         sceneIndexY--;
         p1.movePlayer(0,765-p1.getBody().getBottomY());
     }
@@ -288,6 +290,9 @@ void timer(int dummy) {
         scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->moveBox(0,0);
         if(p1.isTouching(*scenes[sceneIndexY][sceneIndexX]->getObjects()[i])){
             if(scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->getType() == "C"){
+                scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->contact();
+            }
+            if(scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->getType() == "H"){
                 scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->contact();
             }
         }

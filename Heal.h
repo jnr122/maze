@@ -1,13 +1,13 @@
 //
-// Created by Jonah Rubin on 2019-02-21.
+// Created by btemk_mm3vcui on 5/4/2019.
 //
-
 #include "Object.h"
 
-#ifndef SHAPES_CIRCLE_H
-#define SHAPES_CIRCLE_H
+#ifndef JR_BA_BT_GRAPHICS_HEAL_H
+#define JR_BA_BT_GRAPHICS_HEAL_H
 
-class Coin : public Object {
+
+class Heal : public Object {
 private:
     double radius;
     Point center;
@@ -17,10 +17,9 @@ private:
     int scale = 0;
 public:
 
-    Coin(Point center, Color col, double radius);
+    Heal(Point center, Color col, double radius);
 
     virtual void draw() override;
-
 
     double getRadius() const;
 
@@ -36,4 +35,5 @@ public:
 
 };
 
-#endif //SHAPES_CIRCLE_H
+
+#endif //JR_BA_BT_GRAPHICS_HEAL_H

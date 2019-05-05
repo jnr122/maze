@@ -5,6 +5,18 @@
 #include <functional>
 
 
+struct Point {
+    // range constructor
+    Point(int x, int y);
+    int x, y;
+};
+
+// rgb struct
+struct Color {
+    Color(double r, double g, double b);
+    double r, g, b;
+};
+
 struct color {
     double red;
     double green;

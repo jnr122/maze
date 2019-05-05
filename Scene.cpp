@@ -4,6 +4,7 @@
 
 #include "Scene.h"
 
+
 using std::string;
 using std::vector;
 
@@ -95,7 +96,12 @@ Scene::Scene(string fileName) {
                     objects.push_back(enemyVertical);
                     break;
                 }
-
+                case 'h': {
+                    //health pick-up
+                    auto heal = make_shared<Heal>(Point((x * 45 + 25), (y * 45 + 25)), Color(0, 0, 1), 10);
+                    objects.push_back(heal);
+                    break;
+                }
             }
         }
         ++y;

@@ -26,7 +26,7 @@ file(GLOB SOURCE_FILES
         *.h
         )
 
-add_executable(main.cpp Coin.cpp shapes.cpp Rect.cpp ${SOURCE_FILES} Enemy.cpp Scene.cpp Player.cpp Player.h)
+add_executable(main.cpp Coin.cpp shapes.cpp Rect.cpp ${SOURCE_FILES} Enemy.cpp Scene.cpp Player.cpp Player.h Heal.cpp Heal.h)
 
 if (WIN32)
     target_link_libraries (main.cpp ${OPENGL_LIBRARIES} freeglut)
