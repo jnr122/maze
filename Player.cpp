@@ -22,7 +22,7 @@ void Player::drawPlayer() {
     head.draw();
 
 
-    glColor3f(0, 0, 0);
+    glColor3f(0, 0, 1);
 
 }
 
