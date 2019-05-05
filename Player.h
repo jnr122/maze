@@ -16,7 +16,7 @@ private:
     Object legs;
     Object chest;
     bool hasJump = true;
-    int lives = 50;
+    int lives = 75;
     int extraLives = 2;
     std::string score = "0";
     bool contact = false;

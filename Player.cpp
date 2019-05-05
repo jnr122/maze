@@ -50,7 +50,9 @@ void Player::setCenter() {
 
 void Player::gotHit() {
     lives--;
-
+    if(lives>0){
+        lives--;
+    }
 }
 
 
@@ -101,7 +103,16 @@ bool Player::isTouching(Object hazard) {
         if (pl.y > hr.y || hl.y > pr.y  ) {
             return false;
         }
-        lives += 25;
+        if(lives<=75){
+            lives += 25;
+        }
+        else if(lives==100){
+            return false;
+        }
+        else{
+                lives = 100;
+        }
+
         return true;
     }
 

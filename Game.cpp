@@ -35,6 +35,7 @@ int numScenesX = 3; //YX.txt, max(X)-1
 vector<string> visited;
 
 bool map = false;
+bool hud = true;
 //
 //
 //Quad danger({1, 0, 0}, {700, 575}, 50, 50);
@@ -116,14 +117,26 @@ void display() {
 //        obstruction2.draw();
 //        obstruction3.draw();
         //**** lives *****
-        for(int i = 0; i < p1.getLives(); i++){
-            Quad life({1, 0, 0}, {10+10*i, 15}, 10, 15);
+        if(hud){
+        Quad lifeBack({1, 1, 1}, {255, 15}, 504, 17);
+        Object liveCounterBack(lifeBack, "");
+        liveCounterBack.draw();
+        Quad coinBack({1, 1, 1}, {25, 22}, 45, 30);
+        Object coinCounterBack(coinBack, "");
+        coinCounterBack.draw();
+        for(int i = 0; i < p1.getLives()/2; i++){
+            Quad life({1, 0, 0}, {10+(10*i), 15}, 10, 15);
             Object liveCounter(life, "");
             liveCounter.draw();
+        }
+        for(int i = 0; i < 3; i++){
+            Coin counter(Point(10+15*i, 30),Color(.5, .5, .5),5);
+            counter.draw();
         }
         for(int i = 0; i < p1.getCoins(); i++){
             Coin counter(Point(10+15*i, 30),Color(1, .8, 0),5);
             counter.draw();
+        }
         }
     } else {
 
@@ -182,6 +195,9 @@ void kbd(unsigned char key, int x, int y)
     }
     if (key == 109){
         map = !map;
+    }
+    if (key == 104){
+        hud = !hud;
     }
     glutPostRedisplay();
 }
