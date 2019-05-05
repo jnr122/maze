@@ -25,6 +25,8 @@ Scene::Scene(string fileName) {
 
         for(int x = 0; x < line.length(); ++x) {
             switch(line[x]) {
+                case '-':
+                    break;
                 case '0':
                     break;
                 case '1': {
@@ -122,6 +124,8 @@ Scene::Scene(string filename, int mx, int my, int bx, int by) {
         getline(file, line);
         for(int x = 0; x < line.length(); ++x) {
             switch(line[x]) {
+                case '-':
+                    break;
                 case '0':
                     break;
                 case '1': {
