@@ -79,15 +79,15 @@ Scene::Scene(string fileName) {
                 }
                 case '7':{
                     //enemy moving up : goes 6
-                    Quad eH({.5, 0, 0}, {(x * 45 + 25), (y * 45 + 25)}, 45, 45);
-                    auto enemyVertical = make_shared<Enemy>(eH, "", verticalU);
+                    Quad ev({.5, 0, 0}, {(x * 45 + 25), (y * 45 + 25)}, 45, 45);
+                    auto enemyVertical = make_shared<Enemy>(ev, "", verticalU);
                     objects.push_back(enemyVertical);
                     break;
                 }
                 case '8': {
                     //enemy moving down : goes 6
-                    Quad eH({.5, 0, 0}, {(x * 45 + 25), (y * 45 + 25)}, 45, 45);
-                    auto enemyVertical = make_shared<Enemy>(eH, "", verticalD);
+                    Quad eV({.5, 0, 0}, {(x * 45 + 25), (y * 45 + 25)}, 45, 45);
+                    auto enemyVertical = make_shared<Enemy>(eV, "", verticalD);
                     objects.push_back(enemyVertical);
                     break;
                 }
