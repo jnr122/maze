@@ -40,23 +40,8 @@ int level = 1;
 bool map = false;
 bool hud = true;
 
-//
-//
-//Quad danger({1, 0, 0}, {700, 575}, 50, 50);
-//Object obstruction(danger, "");
-//Quad danger2({1, 0, 0}, {500, 490}, 100, 50);
-//Object obstruction2(danger2, "");
-//Quad danger3({1, 0, 0}, {700, 425}, 100, 50);
-//Object obstruction3(danger3, "");
-//Quad ground({0, 1, 0}, {500, 700}, 2000, 150);
-//Object floor(ground, "");
-//Quad board({1, 1, 1}, {900, 50}, 200, 100);
-//Object score(board, "0");
 Player p1(5);
-//Quad screen({1, 1, 1}, {500, 250}, 1000, 1000);
-//Object gameOver(screen, "");
-//Quad highScoreBox({1,1,1}, {500, 300}, 100, 20);
-//Object highScoreDisplay(highScoreBox, "");
+
 
 Quad restart({0.5,.8,.2}, {500, 350}, 100, 30);
 Object restartButton(restart, "Restart");
@@ -113,13 +98,6 @@ void display() {
     if (start) {
         p1.drawPlayer();
         scenes[sceneIndexY][sceneIndexX]->draw();
-//        floor.draw();
-//        //i.draw();
-//        enemy.draw();
-//        startButton.draw();
-//        obstruction.draw();
-//        obstruction2.draw();
-//        obstruction3.draw();
         //**** lives *****
         if(hud){
         Quad lifeBack({1, 1, 1}, {255, 15}, 504, 17);
@@ -146,27 +124,18 @@ void display() {
 
         if (p1.isAlive()) {
             p1.drawPlayer();
-            //obstruction.draw();
-//            floor.draw();
-//            score.draw();
 
         }
         if(!(p1.isAlive()) and finalScore.empty()){
-//            finalScore =  score.getLabel();
             play = 1;
         }
         if(!(p1.isAlive())) {
             if (play == 1) {
-
-//                gameOver.setLabel("Game Over, Score: " + finalScore);
                 if ((std::stoi(finalScore)) > std::stoi(highScore)) {
                     highScore = finalScore;
                 }
-//                highScoreDisplay.setLabel("High score: " + highScore);
                 play = 0;
             }
-//            gameOver.draw();
-//            highScoreDisplay.draw();
             restartButton.draw();
 
         }
@@ -225,21 +194,17 @@ void kbdS(int key, int x, int y) {
         case GLUT_KEY_LEFT:
             if (p1.getBody().getLeftX()>=0) {
                 p1.setPlayerMovement(-2,0);
-                //p1.moved();
             }
             break;
         case GLUT_KEY_RIGHT:
             if (p1.getBody().getRightX()<=1125) {
                 p1.setPlayerMovement(2,0);
-                //p1.movePlayer(15, 0);
-                //p1.moved();
             }
             break;
         case GLUT_KEY_UP:
             if(p1.isAlive()) {
                 p1.setPlayerMovement(0,1);
             }
-            //p1.standUp();
             break;
     }
 
@@ -307,7 +272,6 @@ void timer(int dummy) {
     }
     if (p1.getBody().getRightX()>1125 and sceneIndexX < numScenesX - 1) {
         p1.movePlayer(-p1.getBody().getLeftX(),0);
-        //p1.setCenter();
         ++sceneIndexX;
     }
     if (p1.getBody().getLeftX()<0 and sceneIndexX > 0) {
@@ -339,22 +303,13 @@ void timer(int dummy) {
         for(int y= 0; y < numScenesY; y++) {
             std::vector<shared_ptr<Scene>> temp;
             for (int x = 0; x < numScenesX; x++) {
-                //cout <<  to_string(y) + to_string(x) << endl;
                 auto scene = make_shared<Scene>("../level"+to_string(level)+"/" + to_string(y) + to_string(x) + ".txt");
                 temp.push_back(scene);
-                //cout << "yeet";
             }
             scenes.push_back(temp);
         }
 
     }
-//    p1.isTouching(floor);
-//    p1.isTouching(obstruction);
-//    p1.isTouching(obstruction2);
-//    p1.isTouching(obstruction3);
-//    p1.isTouching(enemy);
-//    enemy.moveBox();
-    //handles player jumps
     glutPostRedisplay();
     glutTimerFunc(30, timer, dummy);
 }
@@ -365,10 +320,8 @@ int main(int argc, char** argv) {
     for(int y= 0; y < numScenesY; y++) {
         std::vector<shared_ptr<Scene>> temp;
         for (int x = 0; x < numScenesX; x++) {
-            //cout <<  to_string(y) + to_string(x) << endl;
                 auto scene = make_shared<Scene>("../level"+to_string(level)+"/" + to_string(y) + to_string(x) + ".txt");
                 temp.push_back(scene);
-            //cout << "yeet";
         }
         scenes.push_back(temp);
     }
