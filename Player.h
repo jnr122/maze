@@ -65,6 +65,8 @@ public:
     int getCoins();
 
     void nextLevel();
+
+    void fastFall();
 };
 
 

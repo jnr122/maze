@@ -33,10 +33,13 @@ int numScenesY = 2; //YX.txt, max(Y)-1
 int numScenesX = 3; //YX.txt, max(X)-1
 
 vector<string> visited;
+
 int totalLevels = 2;
 int level = 1;
+
 bool map = false;
 bool hud = true;
+
 //
 //
 //Quad danger({1, 0, 0}, {700, 575}, 50, 50);
@@ -206,7 +209,18 @@ void kbd(unsigned char key, int x, int y)
 void kbdS(int key, int x, int y) {
     switch(key) {
         case GLUT_KEY_DOWN:
-
+            p1.movePlayer(0,3);
+            p1.fastFall();
+            for (int i = 0; i < scenes[sceneIndexY][sceneIndexX]->getObjects().size(); i++) {
+                if(p1.isTouching(*scenes[sceneIndexY][sceneIndexX]->getObjects()[i])){
+                    if(scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->getType() == "C"){
+                        scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->contact();
+                    }
+                    if(scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->getType() == "H"){
+                        scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->contact();
+                    }
+                }
+            }
             break;
         case GLUT_KEY_LEFT:
             if (p1.getBody().getLeftX()>=0) {
@@ -304,7 +318,7 @@ void timer(int dummy) {
     p1.reset();
     p1.movePlayer(0, 3);
     for (int i = 0; i < scenes[sceneIndexY][sceneIndexX]->getObjects().size(); i++) {
-        scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->moveBox(0,0);
+        scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->moveBox(0, 0);
         if(p1.isTouching(*scenes[sceneIndexY][sceneIndexX]->getObjects()[i])){
             if(scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->getType() == "C"){
                 scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->contact();

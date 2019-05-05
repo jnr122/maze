@@ -255,3 +255,8 @@ int Player::getVertical() {
 int Player::getCoins() {
     return coins;
 }
+
+void Player::fastFall() {
+    moveY = 0;
+    moveX = 0;
+}
