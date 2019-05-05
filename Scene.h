@@ -7,6 +7,8 @@
 
 #include "Object.h"
 #include "Enemy.h"
+#include "Coin.h"
+#include "Heal.h"
 #include <memory>
 #include <vector>
 #include <iostream>
@@ -20,13 +22,12 @@ private:
     std::vector<shared_ptr<Object>> objects;
 public:
     Scene(string filename);
-
+    Scene(string filename, int mx, int my, int bx, int by);
     Scene(std::vector<shared_ptr<Object>> objects);
 
     void draw() const;
 
     const vector<shared_ptr<Object>> &getObjects() const;
-//    void addObject(Object *object);
 
 };
 
