@@ -112,6 +112,8 @@ void Quad::moveCenter(int newX, int newY) {
 }
 void Quad::draw() const {
     glColor3f(fill.red, fill.green, fill.blue);
+//    glColor4f(1, fill.green, 1, .5);
+
     glBegin(GL_QUADS);
     glVertex2i(getLeftX(), getTopY());
     glVertex2i(getLeftX(), getBottomY());
