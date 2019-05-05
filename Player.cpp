@@ -177,9 +177,11 @@ void Player::resetLives() {
     score = "0";
 }
 
-void Player::resetPosition() {
-    body.getBox().move(500, 0);
-
+void Player::nextLevel() {
+    coins = 0;
+    movePlayer(100-body.getBox().getCenterX(),600-body.getBox().getCenterY());
+    moveX = 0;
+    moveY = 0;
 }
 
 void Player::reset(){

@@ -63,6 +63,8 @@ public:
     int getVertical();
 
     int getCoins();
+
+    void nextLevel();
 };
 
 

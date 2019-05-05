@@ -33,7 +33,8 @@ int numScenesY = 2; //YX.txt, max(Y)-1
 int numScenesX = 3; //YX.txt, max(X)-1
 
 vector<string> visited;
-
+int totalLevels = 2;
+int level = 1;
 bool map = false;
 bool hud = true;
 //
@@ -177,7 +178,7 @@ void display() {
         Object mapDisplay(board, "");
         mapDisplay.draw();
         for(int i = 0; i < visited.size(); i++){
-            Scene mapScene("../levels/" + visited[i] + ".txt",visited[i][1],visited[i][0], 550-numScenesX*50, 400-numScenesY*34);
+            Scene mapScene("../level"+to_string(level)+"/" + visited[i] + ".txt",visited[i][1],visited[i][0], 550-numScenesX*50, 400-numScenesY*34);
             mapScene.draw();
         }
 
@@ -313,7 +314,26 @@ void timer(int dummy) {
             }
         }
     }
+    if(p1.getCoins() == 3 and level< totalLevels){
+        cout << level;
+        level ++;
+        p1.nextLevel();
+        visited.clear();
+        sceneIndexY = 0;
+        sceneIndexX = 0;
+        scenes.clear();
+        for(int y= 0; y < numScenesY; y++) {
+            std::vector<shared_ptr<Scene>> temp;
+            for (int x = 0; x < numScenesX; x++) {
+                //cout <<  to_string(y) + to_string(x) << endl;
+                auto scene = make_shared<Scene>("../level"+to_string(level)+"/" + to_string(y) + to_string(x) + ".txt");
+                temp.push_back(scene);
+                //cout << "yeet";
+            }
+            scenes.push_back(temp);
+        }
 
+    }
 //    p1.isTouching(floor);
 //    p1.isTouching(obstruction);
 //    p1.isTouching(obstruction2);
@@ -332,7 +352,7 @@ int main(int argc, char** argv) {
         std::vector<shared_ptr<Scene>> temp;
         for (int x = 0; x < numScenesX; x++) {
             //cout <<  to_string(y) + to_string(x) << endl;
-                auto scene = make_shared<Scene>("../levels/" + to_string(y) + to_string(x) + ".txt");
+                auto scene = make_shared<Scene>("../level"+to_string(level)+"/" + to_string(y) + to_string(x) + ".txt");
                 temp.push_back(scene);
             //cout << "yeet";
         }
