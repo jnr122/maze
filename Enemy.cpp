@@ -16,6 +16,13 @@ Enemy::Enemy(Quad box, string label, movement direction) : Object(box, label), d
     distance = 0;
     type = "E";
 }
+Enemy::Enemy(Quad box, string label, movement direction,int variableDist) : Object(box, label), direction(direction) {
+    movingForward = false;
+    distance = 0;
+    range = variableDist;
+    type = "E";
+
+}
 
 void Enemy::draw() {
     box.draw();
@@ -31,7 +38,7 @@ void Enemy::click(function<void()> callback) {
     callback();
 }
 void Enemy::moveBox(int x, int y){
-    int dist = 270;
+    int dist = 270+(range*45);
     if (direction == horizontalR) {
         if (!movingForward && distance < dist) {
             box.move(5, 0);

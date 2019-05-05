@@ -17,6 +17,7 @@ protected:
 public:
 
     Enemy(Quad box, std::string label, movement direction);
+    Enemy(Quad box, std::string label, movement direction, int variableDist);
     /* Uses OpenGL to draw the obstruction */
     virtual void draw();
 

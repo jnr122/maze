@@ -27,24 +27,28 @@ Scene::Scene(string fileName) {
                 case '0':
                     break;
                 case '1': {
+                    //block
                     Quad b({0, .5, 0}, {(x * 45 + 25), (y * 45 + 25)}, 45, 45);
                     auto block = make_shared<Object>(b, "");
                     objects.push_back(block);
                     break;
                 }
                 case '2': {
+                    //enemy moving right, goes 6
                     Quad eH({.5, 0, 0}, {(x * 45 + 25), (y * 45 + 25)}, 45, 45);
                     auto enemyHorizontal = make_shared<Enemy>(eH, "", horizontalR);
                     objects.push_back(enemyHorizontal);
                     break;
                 }
                 case '3': {
+                    //enemy moving left goes 6
                     Quad eH({.5, 0, 0}, {(x * 45 + 25), (y * 45 + 25)}, 45, 45);
                     auto enemyHorizontal = make_shared<Enemy>(eH, "", horizontalL);
                     objects.push_back(enemyHorizontal);
                     break;
                 }
                 case '4': {
+                    //enemy moving right : starts behind block
                     Quad eH({.5, 0, 0}, {(x * 45 + 25), (y * 45 + 25)}, 45, 45);
                     auto enemyHorizontal = make_shared<Enemy>(eH, "", horizontalR);
                     objects.push_back(enemyHorizontal);
@@ -54,6 +58,7 @@ Scene::Scene(string fileName) {
                     break;
                 }
                 case '5': {
+                    //enemy moving left : starts behind block
                     Quad eH({.5, 0, 0}, {(x * 45 + 25), (y * 45 + 25)}, 45, 45);
                     auto enemyHorizontal = make_shared<Enemy>(eH, "", horizontalL);
                     objects.push_back(enemyHorizontal);
@@ -63,28 +68,31 @@ Scene::Scene(string fileName) {
                     break;
                 }
                 case '6': {
+                    //coin
                     //Point center, Color col, double radius
                     auto coin = make_shared<Coin>(Point((x * 45 + 25), (y * 45 + 25)), Color(1, .8, 0), 10);
                     objects.push_back(coin);
                     break;
                 }
                 case '7':{
+                    //enemy moving up : goes 6
                     Quad eH({.5, 0, 0}, {(x * 45 + 25), (y * 45 + 25)}, 45, 45);
                     auto enemyVertical = make_shared<Enemy>(eH, "", verticalU);
                     objects.push_back(enemyVertical);
                     break;
                 }
                 case '8': {
+                    //enemy moving down : goes 6
                     Quad eH({.5, 0, 0}, {(x * 45 + 25), (y * 45 + 25)}, 45, 45);
                     auto enemyVertical = make_shared<Enemy>(eH, "", verticalD);
                     objects.push_back(enemyVertical);
                     break;
                 }
                 case '9':{
+                    // stationary enemy
                     Quad eH({.5, 0, 0}, {(x * 45 + 25), (y * 45 + 25)}, 45, 45);
                     auto enemyVertical = make_shared<Enemy>(eH, "", none);
                     objects.push_back(enemyVertical);
-                    break;
                     break;
                 }
 
