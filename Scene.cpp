@@ -180,7 +180,9 @@ Scene::Scene(string filename, int mx, int my, int bx, int by) {
 }
 void Scene::draw() const {
     for (int i = 0; i < objects.size(); i++) {
-        objects[i]->draw();
+        if(!objects[i]->wasTouched()){
+            objects[i]->draw();
+        }
     }
 
 }

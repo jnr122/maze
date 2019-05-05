@@ -19,8 +19,6 @@ Heal::Heal(Point center, Color col, double radius) : Object(Quad({col.r, col.g, 
 
 void Heal::draw() {
     // check if this is working
-    cout << touched;
-    if (!touched) {
         float x1, y1, x2, y2;
         float angle;
         x1 = center.x, y1 = center.y-hover;
@@ -35,7 +33,7 @@ void Heal::draw() {
             y2 = y1 + cos(angle) * radius;
             glVertex2f(x2, y2);
         }
-    }
+
     glEnd();
 
 }
