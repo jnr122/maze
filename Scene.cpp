@@ -66,14 +66,35 @@ Scene::Scene(string fileName) {
                     //Point center, Color col, double radius
                     auto coin = make_shared<Coin>(Point((x * 45 + 25), (y * 45 + 25)), Color(1, .8, 0), 10);
                     objects.push_back(coin);
-
+                    break;
                 }
+                case '7':{
+                    Quad eH({.5, 0, 0}, {(x * 45 + 25), (y * 45 + 25)}, 45, 45);
+                    auto enemyVertical = make_shared<Enemy>(eH, "", verticalU);
+                    objects.push_back(enemyVertical);
+                    break;
+                }
+                case '8': {
+                    Quad eH({.5, 0, 0}, {(x * 45 + 25), (y * 45 + 25)}, 45, 45);
+                    auto enemyVertical = make_shared<Enemy>(eH, "", verticalD);
+                    objects.push_back(enemyVertical);
+                    break;
+                }
+                case '9':{
+                    Quad eH({.5, 0, 0}, {(x * 45 + 25), (y * 45 + 25)}, 45, 45);
+                    auto enemyVertical = make_shared<Enemy>(eH, "", none);
+                    objects.push_back(enemyVertical);
+                    break;
+                    break;
+                }
+
             }
         }
         ++y;
     }
     this->objects = objects;
 }
+//this is for map add cases but don't draw anything else except blocks(ie like 0 case)
 Scene::Scene(string filename, int mx, int my, int bx, int by) {
     mx = mx-48;
     my = my -48;
@@ -131,6 +152,12 @@ Scene::Scene(string filename, int mx, int my, int bx, int by) {
                     //objects.push_back(coin);
 
                 }
+                case '7':
+                    break;
+                case '8':
+                    break;
+                case '9':
+                    break;
             }
         }
         ++y;

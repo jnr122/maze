@@ -6,12 +6,12 @@
 #ifndef JR_BA_BT_GRAPHICS_ENEMY_H
 #define JR_BA_BT_GRAPHICS_ENEMY_H
 
-enum movement {horizontalR,horizontalL, vertical};
+enum movement {horizontalR,horizontalL, verticalU, verticalD, none};
 
 
 class Enemy : public Object {
 protected:
-    bool movingLeft;
+    bool movingForward;
     int distance, range, speed;
     movement direction;
 public:

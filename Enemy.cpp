@@ -12,7 +12,7 @@ using namespace std;
 
 
 Enemy::Enemy(Quad box, string label, movement direction) : Object(box, label), direction(direction) {
-    movingLeft = false;
+    movingForward = false;
     distance = 0;
     type = "E";
 }
@@ -31,48 +31,64 @@ void Enemy::click(function<void()> callback) {
     callback();
 }
 void Enemy::moveBox(int x, int y){
+    int dist = 270;
     if (direction == horizontalR) {
-        if (!movingLeft && distance < 300) {
+        if (!movingForward && distance < dist) {
             box.move(5, 0);
             distance += 5;
         } else {
-            movingLeft = true;
+            movingForward = true;
         }
 
-        if (movingLeft && distance > 0) {
+        if (movingForward && distance > 0) {
             box.move(-5, 0);
             distance -= 5;
         } else {
-            movingLeft = false;
+            movingForward = false;
         }
-    } else if(direction == vertical){
-        if (!movingLeft && distance < 300) {
+    } else if(direction == verticalU){
+        if (!movingForward && distance < dist) {
             box.move(0, -5);
             distance += 5;
         } else {
-            movingLeft = true;
+            movingForward = true;
         }
 
-        if (movingLeft && distance > 0) {
+        if (movingForward && distance > 0) {
             box.move(0, 5);
             distance -= 5;
         } else {
-            movingLeft = false;
+            movingForward = false;
         }
     }
     else if (direction == horizontalL) {
-        if (movingLeft && distance < 300) {
+        if (movingForward && distance < dist) {
             box.move(-5, 0);
             distance += 5;
         } else {
-            movingLeft = false;
+            movingForward = false;
         }
 
-        if (!movingLeft && distance > 0) {
+        if (!movingForward && distance > 0) {
             box.move(5, 0);
             distance -= 5;
         } else {
-            movingLeft = true;
+            movingForward = true;
+        }
+    }
+    else if(direction == verticalD){
+        if (!movingForward && distance < dist) {
+            box.move(0, 5);
+            distance += 5;
+        } else {
+            movingForward = true;
+        }
+
+        if (movingForward && distance > 0) {
+            box.move(0, -5);
+            distance -= 5;
+        } else {
+            movingForward = false;
         }
     }
 }
