@@ -33,7 +33,7 @@ int numScenesX = 5; //YX.txt, max(X)-1
 vector<string> visited;
 
 int totalLevels = 5;
-int level = 1;
+int level = 5;
 
 bool map = false;
 bool hud = true;

@@ -178,7 +178,9 @@ Scene::Scene(string filename, int mx, int my, int bx, int by) {
                     //Point center, Color col, double radius
                     //auto coin = make_shared<Coin>(Point((x * 4 + bx+2+(100*mx)), (y * 4 + by+2+(68*my))), Color(1, .8, 0), 1);
                     //objects.push_back(coin);
-
+                    Quad b({0, .5, 0}, {(x * 4 + bx+2+(100*mx)), (y * 4 + by+2+(68*my))}, 4, 4);
+                    auto block = make_shared<Object>(b, "");
+                    objects.push_back(block);
                 }
                 case '7':
                     break;
