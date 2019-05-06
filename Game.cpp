@@ -1,11 +1,9 @@
 #include "graphics.h"
 #include "Coin.h"
 #include "Player.h"
-#include "Rect.h"
 #include <time.h>
 #include <vector>
 #include "Object.h"
-#include "Image.h"
 #include <iostream>
 #include "Enemy.h"
 #include "Scene.h"
@@ -34,7 +32,7 @@ int numScenesX = 5; //YX.txt, max(X)-1
 
 vector<string> visited;
 
-int totalLevels = 2;
+int totalLevels = 5;
 int level = 1;
 
 bool map = false;

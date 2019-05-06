@@ -70,6 +70,16 @@ Scene::Scene(string fileName) {
                     objects.push_back(block);
                     break;
                 }
+                case '6': {
+                    //enemy moving down : goes 6
+                    Quad eV({.5, 0, 0}, {(x * 45 + 25), (y * 45 + 25)}, 45, 45);
+                    auto enemyVertical = make_shared<Enemy>(eV, "", verticalD);
+                    objects.push_back(enemyVertical);
+                    Quad b({0, .5, 0}, {(x * 45 + 25), (y * 45 + 25)}, 45, 45);
+                    auto block = make_shared<Object>(b, "");
+                    objects.push_back(block);
+                    break;
+                }
                 case 'c': {
                     //coin
                     //Point center, Color col, double radius
@@ -79,15 +89,15 @@ Scene::Scene(string fileName) {
                 }
                 case '7':{
                     //enemy moving up : goes 6
-                    Quad eH({.5, 0, 0}, {(x * 45 + 25), (y * 45 + 25)}, 45, 45);
-                    auto enemyVertical = make_shared<Enemy>(eH, "", verticalU);
+                    Quad ev({.5, 0, 0}, {(x * 45 + 25), (y * 45 + 25)}, 45, 45);
+                    auto enemyVertical = make_shared<Enemy>(ev, "", verticalU);
                     objects.push_back(enemyVertical);
                     break;
                 }
                 case '8': {
                     //enemy moving down : goes 6
-                    Quad eH({.5, 0, 0}, {(x * 45 + 25), (y * 45 + 25)}, 45, 45);
-                    auto enemyVertical = make_shared<Enemy>(eH, "", verticalD);
+                    Quad eV({.5, 0, 0}, {(x * 45 + 25), (y * 45 + 25)}, 45, 45);
+                    auto enemyVertical = make_shared<Enemy>(eV, "", verticalD);
                     objects.push_back(enemyVertical);
                     break;
                 }
@@ -168,7 +178,9 @@ Scene::Scene(string filename, int mx, int my, int bx, int by) {
                     //Point center, Color col, double radius
                     //auto coin = make_shared<Coin>(Point((x * 4 + bx+2+(100*mx)), (y * 4 + by+2+(68*my))), Color(1, .8, 0), 1);
                     //objects.push_back(coin);
-
+                    Quad b({0, .5, 0}, {(x * 4 + bx+2+(100*mx)), (y * 4 + by+2+(68*my))}, 4, 4);
+                    auto block = make_shared<Object>(b, "");
+                    objects.push_back(block);
                 }
                 case '7':
                     break;
