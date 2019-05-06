@@ -33,7 +33,7 @@ int numScenesX = 5; //YX.txt, max(X)-1
 vector<string> visited;
 
 int totalLevels = 5;
-int level = 1;
+int level = 1; //sets current level
 
 bool map = false;
 bool hud = true;
@@ -292,12 +292,19 @@ void timer(int dummy) {
     }
     if(p1.getCoins() == 3 and level< totalLevels){
         cout << level;
-        level ++;
+        level++;
         p1.nextLevel();
         visited.clear();
         sceneIndexY = 0;
         sceneIndexX = 0;
         scenes.clear();
+
+        //level start areas here
+        if(level==5){
+            sceneIndexY = 0;
+            sceneIndexX = 1;
+        }
+
         for(int y= 0; y < numScenesY; y++) {
             std::vector<shared_ptr<Scene>> temp;
             for (int x = 0; x < numScenesX; x++) {

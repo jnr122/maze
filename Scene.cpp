@@ -186,8 +186,13 @@ Scene::Scene(string filename, int mx, int my, int bx, int by) {
                     break;
                 case '8':
                     break;
-                case '9':
+                case '9':{
+                    // stationary enemy
+                    Quad eH({.5, 0, 0}, {(x * 4 + bx+2+(100*mx)), (y * 4 + by+2+(68*my))}, 4, 4);
+                    auto enemyVertical = make_shared<Enemy>(eH, "", none);
+                    objects.push_back(enemyVertical);
                     break;
+            }
             }
         }
         ++y;
