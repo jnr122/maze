@@ -24,8 +24,8 @@ string highScore = "0";
 
 std::vector<std::vector<shared_ptr<Scene>>> scenes;
 //[Y][X], Y = row, X = column (consider renaming)
-int sceneIndexY = 1;
-int sceneIndexX = 3;
+int sceneIndexY = 0;
+int sceneIndexX = 0;
 
 int numScenesY = 5; //YX.txt, max(Y)-1
 int numScenesX = 5; //YX.txt, max(X)-1
