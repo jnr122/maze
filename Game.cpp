@@ -1,7 +1,6 @@
 #include "graphics.h"
-#include "Circle.h"
-#include "shapes.h"
-#include "Shapes2.h"
+#include "Coin.h"
+#include "Player.h"
 #include "Rect.h"
 #include <time.h>
 #include <vector>
@@ -10,6 +9,7 @@
 #include <iostream>
 #include "Enemy.h"
 #include "Scene.h"
+#include "Heal.h"
 
 using namespace std;
 
@@ -24,29 +24,24 @@ bool start = true;
 string finalScore = "";
 string highScore = "0";
 
-std::vector<shared_ptr<Scene>> scenes;
-int sceneIndex = 0;
-int numScenes = 2;
+std::vector<std::vector<shared_ptr<Scene>>> scenes;
+//[Y][X], Y = row, X = column (consider renaming)
+int sceneIndexY = 0;
+int sceneIndexX = 0;
 
+int numScenesY = 5; //YX.txt, max(Y)-1
+int numScenesX = 5; //YX.txt, max(X)-1
 
+vector<string> visited;
 
-//
-//
-//Quad danger({1, 0, 0}, {700, 575}, 50, 50);
-//Object obstruction(danger, "");
-//Quad danger2({1, 0, 0}, {500, 490}, 100, 50);
-//Object obstruction2(danger2, "");
-//Quad danger3({1, 0, 0}, {700, 425}, 100, 50);
-//Object obstruction3(danger3, "");
-//Quad ground({0, 1, 0}, {500, 700}, 2000, 150);
-//Object floor(ground, "");
-//Quad board({1, 1, 1}, {900, 50}, 200, 100);
-//Object score(board, "0");
+int totalLevels = 2;
+int level = 1;
+
+bool map = false;
+bool hud = true;
+
 Player p1(5);
-//Quad screen({1, 1, 1}, {500, 250}, 1000, 1000);
-//Object gameOver(screen, "");
-//Quad highScoreBox({1,1,1}, {500, 300}, 100, 20);
-//Object highScoreDisplay(highScoreBox, "");
+
 
 Quad restart({0.5,.8,.2}, {500, 350}, 100, 30);
 Object restartButton(restart, "Restart");
@@ -55,9 +50,16 @@ Quad startScreen({1,0,1}, {500, 250}, 50, 30);
 Object startButton(startScreen, "Start");
 
 Quad enemyQ({.7,.3,.4}, {350, 610}, 50, 30);
-Enemy enemy(enemyQ, "", horizontal);
+Enemy enemy(enemyQ, "", horizontalR);
 
-
+void visit(string area){
+    for(int i = 0; i< visited.size(); i++){
+        if(visited[i] == area){
+            return;
+        }
+    }
+    visited.push_back(area);
+}
 
 void init() {
     width = W;
@@ -87,6 +89,7 @@ void display() {
 
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
+
     /*
      * Draw here
      */
@@ -94,52 +97,64 @@ void display() {
 
     if (start) {
         p1.drawPlayer();
-        scenes[sceneIndex]->draw();
-//        floor.draw();
-//        //i.draw();
-//        enemy.draw();
-//        startButton.draw();
-//        obstruction.draw();
-//        obstruction2.draw();
-//        obstruction3.draw();
+        scenes[sceneIndexY][sceneIndexX]->draw();
         //**** lives *****
-        for(int i = 0; i < p1.getLives(); i++){
-            Quad life({1, 0, 0}, {10+10*i, 15}, 10, 15);
+        if(hud){
+        Quad lifeBack({1, 1, 1}, {255, 15}, 504, 17);
+        Object liveCounterBack(lifeBack, "");
+        liveCounterBack.draw();
+        Quad coinBack({1, 1, 1}, {25, 22}, 45, 30);
+        Object coinCounterBack(coinBack, "");
+        coinCounterBack.draw();
+        for(int i = 0; i < p1.getLives()/2; i++){
+            Quad life({1, 0, 0}, {10+(10*i), 15}, 10, 15);
             Object liveCounter(life, "");
             liveCounter.draw();
+        }
+        for(int i = 0; i < 3; i++){
+            Coin counter(Point(10+15*i, 30),Color(.5, .5, .5),5);
+            counter.draw();
+        }
+        for(int i = 0; i < p1.getCoins(); i++){
+            Coin counter(Point(10+15*i, 30),Color(1, .8, 0),5);
+            counter.draw();
+        }
         }
     } else {
 
         if (p1.isAlive()) {
             p1.drawPlayer();
-            //obstruction.draw();
-//            floor.draw();
-//            score.draw();
 
         }
         if(!(p1.isAlive()) and finalScore.empty()){
-//            finalScore =  score.getLabel();
             play = 1;
         }
         if(!(p1.isAlive())) {
             if (play == 1) {
-
-//                gameOver.setLabel("Game Over, Score: " + finalScore);
                 if ((std::stoi(finalScore)) > std::stoi(highScore)) {
                     highScore = finalScore;
                 }
-//                highScoreDisplay.setLabel("High score: " + highScore);
                 play = 0;
             }
-//            gameOver.draw();
-//            highScoreDisplay.draw();
             restartButton.draw();
 
         }
 
 
     }
+    if(map){
+        Quad boardBack({1, 1, 1}, {550, 400}, (numScenesX*100)+20, (numScenesY*68)+20);
+        Object mapDisplayBack(boardBack, "");
+        mapDisplayBack.draw();
+        Quad board({0, 0, 0}, {550, 400}, numScenesX*100, numScenesY*68);
+        Object mapDisplay(board, "");
+        mapDisplay.draw();
+        for(int i = 0; i < visited.size(); i++){
+            Scene mapScene("../level"+to_string(level)+"/" + visited[i] + ".txt",visited[i][1],visited[i][0], 550-numScenesX*50, 400-numScenesY*34);
+            mapScene.draw();
+        }
 
+    }
     glFlush();  // Render now
 }
 
@@ -151,41 +166,45 @@ void kbd(unsigned char key, int x, int y)
         glutDestroyWindow(wd);
         exit(0);
     }
-
+    if (key == 109){
+        map = !map;
+    }
+    if (key == 104){
+        hud = !hud;
+    }
     glutPostRedisplay();
 }
 
 void kbdS(int key, int x, int y) {
     switch(key) {
         case GLUT_KEY_DOWN:
-
+            p1.movePlayer(0,3);
+            p1.fastFall();
+            for (int i = 0; i < scenes[sceneIndexY][sceneIndexX]->getObjects().size(); i++) {
+                if(p1.isTouching(*scenes[sceneIndexY][sceneIndexX]->getObjects()[i])){
+                    if(scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->getType() == "C"){
+                        scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->contact();
+                    }
+                    if(scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->getType() == "H"){
+                        scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->contact();
+                    }
+                }
+            }
             break;
         case GLUT_KEY_LEFT:
-            if (p1.getBody().getLeftX()>0) {
+            if (p1.getBody().getLeftX()>=0) {
                 p1.setPlayerMovement(-2,0);
-                //p1.moved();
-            } else if (sceneIndex > 0) {
-                p1.movePlayer(1125-p1.getBody().getRightX(),0);
-                --sceneIndex;
             }
             break;
         case GLUT_KEY_RIGHT:
-            if (p1.getBody().getRightX()<200) {
+            if (p1.getBody().getRightX()<=1125) {
                 p1.setPlayerMovement(2,0);
-                //p1.movePlayer(15, 0);
-                //p1.moved();
-            } else if (sceneIndex < numScenes - 1) {
-                p1.movePlayer(-p1.getBody().getLeftX(),0);
-                //p1.setCenter();
-                ++sceneIndex;
-
             }
             break;
         case GLUT_KEY_UP:
             if(p1.isAlive()) {
                 p1.setPlayerMovement(0,1);
             }
-            //p1.standUp();
             break;
     }
 
@@ -242,23 +261,55 @@ void mouse(int button, int state, int x, int y) {
 }
 
 void timer(int dummy) {
-
+    visit(to_string(sceneIndexY) + to_string(sceneIndexX));
+    if(p1.getBody().getBottomY() >765){
+        sceneIndexY++;
+        p1.movePlayer(0,-p1.getBody().getTopY());
+    }
+    if(p1.getBody().getTopY()<0){
+        sceneIndexY--;
+        p1.movePlayer(0,765-p1.getBody().getBottomY());
+    }
+    if (p1.getBody().getRightX()>1125 and sceneIndexX < numScenesX - 1) {
+        p1.movePlayer(-p1.getBody().getLeftX(),0);
+        ++sceneIndexX;
+    }
+    if (p1.getBody().getLeftX()<0 and sceneIndexX > 0) {
+        p1.movePlayer(1125-p1.getBody().getRightX(),0);
+        --sceneIndexX;
+    }
     p1.playerMovement();
     p1.reset();
     p1.movePlayer(0, 3);
-
-    for (int i = 0; i < scenes[sceneIndex]->getObjects().size(); i++) {
-        scenes[sceneIndex]->getObjects()[i]->moveBox(0,0);
-        p1.isTouching(*scenes[sceneIndex]->getObjects()[i]);
+    for (int i = 0; i < scenes[sceneIndexY][sceneIndexX]->getObjects().size(); i++) {
+        scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->moveBox(0, 0);
+        if(p1.isTouching(*scenes[sceneIndexY][sceneIndexX]->getObjects()[i])){
+            if(scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->getType() == "C"){
+                scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->contact();
+            }
+            if(scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->getType() == "H"){
+                scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->contact();
+            }
+        }
     }
+    if(p1.getCoins() == 3 and level< totalLevels){
+        cout << level;
+        level ++;
+        p1.nextLevel();
+        visited.clear();
+        sceneIndexY = 0;
+        sceneIndexX = 0;
+        scenes.clear();
+        for(int y= 0; y < numScenesY; y++) {
+            std::vector<shared_ptr<Scene>> temp;
+            for (int x = 0; x < numScenesX; x++) {
+                auto scene = make_shared<Scene>("../level"+to_string(level)+"/" + to_string(y) + to_string(x) + ".txt");
+                temp.push_back(scene);
+            }
+            scenes.push_back(temp);
+        }
 
-//    p1.isTouching(floor);
-//    p1.isTouching(obstruction);
-//    p1.isTouching(obstruction2);
-//    p1.isTouching(obstruction3);
-//    p1.isTouching(enemy);
-//    enemy.moveBox();
-    //handles player jumps
+    }
     glutPostRedisplay();
     glutTimerFunc(30, timer, dummy);
 }
@@ -266,9 +317,13 @@ void timer(int dummy) {
 /* Main function: GLUT runs as a console application starting at main()  */
 int main(int argc, char** argv) {
 
-    for (int i = 0; i < numScenes; i++) {
-        auto scene = make_shared<Scene>("../levels/" + to_string(i) + ".txt");
-        scenes.push_back(scene);
+    for(int y= 0; y < numScenesY; y++) {
+        std::vector<shared_ptr<Scene>> temp;
+        for (int x = 0; x < numScenesX; x++) {
+                auto scene = make_shared<Scene>("../level"+to_string(level)+"/" + to_string(y) + to_string(x) + ".txt");
+                temp.push_back(scene);
+        }
+        scenes.push_back(temp);
     }
 
     init();
