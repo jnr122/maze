@@ -17,14 +17,11 @@ private:
     Object chest;
     bool hasJump = true;
     int lives = 75;
-    int extraLives = 2;
-    std::string score = "0";
     bool contact = false;
     int moveX = 0;
     int moveY= 0;
     int acceleration = 1;
     int coins = 0;
-    bool wallContact = false;
 public:
 
     Player(int x);

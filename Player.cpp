@@ -164,9 +164,7 @@ bool Player::isAlive(){
 }
 
 void Player::resetLives() {
-    lives = 3;
-    extraLives = 2;
-    score = "0";
+    lives = 75;
 }
 
 void Player::nextLevel() {
