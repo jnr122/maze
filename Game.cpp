@@ -245,7 +245,7 @@ void mouse(int button, int state, int x, int y) {
             startScreen.move(50, 0);
             startScreen.setColor(1,1,1);
             startButton.pressDown();
-            start = false;
+            start = true;
 
         } else {
             restartButton.release();
@@ -255,7 +255,8 @@ void mouse(int button, int state, int x, int y) {
     if( x > restartButton.getBox().getLeftX() &&
         x < restartButton.getBox().getRightX() &&
         y > restartButton.getBox().getTopY() &&
-        y < restartButton.getBox().getBottomY())
+        y < restartButton.getBox().getBottomY() and dead)
+
     {
         start = true;
         endScreen = false;
@@ -264,7 +265,7 @@ void mouse(int button, int state, int x, int y) {
     if( x > startButton.getBox().getLeftX() &&
         x < startButton.getBox().getRightX() &&
         y > startButton.getBox().getTopY() &&
-        y < startButton.getBox().getBottomY())
+        y < startButton.getBox().getBottomY() and start)
     {
         playGame = true;
         endScreen = false;
