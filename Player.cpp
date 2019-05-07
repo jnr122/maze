@@ -155,15 +155,7 @@ bool Player::isTouching(Object hazard) {
 }
 
 bool Player::isAlive(){
-    if(stoi(score) > 30000 and extraLives ==2){
-        lives++;
-        extraLives--;
-    }
-    if(stoi(score) > 77777 and extraLives ==1){
-        lives++;
-        extraLives--;
-    }
-    if(lives >0){
+    if(lives > 0){
         return true;
     }
     else{
