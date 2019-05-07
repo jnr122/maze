@@ -270,7 +270,22 @@ void mouse(int button, int state, int x, int y) {
         endScreen = false;
         dead = false;
         start = false;
+        p1.nextLevel();
         p1.resetLives();
+        level = 1;
+        visited.clear();
+        sceneIndexY = 0;
+        sceneIndexX = 0;
+        scenes.clear();
+
+        for(int y= 0; y < numScenesY; y++) {
+            std::vector<shared_ptr<Scene>> temp;
+            for (int x = 0; x < numScenesX; x++) {
+                auto scene = make_shared<Scene>("../level"+to_string(level)+"/" + to_string(y) + to_string(x) + ".txt");
+                temp.push_back(scene);
+            }
+            scenes.push_back(temp);
+        }
     }
 
     glutPostRedisplay();
@@ -311,7 +326,7 @@ void timer(int dummy) {
         }
     }
     if(p1.getCoins() == 3 and level< totalLevels){
-        cout << level;
+        //cout << level;
         level++;
         p1.nextLevel();
         visited.clear();
