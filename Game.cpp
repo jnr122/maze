@@ -245,7 +245,7 @@ void mouse(int button, int state, int x, int y) {
             startScreen.move(50, 0);
             startScreen.setColor(1,1,1);
             startButton.pressDown();
-            start = false;
+            start = true;
 
         } else {
             restartButton.release();
@@ -255,7 +255,8 @@ void mouse(int button, int state, int x, int y) {
     if( x > restartButton.getBox().getLeftX() &&
         x < restartButton.getBox().getRightX() &&
         y > restartButton.getBox().getTopY() &&
-        y < restartButton.getBox().getBottomY())
+        y < restartButton.getBox().getBottomY() and dead)
+
     {
         start = true;
         endScreen = false;
@@ -264,7 +265,7 @@ void mouse(int button, int state, int x, int y) {
     if( x > startButton.getBox().getLeftX() &&
         x < startButton.getBox().getRightX() &&
         y > startButton.getBox().getTopY() &&
-        y < startButton.getBox().getBottomY())
+        y < startButton.getBox().getBottomY() and start)
     {
         playGame = true;
         endScreen = false;
@@ -272,7 +273,7 @@ void mouse(int button, int state, int x, int y) {
         start = false;
         p1.nextLevel();
         p1.resetLives();
-        level = 1;
+        level = 0;
         visited.clear();
         sceneIndexY = 0;
         sceneIndexX = 0;
@@ -337,7 +338,7 @@ void timer(int dummy) {
         //level start areas here
         if(level == 4)
         {
-            sceneIndexY = 5;
+            sceneIndexY = 4;
             sceneIndexX = 0;
         }
         else if(level == 5){
