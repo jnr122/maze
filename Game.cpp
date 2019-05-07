@@ -45,13 +45,13 @@ bool dead = false;
 Player p1(5);
 
 
-Quad restart({0.5,.8,.2}, {500, 350}, 200, 60);
+Quad restart({0.5,.8,.2}, {570, 350}, 200, 60);
 Object restartButton(restart, "Restart");
 
-Quad startScreen({1,0,1}, {500, 350}, 100, 60);
+Quad startScreen({1,0,1}, {560, 350}, 100, 60);
 Object startButton(startScreen, "Start");
 
-Quad finalScreen({1,0,1}, {500, 350}, 50, 30);
+Quad finalScreen({1,0,1}, {550, 350}, 50, 30);
 Object winBanner(startScreen, "Congrats!");
 
 Quad enemyQ({.7,.3,.4}, {350, 610}, 50, 30);
