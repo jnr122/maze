@@ -5,6 +5,24 @@
 #include "graphics.h"
 using namespace std;
 
+point::point(int x, int y) : x(x), y(y) {}
+
+color::color(double red, double green, double blue) : red(red), green(green), blue(blue) {
+
+}
+
+color::color() {
+    red = 0;
+    green = 0;
+    blue = 0;
+}
+
+point::point() {
+    x = 0;
+    y = 0;
+}
+
+
 /********** Quad *************/
 
 Quad::Quad() {
@@ -249,3 +267,4 @@ void Object::resize(unsigned int w, unsigned int h) {
 std::string Object::getType() {
     return type;
 }
+

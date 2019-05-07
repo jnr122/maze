@@ -9,16 +9,8 @@
 
 using namespace std;
 
-Point::Point(int x, int y) : x(x), y(y) {
-
-}
-
-Color::Color(double r, double g, double b) : r(r), g(g), b(b) {
-
-}
-
 // constructor
-Coin::Coin(Point center, Color col, double radius) : Object(Quad({col.r, col.g, col.b}, {center.x, center.y}, 10, 10),
+Coin::Coin(point center, color col, double radius) : Object(Quad(col, {center.x, center.y}, 10, 10),
                                                                 ""), center(center), col(col), radius(radius)
                                                           {
     type = "C";
@@ -30,7 +22,7 @@ void Coin::draw() {
         float angle;
         x1 = center.x, y1 = center.y-hover;
 
-        glColor3f(col.r, col.g, col.b);
+        glColor3f(col.red, col.green, col.blue);
 
         glBegin(GL_TRIANGLE_FAN);
         glVertex2f(x1, y1);
@@ -58,11 +50,11 @@ void Coin::setRadius(double radius) {
     Coin::radius = radius;
 }
 
-const Point &Coin::getCenter() const {
+const point &Coin::getCenter() const {
     return center;
 }
 
-void Coin::setCenter(const Point &center) {
+void Coin::setCenter(const point &center) {
     Coin::center = center;
 }
 

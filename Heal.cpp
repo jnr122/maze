@@ -11,7 +11,7 @@ using namespace std;
 
 
 // constructor
-Heal::Heal(Point center, Color col, double radius) : Object(Quad({col.r, col.g, col.b}, {center.x, center.y}, 10, 10),
+Heal::Heal(point center, color col, double radius) : Object(Quad(col, center, 10, 10),
                                                             ""), center(center), col(col), radius(radius)
 {
     type = "H";
@@ -23,7 +23,7 @@ void Heal::draw() {
         float angle;
         x1 = center.x, y1 = center.y-hover;
 
-        glColor3f(col.r, col.g, col.b);
+        glColor3f(col.red, col.green, col.blue);
 
         glBegin(GL_TRIANGLE_FAN);
         glVertex2f(x1, y1);
@@ -52,13 +52,15 @@ void Heal::setRadius(double radius) {
     Heal::radius = radius;
 }
 
-const Point &Heal::getCenter() const {
+const point &Heal::getCenter() const {
     return center;
 }
 
-void Heal::setCenter(const Point &center) {
-    Heal::center = center;
-}
+
+//void Heal::setCenter(const color &center) {
+//    center = center
+//}
+
 
 void Heal::moveBox(int x, int y) {
     scale = (scale+1) % 4;

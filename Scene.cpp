@@ -83,7 +83,7 @@ Scene::Scene(string fileName) {
                 case 'c': {
                     //coin
                     //Point center, Color col, double radius
-                    auto coin = make_shared<Coin>(Point((x * 45 + 25), (y * 45 + 25)), Color(1, .8, 0), 10);
+                    auto coin = make_shared<Coin>(point((x * 45 + 25), (y * 45 + 25)), color(1, .8, 0), 10);
                     objects.push_back(coin);
                     break;
                 }
@@ -110,7 +110,7 @@ Scene::Scene(string fileName) {
                 }
                 case 'h': {
                     //health pick-up
-                    auto heal = make_shared<Heal>(Point((x * 45 + 25), (y * 45 + 25)), Color(0, 0, 1), 10);
+                    auto heal = make_shared<Heal>(point((x * 45 + 25), (y * 45 + 25)), color(0, 0, 1), 10);
                     objects.push_back(heal);
                     break;
                 }

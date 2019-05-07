@@ -119,11 +119,11 @@ void display() {
                 liveCounter.draw();
             }
             for (int i = 0; i < 3; i++) {
-                Coin counter(Point(10 + 15 * i, 30), Color(.5, .5, .5), 5);
+                Coin counter({10 + 15 * i, 30}, {.5, .5, .5}, 5);
                 counter.draw();
             }
             for (int i = 0; i < p1.getCoins(); i++) {
-                Coin counter(Point(10 + 15 * i, 30), Color(1, .8, 0), 5);
+                Coin counter({10 + 15 * i, 30}, {1, .8, 0}, 5);
                 counter.draw();
             }
         }

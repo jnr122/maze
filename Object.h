@@ -4,28 +4,21 @@
 #include <string>
 #include <functional>
 
-
-struct Point {
-    // range constructor
-    Point(int x, int y);
-    int x, y;
-};
-
-// rgb struct
-struct Color {
-    Color(double r, double g, double b);
-    double r, g, b;
-};
-
 struct color {
     double red;
     double green;
     double blue;
+    color();
+    color(double red, double green, double blue);
+
 };
 
 struct point {
     int x;
     int y;
+    point();
+    point(int x, int y);
+
 };
 
 class Quad {

@@ -10,14 +10,14 @@
 class Heal : public Object {
 private:
     double radius;
-    Point center;
-    Color col;
+    point center;
+    color col;
     int hover = 0;
     bool up = true;
     int scale = 0;
 public:
 
-    Heal(Point center, Color col, double radius);
+    Heal(point center, color col, double radius);
 
     virtual void draw() override;
 
@@ -25,9 +25,9 @@ public:
 
     void setRadius(double radius);
 
-    const Point &getCenter() const;
+    const point &getCenter() const;
 
-    void setCenter(const Point &center);
+    void setCenter(const color &center);
 
     bool isCollected() const;
 
