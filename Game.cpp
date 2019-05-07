@@ -300,7 +300,12 @@ void timer(int dummy) {
         scenes.clear();
 
         //level start areas here
-        if(level==5){
+        if(level == 4)
+        {
+            sceneIndexY = 5;
+            sceneIndexX = 0;
+        }
+        else if(level == 5){
             sceneIndexY = 0;
             sceneIndexX = 1;
         }
