@@ -3,8 +3,8 @@
 //
 
 #include "Player.h"
-#include "graphics.h"
-#include "Coin.h"
+#include "../graphics.h"
+#include "../collectible/Coin.h"
 #include <iostream>
 
 

@@ -1,23 +1,22 @@
 //
-// Created by btemk_mm3vcui on 5/4/2019.
+// Created by Jonah Rubin on 2019-02-21.
 //
 
-#include "Heal.h"
-#include "graphics.h"
+#include "Coin.h"
+#include "../graphics.h"
 #include "math.h"
 #include <iostream>
 
 using namespace std;
 
-
 // constructor
-Heal::Heal(point center, color col, double radius) : Object(Quad(col, center, 10, 10),
-                                                            ""), center(center), col(col), radius(radius)
-{
-    type = "H";
+Coin::Coin(point center, color col, double radius) : Object(Quad(col, {center.x, center.y}, 10, 10),
+                                                                ""), center(center), col(col), radius(radius)
+                                                          {
+    type = "C";
 }
 
-void Heal::draw() {
+void Coin::draw() {
     // check if this is working
         float x1, y1, x2, y2;
         float angle;
@@ -33,36 +32,33 @@ void Heal::draw() {
             y2 = y1 + cos(angle) * radius;
             glVertex2f(x2, y2);
         }
-
     glEnd();
 
 }
 
 
-bool Heal::isCollected() const {
+bool Coin::isCollected() const {
     return touched;
 }
 
 
-double Heal::getRadius() const {
+double Coin::getRadius() const {
     return radius;
 }
 
-void Heal::setRadius(double radius) {
-    Heal::radius = radius;
+void Coin::setRadius(double radius) {
+    Coin::radius = radius;
 }
 
-const point &Heal::getCenter() const {
+const point &Coin::getCenter() const {
     return center;
 }
 
+void Coin::setCenter(const point &center) {
+    Coin::center = center;
+}
 
-//void Heal::setCenter(const color &center) {
-//    center = center
-//}
-
-
-void Heal::moveBox(int x, int y) {
+void Coin::moveBox(int x, int y) {
     scale = (scale+1) % 4;
     if(!touched and scale == 0) {
         if (hover == 0) {
@@ -81,3 +77,5 @@ void Heal::moveBox(int x, int y) {
         }
     }
 }
+
+

@@ -1,13 +1,13 @@
 #include "graphics.h"
-#include "Coin.h"
-#include "Player.h"
+#include "collectible/Coin.h"
+#include "texture/Player.h"
 #include <time.h>
 #include <vector>
 #include "Object.h"
 #include <iostream>
-#include "Enemy.h"
-#include "Scene.h"
-#include "Heal.h"
+#include "texture/Enemy.h"
+#include "texture/Scene.h"
+#include "collectible/Heal.h"
 
 using namespace std;
 

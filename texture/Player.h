@@ -1,7 +1,7 @@
 //
 // Created by Jonah Rubin on 2019-05-03.
 //
-#include "Object.h"
+#include "../Object.h"
 
 #ifndef JR_BA_BT_GRAPHICS_PLAYER_H
 #define JR_BA_BT_GRAPHICS_PLAYER_H

@@ -1,7 +1,7 @@
 //
 // Created by btemk_mm3vcui on 5/4/2019.
 //
-#include "Object.h"
+#include "../Object.h"
 
 #ifndef JR_BA_BT_GRAPHICS_HEAL_H
 #define JR_BA_BT_GRAPHICS_HEAL_H

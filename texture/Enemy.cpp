@@ -3,7 +3,7 @@
 //
 
 #include "Enemy.h"
-#include "graphics.h"
+#include "../graphics.h"
 #include <string>
 #include <iostream>
 

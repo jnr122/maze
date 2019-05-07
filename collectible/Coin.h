@@ -2,7 +2,7 @@
 // Created by Jonah Rubin on 2019-02-21.
 //
 
-#include "Object.h"
+#include "../Object.h"
 
 #ifndef SHAPES_CIRCLE_H
 #define SHAPES_CIRCLE_H
