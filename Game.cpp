@@ -38,6 +38,9 @@ int level = 1; //sets current level
 bool map = false;
 bool hud = true;
 
+bool endScreen = false;
+
+bool dead = false;
 Player p1(5);
 
 
@@ -93,52 +96,30 @@ void display() {
      */
 
 
-    if (start) {
-        p1.drawPlayer();
-        scenes[sceneIndexY][sceneIndexX]->draw();
-        //**** lives *****
-        if(hud){
+
+    p1.drawPlayer();
+    scenes[sceneIndexY][sceneIndexX]->draw();
+    //**** lives *****
+    if(hud) {
         Quad lifeBack({1, 1, 1}, {255, 15}, 504, 17);
         Object liveCounterBack(lifeBack, "");
         liveCounterBack.draw();
         Quad coinBack({1, 1, 1}, {25, 22}, 45, 30);
         Object coinCounterBack(coinBack, "");
         coinCounterBack.draw();
-        for(int i = 0; i < p1.getLives()/2; i++){
-            Quad life({1, 0, 0}, {10+(10*i), 15}, 10, 15);
+        for (int i = 0; i < p1.getLives() / 2; i++) {
+            Quad life({1, 0, 0}, {10 + (10 * i), 15}, 10, 15);
             Object liveCounter(life, "");
             liveCounter.draw();
         }
-        for(int i = 0; i < 3; i++){
-            Coin counter(Point(10+15*i, 30),Color(.5, .5, .5),5);
+        for (int i = 0; i < 3; i++) {
+            Coin counter(Point(10 + 15 * i, 30), Color(.5, .5, .5), 5);
             counter.draw();
         }
-        for(int i = 0; i < p1.getCoins(); i++){
-            Coin counter(Point(10+15*i, 30),Color(1, .8, 0),5);
+        for (int i = 0; i < p1.getCoins(); i++) {
+            Coin counter(Point(10 + 15 * i, 30), Color(1, .8, 0), 5);
             counter.draw();
         }
-        }
-    } else {
-
-        if (p1.isAlive()) {
-            p1.drawPlayer();
-
-        }
-        if(!(p1.isAlive()) and finalScore.empty()){
-            play = 1;
-        }
-        if(!(p1.isAlive())) {
-            if (play == 1) {
-                if ((std::stoi(finalScore)) > std::stoi(highScore)) {
-                    highScore = finalScore;
-                }
-                play = 0;
-            }
-            restartButton.draw();
-
-        }
-
-
     }
     if(map){
         Quad boardBack({1, 1, 1}, {550, 400}, (numScenesX*100)+20, (numScenesY*68)+20);
@@ -259,34 +240,36 @@ void mouse(int button, int state, int x, int y) {
 }
 
 void timer(int dummy) {
-    visit(to_string(sceneIndexY) + to_string(sceneIndexX));
-    if(p1.getBody().getBottomY() >765){
-        sceneIndexY++;
-        p1.movePlayer(0,-p1.getBody().getTopY());
-    }
-    if(p1.getBody().getTopY()<0){
-        sceneIndexY--;
-        p1.movePlayer(0,765-p1.getBody().getBottomY());
-    }
-    if (p1.getBody().getRightX()>1125 and sceneIndexX < numScenesX - 1) {
-        p1.movePlayer(-p1.getBody().getLeftX(),0);
-        ++sceneIndexX;
-    }
-    if (p1.getBody().getLeftX()<0 and sceneIndexX > 0) {
-        p1.movePlayer(1125-p1.getBody().getRightX(),0);
-        --sceneIndexX;
-    }
-    p1.playerMovement();
-    p1.reset();
-    p1.movePlayer(0, 3);
-    for (int i = 0; i < scenes[sceneIndexY][sceneIndexX]->getObjects().size(); i++) {
-        scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->moveBox(0, 0);
-        if(p1.isTouching(*scenes[sceneIndexY][sceneIndexX]->getObjects()[i])){
-            if(scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->getType() == "C"){
-                scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->contact();
-            }
-            if(scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->getType() == "H"){
-                scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->contact();
+    if(p1.isAlive() and !endScreen){
+        visit(to_string(sceneIndexY) + to_string(sceneIndexX));
+        if (p1.getBody().getBottomY() > 765) {
+            sceneIndexY++;
+            p1.movePlayer(0, -p1.getBody().getTopY());
+        }
+        if (p1.getBody().getTopY() < 0) {
+            sceneIndexY--;
+            p1.movePlayer(0, 765 - p1.getBody().getBottomY());
+        }
+        if (p1.getBody().getRightX() > 1125 and sceneIndexX < numScenesX - 1) {
+            p1.movePlayer(-p1.getBody().getLeftX(), 0);
+            ++sceneIndexX;
+        }
+        if (p1.getBody().getLeftX() < 0 and sceneIndexX > 0) {
+            p1.movePlayer(1125 - p1.getBody().getRightX(), 0);
+            --sceneIndexX;
+        }
+        p1.playerMovement();
+        p1.reset();
+        p1.movePlayer(0, 3);
+        for (int i = 0; i < scenes[sceneIndexY][sceneIndexX]->getObjects().size(); i++) {
+            scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->moveBox(0, 0);
+            if (p1.isTouching(*scenes[sceneIndexY][sceneIndexX]->getObjects()[i])) {
+                if (scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->getType() == "C") {
+                    scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->contact();
+                }
+                if (scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->getType() == "H") {
+                    scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->contact();
+                }
             }
         }
     }
@@ -319,6 +302,12 @@ void timer(int dummy) {
             scenes.push_back(temp);
         }
 
+    }
+    if(p1.getCoins() == 3 and level == totalLevels and p1.isAlive()){
+        endScreen = true;
+    }
+    if(!p1.isAlive() and !dead){
+        dead = true;
     }
     glutPostRedisplay();
     glutTimerFunc(30, timer, dummy);
