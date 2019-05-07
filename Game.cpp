@@ -19,12 +19,13 @@ int wd;
 int H = 765;
 int W = 1125;
 bool start = true;
+bool playGame = false;
 string finalScore = "";
 string highScore = "0";
 
 std::vector<std::vector<shared_ptr<Scene>>> scenes;
 //[Y][X], Y = row, X = column (consider renaming)
-int sceneIndexY = 4;
+int sceneIndexY = 0;
 int sceneIndexX = 0;
 
 int numScenesY = 5; //YX.txt, max(Y)-1
@@ -33,19 +34,25 @@ int numScenesX = 5; //YX.txt, max(X)-1
 vector<string> visited;
 
 int totalLevels = 5;
-int level = 4;
+int level = 1; //sets current level
 
 bool map = false;
 bool hud = true;
 
+bool endScreen = false;
+
+bool dead = false;
 Player p1(5);
 
 
-Quad restart({0.5,.8,.2}, {500, 350}, 100, 30);
+Quad restart({0.5,.8,.2}, {500, 350}, 200, 60);
 Object restartButton(restart, "Restart");
 
-Quad startScreen({1,0,1}, {500, 250}, 50, 30);
+Quad startScreen({1,0,1}, {500, 350}, 100, 60);
 Object startButton(startScreen, "Start");
+
+Quad finalScreen({1,0,1}, {500, 350}, 50, 30);
+Object winBanner(startScreen, "Congrats!");
 
 Quad enemyQ({.7,.3,.4}, {350, 610}, 50, 30);
 Enemy enemy(enemyQ, "", horizontalR);
@@ -92,66 +99,59 @@ void display() {
      * Draw here
      */
 
-
-    if (start) {
+    if(start){
+        startScreen.draw();
+        startButton.draw();
+    }else if(playGame){
         p1.drawPlayer();
         scenes[sceneIndexY][sceneIndexX]->draw();
         //**** lives *****
-        if(hud){
-        Quad lifeBack({1, 1, 1}, {255, 15}, 504, 17);
-        Object liveCounterBack(lifeBack, "");
-        liveCounterBack.draw();
-        Quad coinBack({1, 1, 1}, {25, 22}, 45, 30);
-        Object coinCounterBack(coinBack, "");
-        coinCounterBack.draw();
-        for(int i = 0; i < p1.getLives()/2; i++){
-            Quad life({1, 0, 0}, {10+(10*i), 15}, 10, 15);
-            Object liveCounter(life, "");
-            liveCounter.draw();
-        }
-        for(int i = 0; i < 3; i++){
-            Coin counter(Point(10+15*i, 30),Color(.5, .5, .5),5);
-            counter.draw();
-        }
-        for(int i = 0; i < p1.getCoins(); i++){
-            Coin counter(Point(10+15*i, 30),Color(1, .8, 0),5);
-            counter.draw();
-        }
-        }
-    } else {
-
-        if (p1.isAlive()) {
-            p1.drawPlayer();
-
-        }
-        if(!(p1.isAlive()) and finalScore.empty()){
-            play = 1;
-        }
-        if(!(p1.isAlive())) {
-            if (play == 1) {
-                if ((std::stoi(finalScore)) > std::stoi(highScore)) {
-                    highScore = finalScore;
-                }
-                play = 0;
+        if(hud) {
+            Quad lifeBack({1, 1, 1}, {255, 15}, 504, 17);
+            Object liveCounterBack(lifeBack, "");
+            liveCounterBack.draw();
+            Quad coinBack({1, 1, 1}, {25, 22}, 45, 30);
+            Object coinCounterBack(coinBack, "");
+            coinCounterBack.draw();
+            for (int i = 0; i < p1.getLives() / 2; i++) {
+                Quad life({1, 0, 0}, {10 + (10 * i), 15}, 10, 15);
+                Object liveCounter(life, "");
+                liveCounter.draw();
             }
-            restartButton.draw();
+            for (int i = 0; i < 3; i++) {
+                Coin counter(Point(10 + 15 * i, 30), Color(.5, .5, .5), 5);
+                counter.draw();
+            }
+            for (int i = 0; i < p1.getCoins(); i++) {
+                Coin counter(Point(10 + 15 * i, 30), Color(1, .8, 0), 5);
+                counter.draw();
+            }
+        }
+        if(map){
+            Quad boardBack({1, 1, 1}, {550, 400}, (numScenesX*100)+20, (numScenesY*68)+20);
+            Object mapDisplayBack(boardBack, "");
+            mapDisplayBack.draw();
+            Quad board({0, 0, 0}, {550, 400}, numScenesX*100, numScenesY*68);
+            Object mapDisplay(board, "");
+            mapDisplay.draw();
+            for(int i = 0; i < visited.size(); i++){
+                Scene mapScene("../level"+to_string(level)+"/" + visited[i] + ".txt",visited[i][1],visited[i][0], 550-numScenesX*50, 400-numScenesY*34);
+                mapScene.draw();
+            }
 
         }
-
-
+        if(p1.getLives() == 0){
+            playGame = false;
+            sceneIndexX = 0;
+            sceneIndexY = 0;
+        }
     }
-    if(map){
-        Quad boardBack({1, 1, 1}, {550, 400}, (numScenesX*100)+20, (numScenesY*68)+20);
-        Object mapDisplayBack(boardBack, "");
-        mapDisplayBack.draw();
-        Quad board({0, 0, 0}, {550, 400}, numScenesX*100, numScenesY*68);
-        Object mapDisplay(board, "");
-        mapDisplay.draw();
-        for(int i = 0; i < visited.size(); i++){
-            Scene mapScene("../level"+to_string(level)+"/" + visited[i] + ".txt",visited[i][1],visited[i][0], 550-numScenesX*50, 400-numScenesY*34);
-            mapScene.draw();
-        }
 
+    if(dead){
+        restartButton.draw();
+    }
+    if(endScreen){
+        winBanner.draw();
     }
     glFlush();  // Render now
 }
@@ -251,53 +251,85 @@ void mouse(int button, int state, int x, int y) {
             restartButton.release();
         }
 
-
-
+    }
+    if( x > restartButton.getBox().getLeftX() &&
+        x < restartButton.getBox().getRightX() &&
+        y > restartButton.getBox().getTopY() &&
+        y < restartButton.getBox().getBottomY())
+    {
+        start = true;
+        endScreen = false;
+        dead = false;
+    }
+    if( x > startButton.getBox().getLeftX() &&
+        x < startButton.getBox().getRightX() &&
+        y > startButton.getBox().getTopY() &&
+        y < startButton.getBox().getBottomY())
+    {
+        playGame = true;
+        endScreen = false;
+        dead = false;
+        start = false;
+        p1.resetLives();
     }
 
     glutPostRedisplay();
 }
 
 void timer(int dummy) {
-    visit(to_string(sceneIndexY) + to_string(sceneIndexX));
-    if(p1.getBody().getBottomY() >765){
-        sceneIndexY++;
-        p1.movePlayer(0,-p1.getBody().getTopY());
-    }
-    if(p1.getBody().getTopY()<0){
-        sceneIndexY--;
-        p1.movePlayer(0,765-p1.getBody().getBottomY());
-    }
-    if (p1.getBody().getRightX()>1125 and sceneIndexX < numScenesX - 1) {
-        p1.movePlayer(-p1.getBody().getLeftX(),0);
-        ++sceneIndexX;
-    }
-    if (p1.getBody().getLeftX()<0 and sceneIndexX > 0) {
-        p1.movePlayer(1125-p1.getBody().getRightX(),0);
-        --sceneIndexX;
-    }
-    p1.playerMovement();
-    p1.reset();
-    p1.movePlayer(0, 3);
-    for (int i = 0; i < scenes[sceneIndexY][sceneIndexX]->getObjects().size(); i++) {
-        scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->moveBox(0, 0);
-        if(p1.isTouching(*scenes[sceneIndexY][sceneIndexX]->getObjects()[i])){
-            if(scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->getType() == "C"){
-                scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->contact();
-            }
-            if(scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->getType() == "H"){
-                scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->contact();
+    if(p1.isAlive() and !endScreen){
+        visit(to_string(sceneIndexY) + to_string(sceneIndexX));
+        if (p1.getBody().getBottomY() > 765) {
+            sceneIndexY++;
+            p1.movePlayer(0, -p1.getBody().getTopY());
+        }
+        if (p1.getBody().getTopY() < 0) {
+            sceneIndexY--;
+            p1.movePlayer(0, 765 - p1.getBody().getBottomY());
+        }
+        if (p1.getBody().getRightX() > 1125 and sceneIndexX < numScenesX - 1) {
+            p1.movePlayer(-p1.getBody().getLeftX(), 0);
+            ++sceneIndexX;
+        }
+        if (p1.getBody().getLeftX() < 0 and sceneIndexX > 0) {
+            p1.movePlayer(1125 - p1.getBody().getRightX(), 0);
+            --sceneIndexX;
+        }
+        p1.playerMovement();
+        p1.reset();
+        p1.movePlayer(0, 3);
+        for (int i = 0; i < scenes[sceneIndexY][sceneIndexX]->getObjects().size(); i++) {
+            scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->moveBox(0, 0);
+            if (p1.isTouching(*scenes[sceneIndexY][sceneIndexX]->getObjects()[i])) {
+                if (scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->getType() == "C") {
+                    scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->contact();
+                }
+                if (scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->getType() == "H") {
+                    scenes[sceneIndexY][sceneIndexX]->getObjects()[i]->contact();
+                }
             }
         }
     }
     if(p1.getCoins() == 3 and level< totalLevels){
         cout << level;
-        level ++;
+        level++;
         p1.nextLevel();
         visited.clear();
         sceneIndexY = 0;
         sceneIndexX = 0;
         scenes.clear();
+
+        //level start areas here
+        if(level == 4)
+        {
+            sceneIndexY = 5;
+            sceneIndexX = 0;
+        }
+        else if(level == 5){
+            sceneIndexY = 0;
+            sceneIndexX = 1;
+        }
+
         for(int y= 0; y < numScenesY; y++) {
             std::vector<shared_ptr<Scene>> temp;
             for (int x = 0; x < numScenesX; x++) {
@@ -307,6 +339,12 @@ void timer(int dummy) {
             scenes.push_back(temp);
         }
 
+    }
+    if(p1.getCoins() == 3 and level == totalLevels and p1.isAlive()){
+        endScreen = true;
+    }
+    if(!p1.isAlive() and !dead){
+        dead = true;
     }
     glutPostRedisplay();
     glutTimerFunc(30, timer, dummy);
