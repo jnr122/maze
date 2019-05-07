@@ -273,7 +273,7 @@ void mouse(int button, int state, int x, int y) {
         start = false;
         p1.nextLevel();
         p1.resetLives();
-        level = 1;
+        level = 0;
         visited.clear();
         sceneIndexY = 0;
         sceneIndexX = 0;
@@ -338,7 +338,7 @@ void timer(int dummy) {
         //level start areas here
         if(level == 4)
         {
-            sceneIndexY = 5;
+            sceneIndexY = 4;
             sceneIndexX = 0;
         }
         else if(level == 5){
