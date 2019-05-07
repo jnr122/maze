@@ -140,6 +140,11 @@ void display() {
             }
 
         }
+        if(p1.getLives() == 0){
+            playGame = false;
+            sceneIndexX = 0;
+            sceneIndexY = 0;
+        }
     }
 
     if(dead){
@@ -246,8 +251,6 @@ void mouse(int button, int state, int x, int y) {
             restartButton.release();
         }
 
-
-
     }
     if( x > restartButton.getBox().getLeftX() &&
         x < restartButton.getBox().getRightX() &&
@@ -267,6 +270,7 @@ void mouse(int button, int state, int x, int y) {
         endScreen = false;
         dead = false;
         start = false;
+        p1.resetLives();
     }
 
     glutPostRedisplay();
