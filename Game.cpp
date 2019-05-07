@@ -273,7 +273,7 @@ void mouse(int button, int state, int x, int y) {
         start = false;
         p1.nextLevel();
         p1.resetLives();
-        level = 0;
+        level = 1;
         visited.clear();
         sceneIndexY = 0;
         sceneIndexX = 0;
