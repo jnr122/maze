@@ -273,10 +273,10 @@ void mouse(int button, int state, int x, int y) {
         start = false;
         p1.nextLevel();
         p1.resetLives();
-        level = 1;
+        level = 1; //set to test
         visited.clear();
-        sceneIndexY = 0;
-        sceneIndexX = 0;
+        sceneIndexY = 0; //set to test
+        sceneIndexX = 0; //set to test
         scenes.clear();
 
         for(int y= 0; y < numScenesY; y++) {
