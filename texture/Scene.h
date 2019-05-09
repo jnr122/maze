@@ -5,10 +5,10 @@
 #ifndef JR_BA_BT_GRAPHICS_SCENE_H
 #define JR_BA_BT_GRAPHICS_SCENE_H
 
-#include "Object.h"
+#include "../Object.h"
 #include "Enemy.h"
-#include "Coin.h"
-#include "Heal.h"
+#include "../collectible/Coin.h"
+#include "../collectible/Heal.h"
 #include <memory>
 #include <vector>
 #include <iostream>

@@ -1,13 +1,13 @@
 #include "graphics.h"
-#include "Coin.h"
-#include "Player.h"
+#include "collectible/Coin.h"
+#include "texture/Player.h"
 #include <time.h>
 #include <vector>
 #include "Object.h"
 #include <iostream>
-#include "Enemy.h"
-#include "Scene.h"
-#include "Heal.h"
+#include "texture/Enemy.h"
+#include "texture/Scene.h"
+#include "collectible/Heal.h"
 
 using namespace std;
 
@@ -47,6 +47,9 @@ Player p1(5);
 
 Quad restart({0.5,.8,.2}, {570, 350}, 200, 60);
 Object restartButton(restart, "Restart");
+
+Quad cont({0.5,.8,.2}, {570, 450}, 200, 60);
+Object contButton(cont, "Continue");
 
 Quad startScreen({1,0,1}, {560, 350}, 100, 60);
 Object startButton(startScreen, "Start");
@@ -149,6 +152,7 @@ void display() {
 
     if(dead){
         restartButton.draw();
+        contButton.draw();
     }
     if(endScreen){
         winBanner.draw();
@@ -223,6 +227,12 @@ void cursor(int x, int y) {
         restartButton.release();
     }
 
+    if (contButton.isOverlapping(x, y)) {
+        contButton.hover();
+    } else {
+        contButton.release();
+    }
+
     if (startButton.isOverlapping(x, y)) {
         startButton.hover();
     } else {
@@ -262,6 +272,42 @@ void mouse(int button, int state, int x, int y) {
         endScreen = false;
         dead = false;
     }
+
+    if( x > contButton.getBox().getLeftX() &&
+        x < contButton.getBox().getRightX() &&
+        y > contButton.getBox().getTopY() &&
+        y < contButton.getBox().getBottomY() and dead)
+    {
+        playGame = true;
+        endScreen = false;
+        dead = false;
+        start = false;
+        p1.nextLevel();
+        p1.resetLives();
+        visited.clear();
+        sceneIndexY = 0;
+        sceneIndexX = 0;
+        if(level == 4)
+        {
+            sceneIndexY = 4;
+            sceneIndexX = 0;
+        }
+        else if(level == 5){
+            sceneIndexY = 0;
+            sceneIndexX = 1;
+        }
+        scenes.clear();
+
+        for(int y= 0; y < numScenesY; y++) {
+            std::vector<shared_ptr<Scene>> temp;
+            for (int x = 0; x < numScenesX; x++) {
+                auto scene = make_shared<Scene>("../level"+to_string(level)+"/" + to_string(y) + to_string(x) + ".txt");
+                temp.push_back(scene);
+            }
+            scenes.push_back(temp);
+        }
+    }
+
     if( x > startButton.getBox().getLeftX() &&
         x < startButton.getBox().getRightX() &&
         y > startButton.getBox().getTopY() &&

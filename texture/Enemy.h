@@ -1,7 +1,7 @@
 //
 // Created by Jonah Rubin on 2019-04-29.
 //
-#include "Object.h"
+#include "../Object.h"
 
 #ifndef JR_BA_BT_GRAPHICS_ENEMY_H
 #define JR_BA_BT_GRAPHICS_ENEMY_H
