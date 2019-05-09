@@ -11,3 +11,5 @@ collecting 15 coins.
 The player can move side to side or jump, and is controlled by the arrow keys. (m) toggles the map which fills out as the
 player moves through the scenes, and (h) toggles the health bar and coin count. The start, restart, and continue buttons
 respond to mouse clicks.
+
+The levels increase in difficulty for the most part, but each can be beaten without taking damage.
